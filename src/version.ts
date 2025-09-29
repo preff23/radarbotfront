@@ -1,1 +1,1 @@
-export const MINIAPP_REV = 'Правка 5 — force https /api & wrap';
+export const MINIAPP_REV = 'Правка 6 — force tg_id fallback';
