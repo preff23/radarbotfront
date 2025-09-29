@@ -9,5 +9,13 @@ export class ErrorBoundary extends Component {
     if (this.state.hasError){
       const details = window.__APP_ERROR__?.error || String(this.state.error || 'Unknown error');
       return (
-        <Box p=md>
-          <Alert color=red title=Ошибка
+        <Box p="md">
+          <Alert color="red" title="Ошибка UI">
+            <Text size="sm" style={{ wordBreak: 'break-all' }}>{details}</Text>
+          </Alert>
+        </Box>
+      );
+    }
+    return this.props.children;
+  }
+}
