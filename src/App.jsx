@@ -45,7 +45,10 @@ async function apiRequest(path, options = {}) {
   }
   if (tg && typeof tg.ready === 'function') { try { tg.ready(); } catch (_) {} }
   const base = API_BASE_URL || '';
-  const response = await fetch(`${base}${path}`, {
+  const apiPath = path.startsWith("/api") ? path : `/api${path}`;
+  const url = new URL((base || "") + apiPath, window.location.origin);
+  if (tgId) { try { url.searchParams.set("tg_id", String(tgId)); } catch (_) {} }
+  const response = await fetch(url.toString(), {
     ...options,
     headers,
   })
