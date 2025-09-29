@@ -23,7 +23,7 @@ import { Notifications, notifications } from '@mantine/notifications'
 import { IconPlus, IconTrash, IconRefresh, IconSearch } from '@tabler/icons-react'
 import './App.css'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:8000'
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').trim()
 const DEV_TELEGRAM_ID = import.meta.env.VITE_DEV_TELEGRAM_ID || '1'
 const DEV_PHONE = import.meta.env.VITE_DEV_PHONE || ''
 
@@ -38,7 +38,14 @@ async function apiRequest(path, options = {}) {
   if (!headers.has('X-User-Phone') && DEV_PHONE) {
     headers.set('X-User-Phone', DEV_PHONE)
   }
-  const response = await fetch(`${API_BASE_URL}${path}`, {
+  const tg = (window?.Telegram)?.WebApp;
+  const tgId = tg?.initDataUnsafe?.user?.id;
+  if (!headers.has('X-Telegram-Id') && tgId) {
+    headers.set('X-Telegram-Id', String(tgId));
+  }
+  if (tg && typeof tg.ready === 'function') { try { tg.ready(); } catch (_) {} }
+  const base = API_BASE_URL || '';
+  const response = await fetch(`${base}${path}`, {
     ...options,
     headers,
   })
