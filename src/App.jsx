@@ -55,7 +55,7 @@ async function apiRequest(path, options = {}) {
   })
   if (!response.ok) {
     const text = await response.text()
-    throw new Error(text || 'API request failed')
+    throw new Error(`${text || 'API request failed'} [${response.status}] ${url?.toString?.() || ''}`)
   }
   if (response.status === 204) {
     return null

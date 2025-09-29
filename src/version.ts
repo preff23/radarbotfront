@@ -1,1 +1,1 @@
-export const MINIAPP_REV = 'Правка 2 — 2025-09-29 18:44';
+export const MINIAPP_REV = 'Правка 3 — debug url & tgId';
