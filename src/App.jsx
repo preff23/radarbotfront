@@ -49,6 +49,7 @@ async function apiRequest(path, options = {}) {
   const apiPath = path.startsWith("/api") ? path : `/api${path}`;
   const url = new URL((base || "") + apiPath, window.location.origin);
   if (tgId) { try { url.searchParams.set("tg_id", String(tgId)); } catch (_) {} }
+  window.__LAST_API_URL__ = url.toString();
   const response = await fetch(url.toString(), {
     ...options,
     headers,
@@ -480,6 +481,7 @@ export default function App() {
             </Group>
           </Group>
         </AppShell.Header>
+        <Box px="md" py="xs"><Text size="xs" c="dimmed">Debug: tgId={String((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id || '')} · lastUrl={String(window.__LAST_API_URL__ || '')}</Text></Box>
         <AppShell.Main>
           <Notifications position="top-center" />
           <Box px="md" py="lg">

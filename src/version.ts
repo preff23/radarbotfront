@@ -1,1 +1,1 @@
-export const MINIAPP_REV = 'Правка 3 — debug url & tgId';
+export const MINIAPP_REV = 'Правка 4 — debug panel';
