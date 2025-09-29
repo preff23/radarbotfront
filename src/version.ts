@@ -1,0 +1,1 @@
+export const MINIAPP_REV = 'Правка 1 — 2025-09-29 18:30';

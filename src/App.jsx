@@ -22,6 +22,7 @@ import {
 import { Notifications, notifications } from '@mantine/notifications'
 import { IconPlus, IconTrash, IconRefresh, IconSearch } from '@tabler/icons-react'
 import './App.css'
+import { MINIAPP_REV } from './version' 
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').trim()
 const DEV_TELEGRAM_ID = import.meta.env.VITE_DEV_TELEGRAM_ID || '1'
