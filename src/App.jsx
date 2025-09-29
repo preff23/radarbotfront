@@ -45,7 +45,7 @@ async function apiRequest(path, options = {}) {
     headers.set('X-Telegram-Id', String(tgId));
   }
   if (tg && typeof tg.ready === 'function') { try { tg.ready(); } catch (_) {} }
-  const base = API_BASE_URL || '';
+  const base = (API_BASE_URL && !API_BASE_URL.startsWith('http:') ? API_BASE_URL : '');
   const apiPath = path.startsWith("/api") ? path : `/api${path}`;
   const url = new URL((base || "") + apiPath, window.location.origin);
   if (tgId) { try { url.searchParams.set("tg_id", String(tgId)); } catch (_) {} }
@@ -481,7 +481,7 @@ export default function App() {
             </Group>
           </Group>
         </AppShell.Header>
-        <Box px="md" py="xs"><Text size="xs" c="dimmed">Debug: tgId={String((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id || '')} · lastUrl={String(window.__LAST_API_URL__ || '')}</Text></Box>
+        <Box px="md" py="xs"><Text size="xs" c="dimmed" style={{wordBreak: "break-all", overflowWrap: "anywhere"}}>Debug: tgId={String((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id || '')} · lastUrl={String(window.__LAST_API_URL__ || '')}</Text></Box>
         <AppShell.Main>
           <Notifications position="top-center" />
           <Box px="md" py="lg">

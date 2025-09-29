@@ -1,1 +1,1 @@
-export const MINIAPP_REV = 'Правка 4 — debug panel';
+export const MINIAPP_REV = 'Правка 5 — force https /api & wrap';
