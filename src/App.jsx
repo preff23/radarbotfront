@@ -482,7 +482,7 @@ export default function App() {
             </Group>
           </Group>
         </AppShell.Header>
-        <Box px="md" py="xs"><Text size="xs" c="dimmed" style={{wordBreak: "break-all", overflowWrap: "anywhere"}}>Debug: tgId={String((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id || '')} ·  · usedId={String(usedId)} · lastUrl={String(window.__LAST_API_URL__ || '')}</Text></Box>
+        <Box px="md" py="xs"><Text size="xs" c="dimmed" style={{wordBreak: "break-all", overflowWrap: "anywhere"}}>Debug: tgId={String((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id || '')} ·  · usedId={String(((window?.Telegram)?.WebApp?.initDataUnsafe?.user?.id) || import.meta.env.VITE_DEV_TELEGRAM_ID || "1")} · lastUrl={String(window.__LAST_API_URL__ || '')}</Text></Box>
         <AppShell.Main>
           <Notifications position="top-center" />
           <Box px="md" py="lg">
