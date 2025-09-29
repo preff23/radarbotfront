@@ -459,7 +459,10 @@ export default function App() {
       >
         <AppShell.Header>
           <Group justify="space-between" px="md" py="sm">
-            <Title order={3}>Radar портфель</Title>
+            <Group gap="xs" align="center">
+              <Title order={3}>Radar портфель</Title>
+              <Text size="xs" c="dimmed">{MINIAPP_REV}</Text>
+            </Group>
             <Group>
               <Button
                 variant="light"
