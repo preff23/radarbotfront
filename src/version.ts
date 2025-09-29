@@ -1,1 +1,1 @@
-export const MINIAPP_REV = 'Правка 6 — force tg_id fallback';
+export const MINIAPP_REV = 'Правка 9 — usedId in debug fixed';
