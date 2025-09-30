@@ -290,6 +290,9 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
     setLoadingDetails(true)
     try {
       const data = await fetchSecurityDetails(position.isin, userPhone)
+      console.log('Security details received:', data)
+      console.log('Duration:', data.bond_info?.duration)
+      console.log('Face value:', data.bond_info?.face_value)
       setDetails(data)
     } catch (error) {
       console.error('Failed to load security details:', error)
