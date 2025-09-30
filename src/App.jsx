@@ -473,6 +473,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
   }
 
   const handleSubmit = async (e) => {
+    console.log('=== HANDLE SUBMIT CALLED ===')
+    console.log('Event:', e)
     e.preventDefault()
     console.log('=== FORM SUBMIT ===')
     console.log('Selected security:', selectedSecurity)
@@ -553,7 +555,11 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
         }
       }}
     >
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e) => {
+        console.log('=== FORM SUBMIT EVENT ===')
+        console.log('Event:', e)
+        handleSubmit(e)
+      }}>
         <Stack gap="md">
           <TextInput
             label="Поиск по названию или ISIN"
@@ -655,8 +661,16 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
               type="submit"
               className="btn btn--primary"
               disabled={!selectedSecurity}
+              onClick={(e) => {
+                console.log('=== BUTTON CLICKED ===')
+                console.log('Event:', e)
+                console.log('Selected security:', selectedSecurity)
+                console.log('Form data:', formData)
+                console.log('Button disabled:', !selectedSecurity)
+                // Don't prevent default, let form submit naturally
+              }}
             >
-              Добавить
+              Добавить {!selectedSecurity ? '(выберите ценную бумагу)' : ''}
             </Button>
         </Group>
       </Stack>

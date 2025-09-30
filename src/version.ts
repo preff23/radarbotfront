@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 66 — Fix add button functionality";
+export const MINIAPP_REV = "Правка 67 — Enhanced debugging for add button";
