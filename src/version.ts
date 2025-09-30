@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 55 — Исправление хедера и отступов";
+export const MINIAPP_REV = "Правка 56 — Финтех-неон дизайн";

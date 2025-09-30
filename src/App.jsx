@@ -539,39 +539,41 @@ function PortfolioTable({ account, onEdit, onDelete }) {
             >
               {(styles) => (
                 <Card
-                  shadow="lg"
-                  padding="md"
-                  radius="xl"
+                  shadow="xl"
+                  padding="lg"
+                  radius="2xl"
                   style={{
                     ...styles,
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer',
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    border: '1px solid rgba(0,0,0,0.06)',
+                    background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.6) 100%)',
+                    border: '1px solid rgba(0, 212, 170, 0.2)',
                     position: 'relative',
-                    overflow: 'hidden'
+                    overflow: 'hidden',
+                    backdropFilter: 'blur(20px)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.005)'
-                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)'
-                    e.currentTarget.style.borderColor = 'rgba(0,212,170,0.2)'
+                    e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
+                    e.currentTarget.style.boxShadow = '0 16px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 212, 170, 0.2)'
+                    e.currentTarget.style.borderColor = 'rgba(0, 212, 170, 0.4)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
-                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)'
+                    e.currentTarget.style.borderColor = 'rgba(0, 212, 170, 0.2)'
                   }}
                 >
-                  {/* Декоративная полоса сверху */}
+                  {/* Неоновая полоса сверху */}
                   <Box
                     style={{
                       position: 'absolute',
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '4px',
+                      height: '3px',
                       background: `linear-gradient(90deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                      borderRadius: '12px 12px 0 0'
+                      borderRadius: '16px 16px 0 0',
+                      boxShadow: `0 0 10px ${theme.colors[getSecurityColor(position.security_type)][4]}40`
                     }}
                   />
                   
@@ -580,22 +582,24 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     <Flex gap="md" align="flex-start">
                       <Box
                         style={{
-                          width: '40px',
-                          height: '40px',
-                          background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                          borderRadius: '12px',
+                          width: '48px',
+                          height: '48px',
+                          background: `linear-gradient(135deg, rgba(${theme.colors[getSecurityColor(position.security_type)][6].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.2) 0%, rgba(${theme.colors[getSecurityColor(position.security_type)][4].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.1) 100%)`,
+                          borderRadius: '14px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: `0 4px 12px ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
-                          flexShrink: 0
+                          boxShadow: `0 8px 20px ${theme.colors[getSecurityColor(position.security_type)][4]}40, 0 0 15px ${theme.colors[getSecurityColor(position.security_type)][4]}20`,
+                          flexShrink: 0,
+                          border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
+                          backdropFilter: 'blur(10px)'
                         }}
                       >
                         {getSecurityIcon(position.security_type)}
                       </Box>
                       
                       <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-                        <Text fw={700} size="md" c="dark" style={{ 
+                        <Text fw={700} size="lg" c="white" style={{ 
                           wordBreak: 'break-word',
                           lineHeight: 1.2,
                           maxHeight: '2.4em',
@@ -603,7 +607,8 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
                           WebkitBoxOrient: 'vertical',
-                          letterSpacing: '-0.01em'
+                          letterSpacing: '-0.01em',
+                          textShadow: '0 2px 4px rgba(0,0,0,0.5)'
                         }}>
                           {position.name}
                         </Text>
@@ -612,18 +617,23 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           <Flex gap="xs" align="center">
                             <Box
                               style={{
-                                width: '16px',
-                                height: '16px',
-                                background: 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)',
-                                borderRadius: '4px',
+                                width: '20px',
+                                height: '20px',
+                                background: 'linear-gradient(135deg, rgba(0, 212, 170, 0.3) 0%, rgba(0, 160, 133, 0.2) 100%)',
+                                borderRadius: '6px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                justifyContent: 'center'
+                                justifyContent: 'center',
+                                border: '1px solid rgba(0, 212, 170, 0.4)',
+                                boxShadow: '0 0 8px rgba(0, 212, 170, 0.3)'
                               }}
                             >
-                              <IconCoins size={10} color="white" />
+                              <IconCoins size={12} color="#00d4aa" />
                             </Box>
-                            <Text fw={600} size="sm" c="teal" style={{ letterSpacing: '-0.01em' }}>
+                            <Text fw={600} size="md" c="#00d4aa" style={{ 
+                              letterSpacing: '-0.01em',
+                              textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+                            }}>
                               {position.quantity || 0} {position.quantity_unit || 'шт'}
                             </Text>
                           </Flex>
@@ -642,9 +652,11 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               onEdit(position)
                             }}
                             style={{ 
-                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
-                              border: '1px solid rgba(59, 130, 246, 0.2)',
-                              boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)'
+                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%)',
+                              border: '1px solid rgba(59, 130, 246, 0.4)',
+                              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3), 0 0 8px rgba(59, 130, 246, 0.1)',
+                              color: '#3b82f6',
+                              backdropFilter: 'blur(10px)'
                             }}
                           >
                             <IconEdit size={16} />
@@ -661,9 +673,11 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               onDelete(position)
                             }}
                             style={{ 
-                              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)',
-                              border: '1px solid rgba(239, 68, 68, 0.2)',
-                              boxShadow: '0 2px 8px rgba(239, 68, 68, 0.2)'
+                              background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 82, 0.1) 100%)',
+                              border: '1px solid rgba(255, 107, 107, 0.4)',
+                              boxShadow: '0 4px 12px rgba(255, 107, 107, 0.3), 0 0 8px rgba(255, 107, 107, 0.1)',
+                              color: '#ff6b6b',
+                              backdropFilter: 'blur(10px)'
                             }}
                           >
                             <IconTrash size={16} />
@@ -677,13 +691,18 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       {position.ticker && (
                         <Box
                           style={{
-                            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
-                            border: '1px solid rgba(59, 130, 246, 0.2)',
-                            borderRadius: '8px',
-                            padding: '4px 8px'
+                            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%)',
+                            border: '1px solid rgba(59, 130, 246, 0.4)',
+                            borderRadius: '10px',
+                            padding: '6px 12px',
+                            boxShadow: '0 0 8px rgba(59, 130, 246, 0.2)',
+                            backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="xs" fw={700} c="blue" style={{ letterSpacing: '0.01em' }}>
+                          <Text size="sm" fw={700} c="#3b82f6" style={{ 
+                            letterSpacing: '0.01em',
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+                          }}>
                             {position.ticker}
                           </Text>
                         </Box>
@@ -691,13 +710,18 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       {position.security_type && (
                         <Box
                           style={{
-                            background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][1]} 0%, ${theme.colors[getSecurityColor(position.security_type)][2]} 100%)`,
-                            border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][3]}`,
-                            borderRadius: '8px',
-                            padding: '4px 8px'
+                            background: `linear-gradient(135deg, rgba(${theme.colors[getSecurityColor(position.security_type)][6].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.2) 0%, rgba(${theme.colors[getSecurityColor(position.security_type)][4].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.1) 100%)`,
+                            border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
+                            borderRadius: '10px',
+                            padding: '6px 12px',
+                            boxShadow: `0 0 8px ${theme.colors[getSecurityColor(position.security_type)][4]}20`,
+                            backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="xs" fw={700} c={getSecurityColor(position.security_type)} style={{ letterSpacing: '0.01em' }}>
+                          <Text size="sm" fw={700} c={getSecurityColor(position.security_type)} style={{ 
+                            letterSpacing: '0.01em',
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+                          }}>
                             {position.security_type}
                           </Text>
                         </Box>
@@ -705,15 +729,20 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       {position.fallback && (
                         <Box
                           style={{
-                            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 101, 101, 0.1) 100%)',
-                            border: '1px solid rgba(251, 146, 60, 0.2)',
-                            borderRadius: '8px',
-                            padding: '4px 8px'
+                            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(245, 101, 101, 0.1) 100%)',
+                            border: '1px solid rgba(251, 146, 60, 0.4)',
+                            borderRadius: '10px',
+                            padding: '6px 12px',
+                            boxShadow: '0 0 8px rgba(251, 146, 60, 0.2)',
+                            backdropFilter: 'blur(10px)'
                           }}
                         >
                           <Flex gap="xs" align="center">
-                            <IconStar size={10} color="orange" />
-                            <Text size="xs" fw={700} c="orange" style={{ letterSpacing: '0.01em' }}>
+                            <IconStar size={12} color="#fb923c" />
+                            <Text size="sm" fw={700} c="#fb923c" style={{ 
+                              letterSpacing: '0.01em',
+                              textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+                            }}>
                               Fallback
                             </Text>
                           </Flex>
@@ -722,22 +751,31 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       {position.provider && (
                         <Box
                           style={{
-                            background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.1) 0%, rgba(75, 85, 99, 0.1) 100%)',
-                            border: '1px solid rgba(107, 114, 128, 0.2)',
-                            borderRadius: '8px',
-                            padding: '4px 8px'
+                            background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.2) 0%, rgba(75, 85, 99, 0.1) 100%)',
+                            border: '1px solid rgba(107, 114, 128, 0.4)',
+                            borderRadius: '10px',
+                            padding: '6px 12px',
+                            boxShadow: '0 0 8px rgba(107, 114, 128, 0.2)',
+                            backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="xs" fw={600} c="gray" style={{ letterSpacing: '0.01em' }}>
+                          <Text size="sm" fw={600} c="#6b7280" style={{ 
+                            letterSpacing: '0.01em',
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)'
+                          }}>
                             {position.provider}
                           </Text>
                         </Box>
                       )}
                       {position.isin && (
-                        <Text size="xs" c="dimmed" style={{ 
+                        <Text size="sm" c="rgba(255,255,255,0.6)" style={{ 
                           fontFamily: 'monospace', 
-                          opacity: 0.8,
-                          letterSpacing: '0.01em'
+                          letterSpacing: '0.02em',
+                          textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                          background: 'rgba(0,0,0,0.2)',
+                          padding: '4px 8px',
+                          borderRadius: '6px',
+                          border: '1px solid rgba(255,255,255,0.1)'
                         }}>
                           {position.isin}
                         </Text>
@@ -1219,42 +1257,44 @@ export default function App() {
         header={{ height: 80 }}
         styles={{ 
           main: { 
-            background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
+            background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
             minHeight: '100vh'
           } 
         }}
       >
         <AppShell.Header
           style={{
-            background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
-            borderBottom: 'none',
-            boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
+            background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
+            borderBottom: '1px solid rgba(0, 212, 170, 0.2)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 212, 170, 0.1)',
             backdropFilter: 'blur(20px)',
             position: 'relative',
             overflow: 'hidden'
           }}
         >
-          {/* Декоративные элементы */}
+          {/* Неоновые декоративные элементы */}
           <Box
             style={{
               position: 'absolute',
-              top: '-80px',
-              right: '-80px',
-              width: '160px',
-              height: '160px',
-              background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)',
-              borderRadius: '50%'
+              top: '-60px',
+              right: '-60px',
+              width: '120px',
+              height: '120px',
+              background: 'radial-gradient(circle, rgba(0, 212, 170, 0.15) 0%, transparent 70%)',
+              borderRadius: '50%',
+              filter: 'blur(20px)'
             }}
           />
           <Box
             style={{
               position: 'absolute',
-              bottom: '-40px',
-              left: '-40px',
-              width: '80px',
-              height: '80px',
-              background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)',
-              borderRadius: '50%'
+              bottom: '-30px',
+              left: '-30px',
+              width: '60px',
+              height: '60px',
+              background: 'radial-gradient(circle, rgba(255, 107, 107, 0.1) 0%, transparent 70%)',
+              borderRadius: '50%',
+              filter: 'blur(15px)'
             }}
           />
           
@@ -1266,18 +1306,18 @@ export default function App() {
                   style={{
                     width: '56px',
                     height: '56px',
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                    background: 'linear-gradient(135deg, rgba(0, 212, 170, 0.2) 0%, rgba(0, 160, 133, 0.1) 100%)',
                     borderRadius: '18px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     backdropFilter: 'blur(20px)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
+                    border: '1px solid rgba(0, 212, 170, 0.3)',
+                    boxShadow: '0 8px 24px rgba(0, 212, 170, 0.3), 0 0 20px rgba(0, 212, 170, 0.1)',
                     flexShrink: 0
                   }}
                 >
-                  <IconDiamond size={28} color="white" />
+                  <IconDiamond size={28} color="#00d4aa" />
                 </Box>
                 <Stack gap="xs" style={{ minWidth: 0, flex: 1 }}>
                   <Text 
@@ -1312,17 +1352,18 @@ export default function App() {
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
-                    background: 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)',
-                    border: 'none',
-                    color: 'white',
+                    background: 'linear-gradient(135deg, rgba(0, 212, 170, 0.2) 0%, rgba(0, 160, 133, 0.1) 100%)',
+                    border: '1px solid rgba(0, 212, 170, 0.4)',
+                    color: '#00d4aa',
                     fontWeight: '700',
                     fontSize: '14px',
                     height: '44px',
                     paddingLeft: '20px',
                     paddingRight: '20px',
-                    boxShadow: '0 6px 16px rgba(0, 212, 170, 0.4)',
+                    boxShadow: '0 8px 24px rgba(0, 212, 170, 0.3), 0 0 20px rgba(0, 212, 170, 0.1)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    flexShrink: 0
+                    flexShrink: 0,
+                    backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #00a085 0%, #007a6b 100%)'
@@ -1344,17 +1385,18 @@ export default function App() {
                   onClick={handleLogout}
                   radius="xl"
                   style={{
-                    background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)',
-                    border: 'none',
-                    color: 'white',
+                    background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 82, 0.1) 100%)',
+                    border: '1px solid rgba(255, 107, 107, 0.4)',
+                    color: '#ff6b6b',
                     fontWeight: '700',
                     fontSize: '14px',
                     height: '44px',
                     paddingLeft: '20px',
                     paddingRight: '20px',
-                    boxShadow: '0 6px 16px rgba(255, 107, 107, 0.4)',
+                    boxShadow: '0 8px 24px rgba(255, 107, 107, 0.3), 0 0 20px rgba(255, 107, 107, 0.1)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    flexShrink: 0
+                    flexShrink: 0,
+                    backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #ee5a52 0%, #e74c3c 100%)'
