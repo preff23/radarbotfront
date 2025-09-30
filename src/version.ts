@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 78 — Connected real calendar data from portfolio";
+export const MINIAPP_REV = "Правка 79 — Fixed calendar API with proper T-Bank and MOEX endpoints";
