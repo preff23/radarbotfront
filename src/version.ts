@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 76 — Added Calendar page with mock data";
+export const MINIAPP_REV = "Правка 77 — Fixed calendar styles loading";
