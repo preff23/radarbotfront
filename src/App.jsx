@@ -573,80 +573,46 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     }}
                   />
                   
-                  <Flex justify="space-between" align="flex-start" gap="md">
-                    <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
-                      <Group gap="sm" align="center">
-                        <ThemeIcon 
-                          size="lg" 
-                          radius="xl" 
-                          variant="light" 
-                          color={getSecurityColor(position.security_type)}
-                          style={{ 
-                            background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                            color: 'white'
-                          }}
-                        >
-                          {getSecurityIcon(position.security_type)}
-                        </ThemeIcon>
-                        <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
-                          <Text fw={700} size="md" c="dark" style={{ 
-                            wordBreak: 'break-word',
-                            lineHeight: 1.3,
-                            maxHeight: '2.6em',
-                            overflow: 'hidden',
-                            display: '-webkit-box',
-                            WebkitLineClamp: 2,
-                            WebkitBoxOrient: 'vertical'
-                          }}>
-                            {position.name}
+                  <Stack gap="md">
+                    {/* Верхняя строка: иконка + название + количество */}
+                    <Group gap="md" align="flex-start">
+                      <ThemeIcon 
+                        size="lg" 
+                        radius="xl" 
+                        variant="light" 
+                        color={getSecurityColor(position.security_type)}
+                        style={{ 
+                          background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
+                          color: 'white',
+                          flexShrink: 0
+                        }}
+                      >
+                        {getSecurityIcon(position.security_type)}
+                      </ThemeIcon>
+                      
+                      <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
+                        <Text fw={700} size="lg" c="dark" style={{ 
+                          wordBreak: 'break-word',
+                          lineHeight: 1.2,
+                          maxHeight: '2.4em',
+                          overflow: 'hidden',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical'
+                        }}>
+                          {position.name}
+                        </Text>
+                        
+                        <Group gap="xs" align="center">
+                          <ThemeIcon size="sm" variant="light" color="teal">
+                            <IconCoins size={14} />
+                          </ThemeIcon>
+                          <Text fw={600} size="md" c="teal">
+                            {position.quantity || 0} {position.quantity_unit || 'шт'}
                           </Text>
-                          <Group gap="xs" align="center">
-                            {position.ticker && (
-                              <Badge size="sm" variant="light" color="blue" radius="md">
-                                {position.ticker}
-                              </Badge>
-                            )}
-                            {position.security_type && (
-                              <Badge size="sm" variant="light" color={getSecurityColor(position.security_type)} radius="md">
-                                {position.security_type}
-                              </Badge>
-                            )}
-                            {position.fallback && (
-                              <Badge size="sm" variant="light" color="orange" radius="md">
-                                <IconStar size={12} style={{ marginRight: 4 }} />
-                                Fallback
-                              </Badge>
-                            )}
-                          </Group>
-                        </Stack>
-                      </Group>
+                        </Group>
+                      </Stack>
                       
-                      {position.isin && (
-                        <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace', opacity: 0.7 }}>
-                          {position.isin}
-                        </Text>
-                      )}
-                    </Stack>
-
-                    <Stack gap="sm" align="flex-end">
-                      <Group gap="xs" align="center">
-                        <ThemeIcon size="sm" variant="light" color="teal">
-                          <IconCoins size={16} />
-                        </ThemeIcon>
-                        <Text fw={700} size="xl" c="teal">
-                          {position.quantity || 0}
-                        </Text>
-                        <Text fw={500} size="md" c="dimmed">
-                          {position.quantity_unit || 'шт'}
-                        </Text>
-                      </Group>
-                      
-                      {position.provider && (
-                        <Badge size="xs" variant="light" color="gray" radius="md">
-                          {position.provider}
-                        </Badge>
-                      )}
-
                       <Group gap="xs">
                         <Tooltip label="Редактировать" position="top">
                           <ActionIcon
@@ -685,8 +651,38 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           </ActionIcon>
                         </Tooltip>
                       </Group>
-                    </Stack>
-                  </Flex>
+                    </Group>
+                    
+                    {/* Нижняя строка: бейджи и дополнительная информация */}
+                    <Group gap="sm" align="center" wrap="wrap">
+                      {position.ticker && (
+                        <Badge size="sm" variant="light" color="blue" radius="md">
+                          {position.ticker}
+                        </Badge>
+                      )}
+                      {position.security_type && (
+                        <Badge size="sm" variant="light" color={getSecurityColor(position.security_type)} radius="md">
+                          {position.security_type}
+                        </Badge>
+                      )}
+                      {position.fallback && (
+                        <Badge size="sm" variant="light" color="orange" radius="md">
+                          <IconStar size={12} style={{ marginRight: 4 }} />
+                          Fallback
+                        </Badge>
+                      )}
+                      {position.provider && (
+                        <Badge size="xs" variant="light" color="gray" radius="md">
+                          {position.provider}
+                        </Badge>
+                      )}
+                      {position.isin && (
+                        <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace', opacity: 0.7 }}>
+                          {position.isin}
+                        </Text>
+                      )}
+                    </Group>
+                  </Stack>
                 </Card>
               )}
             </Transition>
@@ -1199,55 +1195,59 @@ export default function App() {
                   </Text>
                 </Stack>
               </Group>
-              <Group gap="sm">
+              <Group gap="md">
                 <Button
-                  variant="light"
-                  color="white"
+                  variant="filled"
+                  color="green"
                   size="md"
                   leftSection={<IconPlus size={18} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
-                    background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    border: 'none',
                     color: 'white',
-                    fontWeight: '600',
-                    backdropFilter: 'blur(10px)',
+                    fontWeight: '700',
+                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
                     transition: 'all 0.3s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.25)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)'
                     e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(16, 185, 129, 0.4)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
                     e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)'
                   }}
                 >
                   Добавить
                 </Button>
                 <Button
-                  variant="light"
-                  color="white"
+                  variant="filled"
+                  color="red"
                   size="md"
                   leftSection={<IconLogout size={18} />}
                   onClick={handleLogout}
                   radius="xl"
                   style={{
-                    background: 'rgba(255,255,255,0.15)',
-                    border: '1px solid rgba(255,255,255,0.2)',
+                    background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                    border: 'none',
                     color: 'white',
-                    fontWeight: '600',
-                    backdropFilter: 'blur(10px)',
+                    fontWeight: '700',
+                    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
                     transition: 'all 0.3s ease'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.25)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
                     e.currentTarget.style.transform = 'translateY(-2px)'
+                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.4)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
                     e.currentTarget.style.transform = 'translateY(0)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)'
                   }}
                 >
                   Выйти
@@ -1290,40 +1290,77 @@ export default function App() {
                     <Card 
                       shadow="xl" 
                       padding="xl" 
-                      radius="xl"
+                      radius="2xl"
                       style={{
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                        border: 'none',
-                        color: 'white'
+                        background: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)',
+                        border: '2px solid rgba(255,255,255,0.1)',
+                        color: 'white',
+                        position: 'relative',
+                        overflow: 'hidden'
                       }}
                     >
-                      <Group justify="space-between" align="center">
-                        <Group gap="md">
+                      {/* Декоративные элементы */}
+                      <Box
+                        style={{
+                          position: 'absolute',
+                          top: '-50px',
+                          right: '-50px',
+                          width: '100px',
+                          height: '100px',
+                          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+                          borderRadius: '50%'
+                        }}
+                      />
+                      <Box
+                        style={{
+                          position: 'absolute',
+                          bottom: '-30px',
+                          left: '-30px',
+                          width: '60px',
+                          height: '60px',
+                          background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)',
+                          borderRadius: '50%'
+                        }}
+                      />
+                      
+                      <Group justify="space-between" align="flex-start" style={{ position: 'relative', zIndex: 1 }}>
+                        <Group gap="lg">
                           <ThemeIcon 
                             size="xl" 
                             radius="xl" 
                             variant="light" 
                             color="white"
                             style={{ 
-                              background: 'rgba(255,255,255,0.2)',
-                              backdropFilter: 'blur(10px)'
+                              background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)',
+                              backdropFilter: 'blur(20px)',
+                              border: '1px solid rgba(255,255,255,0.2)',
+                              boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
                             }}
                           >
-                            <IconWallet size={24} />
+                            <IconWallet size={28} />
                           </ThemeIcon>
-                          <Stack gap="xs">
-                            <Text size="xl" fw={800} c="white">
-                              Портфель
-                            </Text>
-                            <Group gap="md">
+                          <Stack gap="md">
+                            <Stack gap="xs">
+                              <Text size="2xl" fw={900} c="white" style={{ letterSpacing: '0.5px' }}>
+                                Портфель
+                              </Text>
+                              <Text size="sm" c="rgba(255,255,255,0.7)" style={{ letterSpacing: '0.3px' }}>
+                                Ваш инвестиционный профиль
+                              </Text>
+                            </Stack>
+                            <Group gap="sm">
                               <Badge
                                 variant="light"
                                 color="white"
                                 size="lg"
+                                radius="xl"
                                 style={{ 
-                                  background: 'rgba(255,255,255,0.2)',
+                                  background: 'rgba(255,255,255,0.15)',
                                   color: 'white',
-                                  fontSize: '12px'
+                                  fontSize: '13px',
+                                  fontWeight: '600',
+                                  border: '1px solid rgba(255,255,255,0.2)',
+                                  backdropFilter: 'blur(10px)'
                                 }}
                               >
                                 {currentAccount.currency || 'RUB'}
@@ -1332,10 +1369,14 @@ export default function App() {
                                 variant="light"
                                 color="white"
                                 size="lg"
+                                radius="xl"
                                 style={{ 
-                                  background: 'rgba(255,255,255,0.2)',
+                                  background: 'rgba(255,255,255,0.15)',
                                   color: 'white',
-                                  fontSize: '12px'
+                                  fontSize: '13px',
+                                  fontWeight: '600',
+                                  border: '1px solid rgba(255,255,255,0.2)',
+                                  backdropFilter: 'blur(10px)'
                                 }}
                               >
                                 {currentAccount.positions.length} бумаг
@@ -1344,10 +1385,18 @@ export default function App() {
                           </Stack>
                         </Group>
                         {currentAccount.portfolio_value && (
-                          <Stack gap="xs" align="flex-end">
-                            <Text size="sm" c="rgba(255,255,255,0.8)">Общая стоимость</Text>
-                            <Text fw={800} size="xl" c="white">
+                          <Stack gap="xs" align="flex-end" style={{ minWidth: '200px' }}>
+                            <Text size="sm" c="rgba(255,255,255,0.8)" fw={500} style={{ letterSpacing: '0.3px' }}>
+                              Общая стоимость
+                            </Text>
+                            <Text fw={900} size="2xl" c="white" style={{ 
+                              textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                              letterSpacing: '0.5px'
+                            }}>
                               {currentAccount.portfolio_value.toLocaleString()} ₽
+                            </Text>
+                            <Text size="xs" c="rgba(255,255,255,0.6)" style={{ letterSpacing: '0.2px' }}>
+                              Текущая оценка
                             </Text>
                           </Stack>
                         )}
