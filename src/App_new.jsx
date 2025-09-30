@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import {
+import { 
   IconDiamond, 
   IconPlus, 
-  IconLogout,
-  IconWallet,
-  IconCoins,
+  IconLogout, 
+  IconWallet, 
+  IconCoins, 
   IconEdit, 
   IconTrash, 
   IconStar,
   IconMinus
 } from '@tabler/icons-react'
 import { 
+  Notifications, 
   Loader, 
   Center, 
   Stack, 
@@ -34,7 +35,7 @@ import {
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
-import { MINIAPP_REV } from './version' 
+import { MINIAPP_REV } from './version'
 
 // API functions
 async function fetchPortfolio() {
@@ -127,7 +128,7 @@ function LoginForm({ onLogin }) {
         onLogin(`+${normalizedPhone}`)
       } else if (normalizedPhone.startsWith('8')) {
         onLogin(`+7${normalizedPhone.slice(1)}`)
-        } else {
+      } else {
         onLogin(`+7${normalizedPhone}`)
       }
     } catch (error) {
@@ -154,9 +155,9 @@ function LoginForm({ onLogin }) {
           </p>
           
           <form onSubmit={handleSubmit} style={{ maxWidth: '300px', margin: '0 auto' }}>
-                <TextInput
+            <TextInput
               placeholder="+7 (999) 123-45-67"
-                  value={phone}
+              value={phone}
               onChange={(e) => setPhone(e.target.value)}
               size="lg"
               style={{ marginBottom: '20px' }}
@@ -171,16 +172,16 @@ function LoginForm({ onLogin }) {
                   }
                 }
               }}
-                />
-                <Button
-                  type="submit"
+            />
+            <Button
+              type="submit"
               className="btn btn--primary"
-                  loading={loading}
+              loading={loading}
               fullWidth
-                >
+            >
               Войти
-                </Button>
-            </form>
+            </Button>
+          </form>
         </div>
       </div>
     </div>
@@ -310,16 +311,16 @@ function AssetList({ account, onEdit, onDelete }) {
 
   return (
     <div className="scroll-area" style={{ height: '60vh' }}>
-        {account.positions.map((position, index) => (
-            <Transition
+      {account.positions.map((position, index) => (
+        <Transition
           key={position.id}
-              mounted={true}
-              transition="slide-up"
-              duration={300}
-              timingFunction="ease-out"
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              {(styles) => (
+          mounted={true}
+          transition="slide-up"
+          duration={300}
+          timingFunction="ease-out"
+          style={{ transitionDelay: `${index * 50}ms` }}
+        >
+          {(styles) => (
             <div style={styles}>
               <AssetCard
                 position={position}
@@ -327,8 +328,8 @@ function AssetList({ account, onEdit, onDelete }) {
                 onDelete={onDelete}
               />
             </div>
-              )}
-            </Transition>
+          )}
+        </Transition>
       ))}
     </div>
   )
@@ -357,7 +358,7 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
         isin: '',
         provider: 'manual'
       })
-    onClose()
+      onClose()
     } catch (error) {
       notifications.show({
         title: 'Ошибка',
@@ -389,8 +390,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
     >
       <form onSubmit={handleSubmit}>
         <Stack gap="md">
-        <TextInput
-          label="Название"
+          <TextInput
+            label="Название"
             placeholder="ОФЗ 26207"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
@@ -405,8 +406,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
             }}
           />
           
-        <TextInput
-          label="Тикер"
+          <TextInput
+            label="Тикер"
             placeholder="SU26207RMFS6"
             value={formData.ticker}
             onChange={(e) => setFormData({ ...formData, ticker: e.target.value })}
@@ -439,8 +440,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
             }}
           />
           
-        <NumberInput
-          label="Количество"
+          <NumberInput
+            label="Количество"
             value={formData.quantity}
             onChange={(value) => setFormData({ ...formData, quantity: value || 1 })}
             min={1}
@@ -454,7 +455,7 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
             }}
           />
           
-        <TextInput
+          <TextInput
             label="ISIN"
             placeholder="RU000A0JX0J2"
             value={formData.isin}
@@ -483,8 +484,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
             >
               Добавить
             </Button>
-        </Group>
-      </Stack>
+          </Group>
+        </Stack>
       </form>
     </Modal>
   )
@@ -518,7 +519,7 @@ function EditPositionModal({ opened, onClose, position, onSubmit }) {
     e.preventDefault()
     try {
       await onSubmit(formData)
-    onClose()
+      onClose()
     } catch (error) {
       notifications.show({
         title: 'Ошибка',
@@ -598,8 +599,8 @@ function EditPositionModal({ opened, onClose, position, onSubmit }) {
             }}
           />
           
-        <NumberInput
-          label="Количество"
+          <NumberInput
+            label="Количество"
             value={formData.quantity}
             onChange={(value) => setFormData({ ...formData, quantity: value || 1 })}
             min={1}
@@ -613,7 +614,7 @@ function EditPositionModal({ opened, onClose, position, onSubmit }) {
             }}
           />
           
-        <TextInput
+          <TextInput
             label="ISIN"
             value={formData.isin}
             onChange={(e) => setFormData({ ...formData, isin: e.target.value })}
@@ -641,8 +642,8 @@ function EditPositionModal({ opened, onClose, position, onSubmit }) {
             >
               Сохранить
             </Button>
-        </Group>
-      </Stack>
+          </Group>
+        </Stack>
       </form>
     </Modal>
   )
@@ -763,7 +764,7 @@ export default function App() {
             <Stack align="center" gap="md">
               <Loader size="xl" color="var(--brand)" />
               <Text size="lg" fw={500} c="var(--muted)">Загрузка портфеля...</Text>
-                </Stack>
+            </Stack>
           </Center>
         </div>
       </div>
@@ -784,7 +785,7 @@ export default function App() {
             <div>
               <h1 className="header__title">Radar портфель</h1>
               <p className="card__meta">
-                    {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
+                {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
               </p>
             </div>
           </div>
@@ -799,25 +800,27 @@ export default function App() {
             </button>
             <button
               className="btn btn--danger"
-                  onClick={handleLogout}
+              onClick={handleLogout}
             >
               <IconLogout size={16} />
-                  Выйти
+              Выйти
             </button>
           </div>
         </div>
       </div>
 
       <div className="container">
+        <Notifications position="top-center" />
+        
         {account && (
           <Stack gap="lg">
             <PortfolioHero account={account} />
             <AssetList
               account={account}
-                      onEdit={(pos) => setEditTarget(pos)}
-                      onDelete={handleDelete}
-                    />
-                  </Stack>
+              onEdit={(pos) => setEditTarget(pos)}
+              onDelete={handleDelete}
+            />
+          </Stack>
         )}
       </div>
 
