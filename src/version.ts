@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 60 — Fix build error";
+export const MINIAPP_REV = "Правка 61 — Fix portfolio loading";

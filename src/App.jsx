@@ -39,9 +39,19 @@ import { MINIAPP_REV } from './version'
 // API functions
 async function fetchPortfolio() {
   try {
+    console.log('Fetching portfolio from /api/portfolio')
     const response = await fetch('/api/portfolio')
-    if (!response.ok) throw new Error('Failed to fetch portfolio')
-    return await response.json()
+    console.log('Response status:', response.status)
+    
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('API Error:', response.status, errorText)
+      throw new Error(`API Error ${response.status}: ${errorText}`)
+    }
+    
+    const data = await response.json()
+    console.log('Portfolio data:', data)
+    return data
   } catch (error) {
     console.error('Error fetching portfolio:', error)
     throw error
@@ -666,9 +676,12 @@ export default function App() {
   const loadPortfolio = async () => {
     setLoading(true)
     try {
+      console.log('Loading portfolio for phone:', userPhone)
       const portfolioData = await fetchPortfolio()
+      console.log('Portfolio data received:', portfolioData)
       setData(portfolioData)
     } catch (error) {
+      console.error('Error loading portfolio:', error)
       notifications.show({
         title: 'Ошибка',
         message: 'Не удалось загрузить портфель',
@@ -784,7 +797,7 @@ export default function App() {
             <div>
               <h1 className="header__title">Radar портфель</h1>
               <p className="card__meta">
-                    {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
+                {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
               </p>
             </div>
           </div>
@@ -799,25 +812,56 @@ export default function App() {
             </button>
             <button
               className="btn btn--danger"
-                  onClick={handleLogout}
+              onClick={handleLogout}
             >
               <IconLogout size={16} />
-                  Выйти
+              Выйти
             </button>
           </div>
         </div>
       </div>
 
       <div className="container">
-        {account && (
+        {!data ? (
+          <div className="card">
+            <div className="empty-state">
+              <div className="empty-state__icon">
+                <Loader size={40} />
+              </div>
+              <h3 className="empty-state__title">Загрузка портфеля...</h3>
+              <p className="empty-state__description">
+                Получаем данные вашего портфеля
+              </p>
+            </div>
+          </div>
+        ) : account ? (
           <Stack gap="lg">
             <PortfolioHero account={account} />
             <AssetList
               account={account}
-                      onEdit={(pos) => setEditTarget(pos)}
-                      onDelete={handleDelete}
-                    />
-                  </Stack>
+              onEdit={(pos) => setEditTarget(pos)}
+              onDelete={handleDelete}
+            />
+          </Stack>
+        ) : (
+          <div className="card">
+            <div className="empty-state">
+              <div className="empty-state__icon">
+                <IconMinus size={40} />
+              </div>
+              <h3 className="empty-state__title">Портфель не найден</h3>
+              <p className="empty-state__description">
+                Не удалось загрузить данные портфеля. Попробуйте обновить страницу.
+              </p>
+              <Button
+                className="btn btn--primary"
+                onClick={loadPortfolio}
+                style={{ marginTop: '16px' }}
+              >
+                Обновить
+              </Button>
+            </div>
+          </div>
         )}
       </div>
 
