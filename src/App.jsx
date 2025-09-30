@@ -1239,7 +1239,7 @@ export default function App() {
           </div>
         </header>
 
-        <CalendarPage onBack={() => setCurrentPage('portfolio')} />
+        <CalendarPage onBack={() => setCurrentPage('portfolio')} userPhone={userPhone} />
       </div>
     )
   }
