@@ -1200,8 +1200,34 @@ export default function App() {
                 </Stack>
               </Group>
               <Group gap="sm">
-              <Button
-                variant="light"
+                <Button
+                  variant="light"
+                  color="white"
+                  size="md"
+                  leftSection={<IconPlus size={18} />}
+                  onClick={() => setAddOpened(true)}
+                  radius="xl"
+                  style={{
+                    background: 'rgba(255,255,255,0.15)',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    color: 'white',
+                    fontWeight: '600',
+                    backdropFilter: 'blur(10px)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.25)'
+                    e.currentTarget.style.transform = 'translateY(-2px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  Добавить
+                </Button>
+                <Button
+                  variant="light"
                   color="white"
                   size="md"
                   leftSection={<IconLogout size={18} />}
@@ -1225,8 +1251,8 @@ export default function App() {
                   }}
                 >
                   Выйти
-              </Button>
-            </Group>
+                </Button>
+              </Group>
           </Group>
           </Container>
         </AppShell.Header>
@@ -1327,50 +1353,6 @@ export default function App() {
                         )}
                       </Group>
                     </Card>
-                    
-                    {/* Кнопка добавить бумагу */}
-                    <Card 
-                      shadow="sm" 
-                      padding="md" 
-                      radius="xl"
-                      style={{
-                        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
-                        border: '2px dashed #cbd5e1',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease'
-                      }}
-                      onClick={() => setAddOpened(true)}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = '#667eea'
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)'
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = '#cbd5e1'
-                        e.currentTarget.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
-                        e.currentTarget.style.transform = 'translateY(0)'
-                      }}
-                    >
-                      <Group justify="center" gap="md">
-                        <ThemeIcon 
-                          size="lg" 
-                          radius="xl" 
-                          variant="light" 
-                          color="blue"
-                          style={{ 
-                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                            color: 'white'
-                          }}
-                        >
-                          <IconPlus size={20} />
-                        </ThemeIcon>
-                        <Stack gap="xs" align="center">
-                          <Text fw={600} size="lg" c="dark">Добавить бумагу</Text>
-                          <Text size="sm" c="dimmed">Нажмите, чтобы добавить новую ценную бумагу в портфель</Text>
-                        </Stack>
-                      </Group>
-                    </Card>
-                    
                     <PortfolioTable
                       account={currentAccount}
                       onEdit={(pos) => setEditTarget(pos)}

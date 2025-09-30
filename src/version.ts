@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 50 — Исправление названий и кнопка добавления";
+export const MINIAPP_REV = "Правка 51 — Кнопки в хедере";
