@@ -3,8 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>frontend</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <title>Radar Portfolio</title>
+    <style>
+      /* Reset + базовая сетка под TG WebApp */
+      html,body{height:100%;background:#0c0f15;margin:0;padding:0}
+      *{box-sizing:border-box}
+      /* критично: никакого горизонтального скролла */
+      html,body{overflow-x:hidden}
+      /* iOS текст не раздувать */
+      html{-webkit-text-size-adjust:100%}
+      
+      #root,.app{
+        min-height:100%;
+        width:100%;           /* важно: НЕ 100vw, чтобы не ловить горизонтальный скролл на iOS */
+        max-width:100%;
+        margin:0 auto;
+        overflow-x:hidden;    /* защита от "расползаний" */
+        background: radial-gradient(120% 120% at 10% -10%, #182235 0%, #0c0f15 60%) fixed;
+      }
+      
+      /* безопасные отступы под вырезы/индикаторы */
+      .app__page{
+        padding:
+          calc(env(safe-area-inset-top, 0px) + 12px)
+          calc(env(safe-area-inset-right, 0px) + 16px)
+          calc(env(safe-area-inset-bottom, 0px) + 16px)
+          calc(env(safe-area-inset-left, 0px) + 16px);
+      }
+      
+      /* Жестко отрезаем горизонтальный скролл глобально */
+      img,svg,canvas,video{max-width:100%; height:auto; display:block}
+      .row{display:flex; flex-wrap:wrap; gap:12px; min-width:0}
+      .row > *{min-width:0; max-width:100%}
+      body{overscroll-behavior-y:contain}
+    </style>
+    <script>
+      // Telegram WebApp API
+      window.Telegram?.WebApp?.expand();
+      window.Telegram?.WebApp?.setHeaderColor?.('#0c0f15');
+      window.Telegram?.WebApp?.setBackgroundColor?.('#0c0f15');
+    </script>
   </head>
   <body>
     <div id="root"></div>

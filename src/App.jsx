@@ -526,10 +526,10 @@ function PortfolioTable({ account, onEdit, onDelete }) {
   }
 
   return (
-    <ScrollArea style={{ height: '65vh', width: '100%' }} scrollbarSize={6} type="scroll">
-      <Grid gutter="md" style={{ margin: 0, width: '100%' }}>
+    <ScrollArea style={{ height: '65vh', width: '100%', maxWidth: '100%' }} scrollbarSize={6} type="scroll">
+      <div className="row" style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', minWidth: 0 }}>
         {account.positions.map((position, index) => (
-          <Grid.Col key={position.id} span={12} style={{ padding: '8px' }}>
+          <div key={position.id} style={{ minWidth: 0, maxWidth: '100%', width: '100%', padding: '8px' }}>
             <Transition
               mounted={true}
               transition="slide-up"
@@ -539,6 +539,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
             >
               {(styles) => (
                 <Card
+                  className="card"
                   shadow="xl"
                   padding="xl"
                   radius="2xl"
@@ -546,22 +547,27 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     ...styles,
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer',
-                    background: 'linear-gradient(135deg, rgba(26, 26, 46, 0.8) 0%, rgba(22, 33, 62, 0.6) 100%)',
-                    border: '1px solid rgba(0, 212, 170, 0.2)',
+                    width: '100%',
+                    maxWidth: '100%',
+                    margin: '12px 0',
+                    padding: '16px',
+                    borderRadius: '18px',
+                    background: 'linear-gradient(180deg, rgba(18,27,39,.85) 0%, rgba(12,15,21,.85) 100%)',
+                    outline: '1px solid rgba(98,255,210,.10)',
+                    boxShadow: '0 12px 40px rgba(0,255,200,.10)',
                     position: 'relative',
                     overflow: 'hidden',
-                    backdropFilter: 'blur(20px)',
-                    margin: '8px 0'
+                    backdropFilter: 'blur(20px)'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
-                    e.currentTarget.style.boxShadow = '0 16px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 212, 170, 0.2)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 212, 170, 0.4)'
+                    e.currentTarget.style.boxShadow = '0 16px 32px rgba(0, 0, 0, 0.4)'
+                    e.currentTarget.style.outline = '1px solid rgba(98,255,210,.20)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)'
-                    e.currentTarget.style.borderColor = 'rgba(0, 212, 170, 0.2)'
+                    e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,255,200,.10)'
+                    e.currentTarget.style.outline = '1px solid rgba(98,255,210,.10)'
                   }}
                 >
                   {/* Неоновая полоса сверху */}
@@ -600,17 +606,27 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       </Box>
                       
                       <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-                        <Text fw={700} size="lg" c="white" style={{ 
-                          wordBreak: 'break-word',
-                          lineHeight: 1.3,
-                          maxHeight: '2.6em',
-                          overflow: 'hidden',
-                          display: '-webkit-box',
-                          WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical',
-                          letterSpacing: '-0.01em',
-                          textShadow: '0 2px 4px rgba(0,0,0,0.5)'
-                        }}>
+                        <Text 
+                          className="card__title"
+                          fw={700} 
+                          size="lg" 
+                          c="white" 
+                          style={{ 
+                            font: '600 20px/1.25 system-ui',
+                            color: '#f2f6ff',
+                            margin: '0 0 6px',
+                            wordBreak: 'keep-all',
+                            overflowWrap: 'anywhere',
+                            lineHeight: 1.3,
+                            maxHeight: '2.6em',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical',
+                            letterSpacing: '-0.01em',
+                            textShadow: '0 2px 4px rgba(0,0,0,0.5)'
+                          }}
+                        >
                           {position.name}
                         </Text>
                         
@@ -659,7 +675,9 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               color: '#3b82f6',
                               backdropFilter: 'blur(10px)',
                               width: '40px',
-                              height: '40px'
+                              height: '40px',
+                              minWidth: '40px',
+                              minHeight: '40px'
                             }}
                           >
                             <IconEdit size={18} />
@@ -682,7 +700,9 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               color: '#ff6b6b',
                               backdropFilter: 'blur(10px)',
                               width: '40px',
-                              height: '40px'
+                              height: '40px',
+                              minWidth: '40px',
+                              minHeight: '40px'
                             }}
                           >
                             <IconTrash size={18} />
@@ -695,13 +715,17 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     <Flex gap="sm" align="center" wrap="wrap" style={{ marginTop: '8px' }}>
                       {position.ticker && (
                         <Box
+                          className="badge"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(37, 99, 235, 0.1) 100%)',
-                            border: '1px solid rgba(59, 130, 246, 0.4)',
-                            borderRadius: '10px',
-                            padding: '6px 12px',
-                            boxShadow: '0 0 8px rgba(59, 130, 246, 0.2)',
-                            backdropFilter: 'blur(10px)'
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            height: '28px',
+                            padding: '0 10px',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,.08)',
+                            background: 'rgba(23,38,45,.55)',
+                            color: '#cfe9ff',
+                            marginRight: '8px'
                           }}
                         >
                           <Text size="sm" fw={700} c="white" style={{ 
@@ -714,13 +738,17 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       )}
                       {position.security_type && (
                         <Box
+                          className="badge"
                           style={{
-                            background: `linear-gradient(135deg, rgba(${theme.colors[getSecurityColor(position.security_type)][6].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.2) 0%, rgba(${theme.colors[getSecurityColor(position.security_type)][4].replace('#', '').match(/.{2}/g).map(hex => parseInt(hex, 16)).join(', ')}, 0.1) 100%)`,
-                            border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
-                            borderRadius: '10px',
-                            padding: '6px 12px',
-                            boxShadow: `0 0 8px ${theme.colors[getSecurityColor(position.security_type)][4]}20`,
-                            backdropFilter: 'blur(10px)'
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            height: '28px',
+                            padding: '0 10px',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,.08)',
+                            background: 'rgba(23,38,45,.55)',
+                            color: '#cfe9ff',
+                            marginRight: '8px'
                           }}
                         >
                           <Text size="sm" fw={700} c="white" style={{ 
@@ -733,13 +761,17 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       )}
                       {position.fallback && (
                         <Box
+                          className="badge"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.2) 0%, rgba(245, 101, 101, 0.1) 100%)',
-                            border: '1px solid rgba(251, 146, 60, 0.4)',
-                            borderRadius: '10px',
-                            padding: '6px 12px',
-                            boxShadow: '0 0 8px rgba(251, 146, 60, 0.2)',
-                            backdropFilter: 'blur(10px)'
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            height: '28px',
+                            padding: '0 10px',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,.08)',
+                            background: 'rgba(23,38,45,.55)',
+                            color: '#cfe9ff',
+                            marginRight: '8px'
                           }}
                         >
                           <Flex gap="xs" align="center">
@@ -755,13 +787,17 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       )}
                       {position.provider && (
                         <Box
+                          className="badge"
                           style={{
-                            background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.2) 0%, rgba(75, 85, 99, 0.1) 100%)',
-                            border: '1px solid rgba(107, 114, 128, 0.4)',
-                            borderRadius: '10px',
-                            padding: '6px 12px',
-                            boxShadow: '0 0 8px rgba(107, 114, 128, 0.2)',
-                            backdropFilter: 'blur(10px)'
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            height: '28px',
+                            padding: '0 10px',
+                            borderRadius: '12px',
+                            border: '1px solid rgba(255,255,255,.08)',
+                            background: 'rgba(23,38,45,.55)',
+                            color: '#cfe9ff',
+                            marginRight: '8px'
                           }}
                         >
                           <Text size="sm" fw={600} c="rgba(255,255,255,0.8)" style={{ 
@@ -773,15 +809,24 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                         </Box>
                       )}
                       {position.isin && (
-                        <Text size="sm" c="rgba(255,255,255,0.6)" style={{ 
-                          fontFamily: 'monospace', 
-                          letterSpacing: '0.02em',
-                          textShadow: '0 1px 2px rgba(0,0,0,0.5)',
-                          background: 'rgba(0,0,0,0.2)',
-                          padding: '4px 8px',
-                          borderRadius: '6px',
-                          border: '1px solid rgba(255,255,255,0.1)'
-                        }}>
+                        <Text 
+                          className="card__meta"
+                          size="sm" 
+                          c="rgba(255,255,255,0.6)" 
+                          style={{ 
+                            font: '500 14px/1.4 system-ui',
+                            color: '#9fb2c8',
+                            fontFamily: 'monospace', 
+                            letterSpacing: '0.02em',
+                            textShadow: '0 1px 2px rgba(0,0,0,0.5)',
+                            background: 'rgba(0,0,0,0.2)',
+                            padding: '4px 8px',
+                            borderRadius: '6px',
+                            border: '1px solid rgba(255,255,255,0.1)',
+                            wordBreak: 'keep-all',
+                            overflowWrap: 'anywhere'
+                          }}
+                        >
                           {position.isin}
                         </Text>
                       )}
@@ -790,9 +835,9 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                 </Card>
               )}
             </Transition>
-          </Grid.Col>
+          </div>
         ))}
-      </Grid>
+      </div>
     </ScrollArea>
   )
 }
@@ -1256,26 +1301,39 @@ export default function App() {
   }
 
   return (
-    <Stack style={{ minHeight: '100vh' }}>
+    <div className="app" style={{ minHeight: '100vh', width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
       <AppShell
         padding={0}
         header={{ height: 80, offset: false }}
         styles={{ 
+          root: {
+            width: '100%',
+            maxWidth: '100%',
+            overflowX: 'hidden'
+          },
           main: { 
-            background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
+            background: 'transparent',
             minHeight: '100vh',
-            paddingTop: '80px'
+            paddingTop: '80px',
+            width: '100%',
+            maxWidth: '100%',
+            overflowX: 'hidden'
           } 
         }}
       >
         <AppShell.Header
+          className="header"
           style={{
-            background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
+            position: 'sticky',
+            top: 0,
+            zIndex: 50,
+            width: '100%',
+            padding: '12px 8px',
+            margin: '0 0 12px 0',
+            background: 'linear-gradient(180deg, rgba(12,15,21,.95) 60%, rgba(12,15,21,0) 100%)',
+            backdropFilter: 'blur(8px)',
             borderBottom: '1px solid rgba(0, 212, 170, 0.2)',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 212, 170, 0.1)',
-            backdropFilter: 'blur(20px)',
-            position: 'relative',
-            overflow: 'hidden'
+            overflow: 'visible'
           }}
         >
           {/* Неоновые декоративные элементы */}
@@ -1304,8 +1362,15 @@ export default function App() {
             }}
           />
           
-          <Container size="xl" h="100%" px="md" py="md" style={{ position: 'relative', zIndex: 1, maxWidth: '100%' }}>
-            <Flex justify="space-between" align="center" h="100%" wrap="nowrap" gap="md">
+          <div className="header__bar" style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'space-between',
+            gap: '8px',
+            width: '100%',
+            maxWidth: '100%',
+            padding: '0 8px'
+          }}>
               {/* Левая часть - брендинг */}
               <Flex align="center" gap="md" style={{ minWidth: 0, flex: 1 }}>
                 <Box
@@ -1357,16 +1422,21 @@ export default function App() {
                   leftSection={<IconPlus size={16} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
+                  className="header__btn"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(0, 212, 170, 0.2) 0%, rgba(0, 160, 133, 0.1) 100%)',
-                    border: '1px solid rgba(0, 212, 170, 0.4)',
-                    color: '#00d4aa',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '44px',
+                    padding: '0 16px',
+                    borderRadius: '18px',
+                    border: '1px solid rgba(255,255,255,.08)',
+                    background: 'linear-gradient(180deg, rgba(26,41,46,.7) 0%, rgba(26,41,46,.35) 100%)',
+                    color: '#eaf7f3',
                     fontWeight: '700',
                     fontSize: '13px',
-                    height: '40px',
                     minWidth: '100px',
-                    boxShadow: '0 6px 20px rgba(0, 212, 170, 0.3), 0 0 15px rgba(0, 212, 170, 0.1)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    whiteSpace: 'nowrap',
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
@@ -1388,16 +1458,21 @@ export default function App() {
                   leftSection={<IconLogout size={16} />}
                   onClick={handleLogout}
                   radius="xl"
+                  className="header__btn"
                   style={{
-                    background: 'linear-gradient(135deg, rgba(255, 107, 107, 0.2) 0%, rgba(238, 90, 82, 0.1) 100%)',
-                    border: '1px solid rgba(255, 107, 107, 0.4)',
-                    color: '#ff6b6b',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    height: '44px',
+                    padding: '0 16px',
+                    borderRadius: '18px',
+                    border: '1px solid rgba(255,255,255,.08)',
+                    background: 'linear-gradient(180deg, rgba(46,26,26,.7) 0%, rgba(46,26,26,.35) 100%)',
+                    color: '#ffeaea',
                     fontWeight: '700',
                     fontSize: '13px',
-                    height: '40px',
                     minWidth: '100px',
-                    boxShadow: '0 6px 20px rgba(255, 107, 107, 0.3), 0 0 15px rgba(255, 107, 107, 0.1)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    whiteSpace: 'nowrap',
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
@@ -1414,12 +1489,11 @@ export default function App() {
                   Выйти
                 </Button>
               </Flex>
-            </Flex>
-          </Container>
+            </div>
         </AppShell.Header>
-        <AppShell.Main>
+        <AppShell.Main className="app__page" style={{ width: '100%', maxWidth: '100%', overflowX: 'hidden' }}>
           <Notifications position="top-center" />
-          <Container size="xl" px="md" py="lg" style={{ maxWidth: '100%', overflow: 'hidden' }}>
+          <div style={{ width: '100%', maxWidth: '100%', padding: '0 16px' }}>
             {loading && (
               <Center py="xl">
                 <Stack align="center" gap="md">
@@ -1600,7 +1674,7 @@ export default function App() {
                 )}
               </Stack>
             )}
-          </Container>
+          </div>
         </AppShell.Main>
       </AppShell>
       <AddPositionModal
@@ -1616,6 +1690,6 @@ export default function App() {
         position={editTarget}
         onSubmit={(payload) => editTarget && handleUpdate(editTarget, payload)}
       />
-    </Stack>
-  )
+      </div>
+    )
 }
