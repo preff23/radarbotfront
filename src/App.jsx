@@ -558,6 +558,7 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
       <form onSubmit={(e) => {
         console.log('=== FORM SUBMIT EVENT ===')
         console.log('Event:', e)
+        alert('Форма отправляется!')
         handleSubmit(e)
       }}>
         <Stack gap="md">
@@ -650,14 +651,14 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
           />
           
           <Group justify="flex-end" gap="md">
-            <Button
+            <button
               type="button"
               className="btn btn--ghost"
               onClick={onClose}
             >
               Отмена
-            </Button>
-            <Button
+            </button>
+            <button
               type="submit"
               className="btn btn--primary"
               disabled={!selectedSecurity}
@@ -667,11 +668,12 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
                 console.log('Selected security:', selectedSecurity)
                 console.log('Form data:', formData)
                 console.log('Button disabled:', !selectedSecurity)
+                alert('Кнопка нажата! Проверьте консоль.')
                 // Don't prevent default, let form submit naturally
               }}
             >
               Добавить {!selectedSecurity ? '(выберите ценную бумагу)' : ''}
-            </Button>
+            </button>
         </Group>
       </Stack>
       </form>
