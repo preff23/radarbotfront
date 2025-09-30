@@ -4,20 +4,19 @@ import { IconArrowLeft, IconLoader } from '@tabler/icons-react'
 export default function CalendarPage({ onBack, userPhone }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
-  const [currentMonth, setCurrentMonth] = useState(new Date().getMonth() + 1)
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear())
+  const [currentPeriod, setCurrentPeriod] = useState('30')
 
   // Load calendar data
   useEffect(() => {
     loadCalendarData()
-  }, [currentMonth, currentYear, userPhone])
+  }, [currentPeriod, userPhone])
 
   const loadCalendarData = async () => {
     if (!userPhone) return
     
     setLoading(true)
     try {
-      const response = await fetch(`/api/portfolio/calendar?phone=${encodeURIComponent(userPhone)}&month=${currentMonth}&year=${currentYear}`)
+      const response = await fetch(`/api/portfolio/calendar?phone=${encodeURIComponent(userPhone)}&period=${currentPeriod}`)
       if (!response.ok) {
         throw new Error(`API Error ${response.status}`)
       }
@@ -32,30 +31,13 @@ export default function CalendarPage({ onBack, userPhone }) {
     }
   }
 
-  const navigateMonth = (direction) => {
-    if (direction === 'prev') {
-      if (currentMonth === 1) {
-        setCurrentMonth(12)
-        setCurrentYear(currentYear - 1)
-      } else {
-        setCurrentMonth(currentMonth - 1)
-      }
-    } else {
-      if (currentMonth === 12) {
-        setCurrentMonth(1)
-        setCurrentYear(currentYear + 1)
-      } else {
-        setCurrentMonth(currentMonth + 1)
-      }
+  const getPeriodLabel = (period) => {
+    switch (period) {
+      case '30': return '30 дней'
+      case '90': return '90 дней'
+      case 'all': return 'Все выплаты'
+      default: return '30 дней'
     }
-  }
-
-  const getMonthName = (month) => {
-    const months = [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ]
-    return months[month - 1]
   }
 
   const formatDate = (dateString) => {
@@ -109,23 +91,24 @@ export default function CalendarPage({ onBack, userPhone }) {
     <div className="cal">
       <header className="cal-header">
         <h1>Календарь выплат</h1>
-        <div className="cal-controls">
+        <div className="cal-filters">
           <button 
-            className="chip chip--ghost" 
-            aria-label="prev"
-            onClick={() => navigateMonth('prev')}
+            className={`chip ${currentPeriod === '30' ? 'is-on' : ''}`}
+            onClick={() => setCurrentPeriod('30')}
           >
-            {'‹'}
+            30 дней
           </button>
-          <div className="month-pill">
-            {getMonthName(currentMonth)} {currentYear}
-          </div>
           <button 
-            className="chip chip--ghost" 
-            aria-label="next"
-            onClick={() => navigateMonth('next')}
+            className={`chip ${currentPeriod === '90' ? 'is-on' : ''}`}
+            onClick={() => setCurrentPeriod('90')}
           >
-            {'›'}
+            90 дней
+          </button>
+          <button 
+            className={`chip ${currentPeriod === 'all' ? 'is-on' : ''}`}
+            onClick={() => setCurrentPeriod('all')}
+          >
+            Все выплаты
           </button>
         </div>
       </header>

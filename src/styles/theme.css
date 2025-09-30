@@ -626,7 +626,7 @@ html, body, #root, .app {
 
 .cal-header {
   position: sticky; 
-  top: calc(var(--hdr-h, 64px) + 0px);
+  top: var(--hdr-h, 64px);
   z-index: 30; 
   padding: 12px 16px 8px;
   background: linear-gradient(180deg, rgba(11,15,26,1) 0%, rgba(11,15,26,.9) 100%);
@@ -641,22 +641,6 @@ html, body, #root, .app {
   font-weight: 600;
 }
 
-.cal-controls { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  margin-bottom: 8px; 
-}
-
-.month-pill {
-  padding: 8px 14px; 
-  border-radius: 999px; 
-  background: rgba(255,255,255,.06);
-  border: 1px solid rgba(255,255,255,.08); 
-  color: #e8eefc; 
-  font-weight: 600;
-  font-size: 14px;
-}
 
 .cal-filters { 
   display: flex; 
@@ -787,4 +771,25 @@ html, body, #root, .app {
   .amount {
     font-size: 15px;
   }
+}
+
+/* ===== CHIP STYLES ===== */
+.chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  color: #cfe3ff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  white-space: nowrap;
+}
+.chip:hover {
+  background: rgba(255,255,255,.1);
+}
+.chip.is-on {
+  background: linear-gradient(180deg,#1fd9bd,#19b9a2);
+  color: #052c25;
+  border-color: transparent;
 }
