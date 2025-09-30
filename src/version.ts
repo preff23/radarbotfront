@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 71 — Reduced phone font size";
+export const MINIAPP_REV = "Правка 72 — Added detailed security information";

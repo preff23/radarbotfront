@@ -37,6 +37,27 @@ import { notifications } from '@mantine/notifications'
 import { MINIAPP_REV } from './version' 
 
 // API functions
+async function fetchSecurityDetails(isin, phone) {
+  try {
+    console.log('Fetching security details for ISIN:', isin)
+    const response = await fetch(`/api/portfolio/security/${encodeURIComponent(isin)}/details?phone=${encodeURIComponent(phone)}`)
+    console.log('Security details response status:', response.status)
+    
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('Security details API Error:', response.status, errorText)
+      throw new Error(`API Error ${response.status}: ${errorText}`)
+    }
+    
+    const data = await response.json()
+    console.log('Security details data:', data)
+    return data
+  } catch (error) {
+    console.error('Failed to fetch security details:', error)
+    throw error
+  }
+}
+
 async function fetchPortfolio(phone) {
   try {
     console.log('Fetching portfolio from /api/portfolio with phone:', phone)
@@ -258,10 +279,35 @@ function PortfolioHero({ account }) {
 }
 
 // Asset Card Component
-function AssetCard({ position, onEdit, onDelete }) {
+function AssetCard({ position, onEdit, onDelete, userPhone }) {
+  const [details, setDetails] = useState(null)
+  const [loadingDetails, setLoadingDetails] = useState(false)
+  const [showDetails, setShowDetails] = useState(false)
+
+  const loadDetails = async () => {
+    if (!position.isin || details || loadingDetails) return
+    
+    setLoadingDetails(true)
+    try {
+      const data = await fetchSecurityDetails(position.isin, userPhone)
+      setDetails(data)
+    } catch (error) {
+      console.error('Failed to load security details:', error)
+    } finally {
+      setLoadingDetails(false)
+    }
+  }
+
+  const toggleDetails = () => {
+    if (!details && !loadingDetails) {
+      loadDetails()
+    }
+    setShowDetails(!showDetails)
+  }
+
   return (
     <div className="card asset-card">
-      <div className="asset-card__header">
+      <div className="asset-card__header" onClick={toggleDetails} style={{ cursor: 'pointer' }}>
         <div className="asset-card__icon" style={{ color: getSecurityColor(position.security_type) }}>
           {getSecurityIcon(position.security_type)}
         </div>
@@ -276,7 +322,10 @@ function AssetCard({ position, onEdit, onDelete }) {
           <Tooltip label="Редактировать">
             <ActionIcon
               className="btn btn--ghost btn--icon"
-              onClick={() => onEdit(position)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onEdit(position)
+              }}
             >
               <IconEdit size={16} />
             </ActionIcon>
@@ -284,7 +333,10 @@ function AssetCard({ position, onEdit, onDelete }) {
           <Tooltip label="Удалить">
             <ActionIcon
               className="btn btn--ghost btn--icon"
-              onClick={() => onDelete(position)}
+              onClick={(e) => {
+                e.stopPropagation()
+                onDelete(position)
+              }}
             >
               <IconTrash size={16} />
             </ActionIcon>
@@ -314,12 +366,147 @@ function AssetCard({ position, onEdit, onDelete }) {
           </div>
         )}
       </div>
+
+      {/* Detailed Information */}
+      {showDetails && (
+        <div className="asset-card__details">
+          {loadingDetails ? (
+            <div className="text-center" style={{ padding: '20px' }}>
+              <Loader size="sm" />
+              <p className="card__meta" style={{ marginTop: '10px' }}>Загрузка деталей...</p>
+            </div>
+          ) : details ? (
+            <div className="details-grid">
+              {/* Price Information */}
+              {details.price && (
+                <div className="details-section">
+                  <h5 className="details-title">Цена</h5>
+                  <div className="details-row">
+                    <span className="details-label">Текущая:</span>
+                    <span className="details-value">
+                      {details.price.last ? `${details.price.last.toFixed(2)} ${details.price.currency || 'RUB'}` : 'Н/Д'}
+                    </span>
+                  </div>
+                  {details.price.change_day_pct && (
+                    <div className="details-row">
+                      <span className="details-label">Изменение:</span>
+                      <span className={`details-value ${details.price.change_day_pct >= 0 ? 'positive' : 'negative'}`}>
+                        {details.price.change_day_pct >= 0 ? '+' : ''}{details.price.change_day_pct.toFixed(2)}%
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Bond Information */}
+              {details.bond_info && (
+                <div className="details-section">
+                  <h5 className="details-title">Облигация</h5>
+                  {details.bond_info.ytm && (
+                    <div className="details-row">
+                      <span className="details-label">YTM:</span>
+                      <span className="details-value positive">{details.bond_info.ytm.toFixed(2)}%</span>
+                    </div>
+                  )}
+                  {details.bond_info.duration && (
+                    <div className="details-row">
+                      <span className="details-label">Дюрация:</span>
+                      <span className="details-value">{details.bond_info.duration.toFixed(2)} лет</span>
+                    </div>
+                  )}
+                  {details.bond_info.face_value && (
+                    <div className="details-row">
+                      <span className="details-label">Номинал:</span>
+                      <span className="details-value">{details.bond_info.face_value.toFixed(2)} {details.price?.currency || 'RUB'}</span>
+                    </div>
+                  )}
+                  {details.bond_info.coupon_rate && (
+                    <div className="details-row">
+                      <span className="details-label">Купон:</span>
+                      <span className="details-value">{details.bond_info.coupon_rate.toFixed(2)}%</span>
+                    </div>
+                  )}
+                  {details.bond_info.maturity_date && (
+                    <div className="details-row">
+                      <span className="details-label">Погашение:</span>
+                      <span className="details-value">
+                        {new Date(details.bond_info.maturity_date).toLocaleDateString('ru-RU')}
+                      </span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Share Information */}
+              {details.share_info && (
+                <div className="details-section">
+                  <h5 className="details-title">Акция</h5>
+                  {details.share_info.sector && (
+                    <div className="details-row">
+                      <span className="details-label">Сектор:</span>
+                      <span className="details-value">{details.share_info.sector}</span>
+                    </div>
+                  )}
+                  {details.share_info.dividend_value && (
+                    <div className="details-row">
+                      <span className="details-label">Дивиденды:</span>
+                      <span className="details-value">{details.share_info.dividend_value.toFixed(2)} {details.price?.currency || 'RUB'}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Rating Information */}
+              {details.rating && (
+                <div className="details-section">
+                  <h5 className="details-title">Рейтинг</h5>
+                  <div className="details-row">
+                    <span className="details-label">Рейтинг:</span>
+                    <span className="details-value">{details.rating.rating}</span>
+                  </div>
+                  {details.rating.rating_agency && (
+                    <div className="details-row">
+                      <span className="details-label">Агентство:</span>
+                      <span className="details-value">{details.rating.rating_agency}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Trading Information */}
+              {details.trading && (
+                <div className="details-section">
+                  <h5 className="details-title">Торговля</h5>
+                  {details.trading.volume && (
+                    <div className="details-row">
+                      <span className="details-label">Объем:</span>
+                      <span className="details-value">
+                        {new Intl.NumberFormat('ru-RU').format(details.trading.volume)}
+                      </span>
+                    </div>
+                  )}
+                  {details.trading.board && (
+                    <div className="details-row">
+                      <span className="details-label">Площадка:</span>
+                      <span className="details-value">{details.trading.board}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="text-center" style={{ padding: '20px' }}>
+              <p className="card__meta">Детальная информация недоступна</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }
 
 // Asset List Component
-function AssetList({ account, onEdit, onDelete }) {
+function AssetList({ account, onEdit, onDelete, userPhone }) {
   if (!account?.positions?.length) {
     return (
       <div className="card">
@@ -353,6 +540,7 @@ function AssetList({ account, onEdit, onDelete }) {
                 position={position}
                 onEdit={onEdit}
                 onDelete={onDelete}
+                userPhone={userPhone}
               />
             </div>
           )}
@@ -1056,6 +1244,7 @@ export default function App() {
             account={account}
             onEdit={(pos) => setEditTarget(pos)}
             onDelete={handleDelete}
+            userPhone={userPhone}
           />
         )}
       </main>
