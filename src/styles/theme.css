@@ -24,14 +24,17 @@
   --ok-glow: 0 0 20px rgba(83, 242, 157, .3);
   --text-shadow: 0 2px 4px rgba(0,0,0,.5);
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Высоты для расчета скролла */
+  --hdr-h: 56px;
+  --hero-h: 220px;
 }
 
 /* ===== GLOBAL RESET ===== */
-html, body, #root {
-  height: 100%;
+html, body, #root, .app {
+  height: 100dvh;
   width: 100%;
   margin: 0;
-  padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -45,67 +48,70 @@ html, body, #root {
 
 /* ===== APP LAYOUT ===== */
 .app {
-  min-height: 100dvh;
-  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
   background:
     radial-gradient(1200px 600px at 80% -10%, rgba(77,233,206,.12) 0%, rgba(0,0,0,0) 60%),
     radial-gradient(900px 500px at -10% 110%, rgba(76,201,240,.10) 0%, rgba(0,0,0,0) 60%),
     var(--bg);
 }
 
-/* ===== HEADER ===== */
-.header {
+/* ===== FIXED HEADER ===== */
+.tg-header {
   position: sticky; 
-  top: 0;
-  z-index: 10;
-  backdrop-filter: saturate(140%) blur(10px);
-  background: linear-gradient(180deg, rgba(11,15,26,.82) 0%, rgba(11,15,26,.55) 100%);
-  border-bottom: 1px solid var(--stroke);
-  padding: 12px 0;
-  margin-bottom: 16px;
-}
-
-.header__bar {
-  display: flex;
-  align-items: center;
+  top: 0; 
+  z-index: 50;
+  display: flex; 
+  align-items: center; 
   justify-content: space-between;
-  gap: 12px;
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 0 16px;
+  gap: 12px; 
+  padding: 10px 16px;
+  background: rgba(11,15,26,.86);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  backdrop-filter: blur(10px) saturate(140%);
 }
 
-.header__brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
+.hdr-left { 
+  display: flex; 
+  align-items: baseline; 
+  gap: 8px; 
+  min-width: 0; 
 }
 
-.header__logo {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: var(--brand-glow);
+.hdr-caption { 
+  color: #9bb1d1; 
+  font-size: 12px; 
 }
 
-.header__title {
-  color: var(--text);
-  font-weight: 700;
-  font-size: 18px;
-  margin: 0;
-  text-shadow: var(--text-shadow);
+.hdr-phone { 
+  color: #e8eefc; 
+  font-weight: 600; 
+  font-size: 14px; 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }
 
-.header__actions {
-  display: flex;
-  gap: 8px;
-  flex-shrink: 0;
+.hdr-actions { 
+  display: flex; 
+  gap: 10px; 
+}
+
+/* ===== STATIC HERO ===== */
+.hero-wrap {
+  position: sticky; 
+  top: calc(56px + env(safe-area-inset-top));
+  z-index: 40;
+  background: linear-gradient(180deg, rgba(11,15,26,1) 0%, rgba(11,15,26,.85) 100%);
+  padding: 12px 16px 8px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+
+/* ===== SCROLLABLE LIST ===== */
+.scroll-area {
+  height: calc(100dvh - (var(--hdr-h,56px) + var(--hero-h,220px)) - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  overflow-y: auto; 
+  overflow-x: hidden;
+  padding: 12px 16px 20px;
 }
 
 /* ===== CONTAINER ===== */
@@ -124,6 +130,9 @@ html, body, #root {
   box-shadow: var(--shadow);
   transition: var(--transition);
   overflow: hidden;
+  max-width: 680px;
+  margin: 0 auto 12px;
+  padding: 20px;
 }
 
 .card--glow { 
@@ -166,11 +175,11 @@ html, body, #root {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 12px 16px;
+  padding: 10px 16px;
   border-radius: 999px;
-  background: var(--chip);
-  color: var(--text);
-  border: 1px solid var(--stroke);
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.06);
+  color: #e8eefc;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -182,14 +191,14 @@ html, body, #root {
 
 .btn--primary { 
   background: linear-gradient(180deg, #1fd9bd, #19b9a2); 
-  box-shadow: var(--brand-glow); 
-  color: #031314;
+  color: #042a26;
+  box-shadow: 0 0 18px rgba(45,227,195,.35);
   border: none;
 }
 
 .btn--danger { 
   background: linear-gradient(180deg, #ff7b7b, #ff5b5b); 
-  color: #250e10;
+  color: #2b0b0b;
   border: none;
   box-shadow: var(--warn-glow);
 }
@@ -517,4 +526,10 @@ html, body, #root {
   color: var(--muted);
   font-size: 14px;
   margin: 0 0 24px 0;
+}
+
+/* ===== ASSET CARDS ===== */
+.asset-card {
+  max-width: 680px;
+  margin: 0 auto 12px;
 }

@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 62 — Fix API authorization";
+export const MINIAPP_REV = "Правка 63 — Fixed header and scroll layout";

@@ -202,19 +202,19 @@ function PortfolioHero({ account }) {
   if (!account) return null
 
   return (
-    <div className="portfolio-hero card--hero">
+    <div className="card card--glow">
       <div className="portfolio-hero__header">
         <div className="portfolio-hero__icon">
           <IconWallet size={32} color="white" />
         </div>
         <div>
-          <h2 className="portfolio-hero__title">Портфель</h2>
-          <p className="portfolio-hero__subtitle">Ваш инвестиционный профиль</p>
+          <h2 className="card__title">Портфель</h2>
+          <p className="card__meta">Ваш инвестиционный профиль</p>
         </div>
       </div>
       
       <div className="portfolio-hero__stats">
-        <div className="chip chip--brand">
+        <div className="chip chip--ok">
           <IconCoins size={12} />
           {account.currency || 'RUB'}
         </div>
@@ -225,8 +225,8 @@ function PortfolioHero({ account }) {
       
       {account.portfolio_value && (
         <div className="text-center">
-          <p className="portfolio-hero__value-label">Общая стоимость</p>
-          <h3 className="portfolio-hero__value">
+          <p className="card__meta">Общая стоимость</p>
+          <h3 className="card__title" style={{ fontSize: '24px', margin: '8px 0 0 0' }}>
             {new Intl.NumberFormat('ru-RU', {
               style: 'currency',
               currency: account.currency || 'RUB',
@@ -242,14 +242,14 @@ function PortfolioHero({ account }) {
 // Asset Card Component
 function AssetCard({ position, onEdit, onDelete }) {
   return (
-    <div className="asset-card">
+    <div className="card asset-card">
       <div className="asset-card__header">
         <div className="asset-card__icon" style={{ color: getSecurityColor(position.security_type) }}>
           {getSecurityIcon(position.security_type)}
         </div>
         <div className="asset-card__content">
-          <h4 className="asset-card__title">{position.name}</h4>
-          <p className="asset-card__meta">
+          <h4 className="card__title">{position.name}</h4>
+          <p className="card__meta">
             {position.ticker && `${position.ticker} • `}
             {position.security_type}
           </p>
@@ -319,17 +319,17 @@ function AssetList({ account, onEdit, onDelete }) {
   }
 
   return (
-    <div className="scroll-area" style={{ height: '60vh' }}>
-        {account.positions.map((position, index) => (
-            <Transition
+    <div>
+      {account.positions.map((position, index) => (
+        <Transition
           key={position.id}
-              mounted={true}
-              transition="slide-up"
-              duration={300}
-              timingFunction="ease-out"
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              {(styles) => (
+          mounted={true}
+          transition="slide-up"
+          duration={300}
+          timingFunction="ease-out"
+          style={{ transitionDelay: `${index * 50}ms` }}
+        >
+          {(styles) => (
             <div style={styles}>
               <AssetCard
                 position={position}
@@ -337,8 +337,8 @@ function AssetList({ account, onEdit, onDelete }) {
                 onDelete={onDelete}
               />
             </div>
-              )}
-            </Transition>
+          )}
+        </Transition>
       ))}
     </div>
   )
@@ -785,43 +785,34 @@ export default function App() {
 
   // Get the first account (manual portfolio)
   const account = data?.accounts?.[0]
+  const userPhoneMasked = userPhone ? userPhone.replace(/(\+\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5') : ''
 
   return (
     <div className="app">
-      <div className="header">
-        <div className="header__bar">
-          <div className="header__brand">
-            <div className="header__logo">
-              <IconDiamond size={24} color="white" />
-            </div>
-            <div>
-              <h1 className="header__title">Radar портфель</h1>
-              <p className="card__meta">
-                {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
-              </p>
-            </div>
-          </div>
-          
-          <div className="header__actions">
-            <button
-              className="btn btn--primary"
-              onClick={() => setAddOpened(true)}
-            >
-              <IconPlus size={16} />
-              Добавить
-            </button>
-            <button
-              className="btn btn--danger"
-              onClick={handleLogout}
-            >
-              <IconLogout size={16} />
-              Выйти
-            </button>
-          </div>
+      <header className="tg-header">
+        <div className="hdr-left">
+          <div className="hdr-caption">Аккаунт:</div>
+          <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
         </div>
-      </div>
+        <div className="hdr-actions">
+          <button
+            className="btn btn--primary"
+            onClick={() => setAddOpened(true)}
+          >
+            <IconPlus size={16} />
+            Добавить
+          </button>
+          <button
+            className="btn btn--danger"
+            onClick={handleLogout}
+          >
+            <IconLogout size={16} />
+            Выйти
+          </button>
+        </div>
+      </header>
 
-      <div className="container">
+      <section className="hero-wrap">
         {!data ? (
           <div className="card">
             <div className="empty-state">
@@ -835,14 +826,7 @@ export default function App() {
             </div>
           </div>
         ) : account ? (
-          <Stack gap="lg">
-            <PortfolioHero account={account} />
-            <AssetList
-              account={account}
-              onEdit={(pos) => setEditTarget(pos)}
-              onDelete={handleDelete}
-            />
-          </Stack>
+          <PortfolioHero account={account} />
         ) : (
           <div className="card">
             <div className="empty-state">
@@ -863,7 +847,17 @@ export default function App() {
             </div>
           </div>
         )}
-      </div>
+      </section>
+
+      <main className="scroll-area">
+        {data && account && (
+          <AssetList
+            account={account}
+            onEdit={(pos) => setEditTarget(pos)}
+            onDelete={handleDelete}
+          />
+        )}
+      </main>
 
       <AddPositionModal
         opened={addOpened}
