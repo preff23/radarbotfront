@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 65 — Russian securities filter";
+export const MINIAPP_REV = "Правка 66 — Fix add button functionality";

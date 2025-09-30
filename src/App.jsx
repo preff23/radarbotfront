@@ -60,13 +60,31 @@ async function fetchPortfolio(phone) {
 
 async function addPosition(position, phone) {
   try {
-    const response = await fetch(`/api/portfolio/position?phone=${encodeURIComponent(phone)}`, {
+    console.log('=== ADD POSITION API ===')
+    console.log('Position:', position)
+    console.log('Phone:', phone)
+    
+    const url = `/api/portfolio/position?phone=${encodeURIComponent(phone)}`
+    console.log('API URL:', url)
+    
+    const response = await fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(position)
     })
-    if (!response.ok) throw new Error('Failed to add position')
-    return await response.json()
+    
+    console.log('Response status:', response.status)
+    console.log('Response ok:', response.ok)
+    
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('API Error:', errorText)
+      throw new Error(`Failed to add position: ${response.status} ${errorText}`)
+    }
+    
+    const result = await response.json()
+    console.log('API Response:', result)
+    return result
   } catch (error) {
     console.error('Error adding position:', error)
     throw error
@@ -456,8 +474,13 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    console.log('=== FORM SUBMIT ===')
+    console.log('Selected security:', selectedSecurity)
+    console.log('Form data:', formData)
+    console.log('User phone:', userPhone)
     
     if (!selectedSecurity) {
+      console.log('No security selected')
       notifications.show({
         title: 'Ошибка',
         message: 'Выберите ценную бумагу из результатов поиска',
@@ -467,6 +490,7 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
     }
 
     if (!formData.quantity || formData.quantity < 1) {
+      console.log('Invalid quantity:', formData.quantity)
       notifications.show({
         title: 'Ошибка',
         message: 'Введите корректное количество',
@@ -474,6 +498,15 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
       })
       return
     }
+
+    console.log('Calling onSubmit with data:', {
+      name: selectedSecurity.name,
+      ticker: selectedSecurity.ticker,
+      security_type: selectedSecurity.type,
+      quantity: formData.quantity,
+      isin: selectedSecurity.isin,
+      provider: selectedSecurity.provider
+    })
 
     try {
       await onSubmit({
@@ -485,11 +518,13 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
         provider: selectedSecurity.provider
       })
       
+      console.log('Position added successfully')
       setFormData({ search: '', quantity: 1 })
       setSearchResults([])
       setSelectedSecurity(null)
       onClose()
     } catch (error) {
+      console.error('Error adding position:', error)
       notifications.show({
         title: 'Ошибка',
         message: 'Не удалось добавить позицию',
@@ -832,6 +867,10 @@ export default function App() {
   }
 
   const handleAdd = async (position) => {
+    console.log('=== HANDLE ADD ===')
+    console.log('Position data:', position)
+    console.log('User phone:', userPhone)
+    
     try {
       await addPosition(position, userPhone)
       await loadPortfolio()
@@ -841,6 +880,7 @@ export default function App() {
         color: 'green'
       })
     } catch (error) {
+      console.error('Error in handleAdd:', error)
       throw error
     }
   }
