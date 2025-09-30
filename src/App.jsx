@@ -512,12 +512,15 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
 
     try {
       await onSubmit({
+        account_id: 'manual',
+        account_name: 'Портфель',
+        currency: 'RUB',
         name: selectedSecurity.name,
         ticker: selectedSecurity.ticker,
         security_type: selectedSecurity.type,
         quantity: formData.quantity,
-        isin: selectedSecurity.isin,
-        provider: selectedSecurity.provider
+        quantity_unit: 'шт',
+        isin: selectedSecurity.isin
       })
       
       console.log('Position added successfully')
@@ -558,7 +561,6 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
       <form onSubmit={(e) => {
         console.log('=== FORM SUBMIT EVENT ===')
         console.log('Event:', e)
-        alert('Форма отправляется!')
         handleSubmit(e)
       }}>
         <Stack gap="md">
@@ -668,7 +670,6 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
                 console.log('Selected security:', selectedSecurity)
                 console.log('Form data:', formData)
                 console.log('Button disabled:', !selectedSecurity)
-                alert('Кнопка нажата! Проверьте консоль.')
                 // Don't prevent default, let form submit naturally
               }}
             >
@@ -888,8 +889,14 @@ export default function App() {
     console.log('User phone:', userPhone)
     
     try {
-      await addPosition(position, userPhone)
+      console.log('Calling addPosition...')
+      const result = await addPosition(position, userPhone)
+      console.log('addPosition result:', result)
+      
+      console.log('Reloading portfolio...')
       await loadPortfolio()
+      console.log('Portfolio reloaded')
+      
       notifications.show({
         title: 'Успешно',
         message: 'Позиция добавлена',
@@ -897,6 +904,12 @@ export default function App() {
       })
     } catch (error) {
       console.error('Error in handleAdd:', error)
+      console.error('Error details:', error.message)
+      notifications.show({
+        title: 'Ошибка',
+        message: `Не удалось добавить позицию: ${error.message}`,
+        color: 'red'
+      })
       throw error
     }
   }

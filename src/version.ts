@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 68 — Native button + alert debugging";
+export const MINIAPP_REV = "Правка 69 — Fixed API data format";
