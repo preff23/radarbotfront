@@ -526,10 +526,10 @@ function PortfolioTable({ account, onEdit, onDelete }) {
   }
 
   return (
-    <ScrollArea style={{ height: '65vh' }} scrollbarSize={6}>
-      <Grid gutter="md">
+    <ScrollArea style={{ height: '65vh', width: '100%' }} scrollbarSize={6} type="scroll">
+      <Grid gutter="md" style={{ margin: 0, width: '100%' }}>
         {account.positions.map((position, index) => (
-          <Grid.Col key={position.id} span={12}>
+          <Grid.Col key={position.id} span={12} style={{ padding: '8px' }}>
             <Transition
               mounted={true}
               transition="slide-up"
@@ -540,7 +540,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
               {(styles) => (
                 <Card
                   shadow="xl"
-                  padding="lg"
+                  padding="xl"
                   radius="2xl"
                   style={{
                     ...styles,
@@ -550,7 +550,8 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     border: '1px solid rgba(0, 212, 170, 0.2)',
                     position: 'relative',
                     overflow: 'hidden',
-                    backdropFilter: 'blur(20px)'
+                    backdropFilter: 'blur(20px)',
+                    margin: '8px 0'
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.transform = 'translateY(-4px) scale(1.01)'
@@ -577,9 +578,9 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     }}
                   />
                   
-                  <Stack gap="md">
+                  <Stack gap="lg">
                     {/* Верхняя строка: иконка + название + количество */}
-                    <Flex gap="md" align="flex-start">
+                    <Flex gap="lg" align="flex-start">
                       <Box
                         style={{
                           width: '48px',
@@ -601,8 +602,8 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
                         <Text fw={700} size="lg" c="white" style={{ 
                           wordBreak: 'break-word',
-                          lineHeight: 1.2,
-                          maxHeight: '2.4em',
+                          lineHeight: 1.3,
+                          maxHeight: '2.6em',
                           overflow: 'hidden',
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
@@ -640,12 +641,12 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                         </Flex>
                       </Stack>
                       
-                      <Flex gap="xs">
+                      <Flex gap="sm" align="center">
                         <Tooltip label="Редактировать" position="top">
                           <ActionIcon
                             variant="light"
                             color="blue"
-                            size="md"
+                            size="lg"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -656,17 +657,19 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               border: '1px solid rgba(59, 130, 246, 0.4)',
                               boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3), 0 0 8px rgba(59, 130, 246, 0.1)',
                               color: '#3b82f6',
-                              backdropFilter: 'blur(10px)'
+                              backdropFilter: 'blur(10px)',
+                              width: '40px',
+                              height: '40px'
                             }}
                           >
-                            <IconEdit size={16} />
+                            <IconEdit size={18} />
                           </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Удалить" position="top">
                           <ActionIcon
                             variant="light"
                             color="red"
-                            size="md"
+                            size="lg"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -677,17 +680,19 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                               border: '1px solid rgba(255, 107, 107, 0.4)',
                               boxShadow: '0 4px 12px rgba(255, 107, 107, 0.3), 0 0 8px rgba(255, 107, 107, 0.1)',
                               color: '#ff6b6b',
-                              backdropFilter: 'blur(10px)'
+                              backdropFilter: 'blur(10px)',
+                              width: '40px',
+                              height: '40px'
                             }}
                           >
-                            <IconTrash size={16} />
+                            <IconTrash size={18} />
                           </ActionIcon>
                         </Tooltip>
                       </Flex>
                     </Flex>
                     
                     {/* Нижняя строка: бейджи и дополнительная информация */}
-                    <Flex gap="xs" align="center" wrap="wrap">
+                    <Flex gap="sm" align="center" wrap="wrap" style={{ marginTop: '8px' }}>
                       {position.ticker && (
                         <Box
                           style={{
@@ -699,7 +704,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                             backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="sm" fw={700} c="#3b82f6" style={{ 
+                          <Text size="sm" fw={700} c="white" style={{ 
                             letterSpacing: '0.01em',
                             textShadow: '0 1px 2px rgba(0,0,0,0.5)'
                           }}>
@@ -718,7 +723,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                             backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="sm" fw={700} c={getSecurityColor(position.security_type)} style={{ 
+                          <Text size="sm" fw={700} c="white" style={{ 
                             letterSpacing: '0.01em',
                             textShadow: '0 1px 2px rgba(0,0,0,0.5)'
                           }}>
@@ -739,7 +744,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                         >
                           <Flex gap="xs" align="center">
                             <IconStar size={12} color="#fb923c" />
-                            <Text size="sm" fw={700} c="#fb923c" style={{ 
+                            <Text size="sm" fw={700} c="white" style={{ 
                               letterSpacing: '0.01em',
                               textShadow: '0 1px 2px rgba(0,0,0,0.5)'
                             }}>
@@ -759,7 +764,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                             backdropFilter: 'blur(10px)'
                           }}
                         >
-                          <Text size="sm" fw={600} c="#6b7280" style={{ 
+                          <Text size="sm" fw={600} c="rgba(255,255,255,0.8)" style={{ 
                             letterSpacing: '0.01em',
                             textShadow: '0 1px 2px rgba(0,0,0,0.5)'
                           }}>
@@ -1253,12 +1258,13 @@ export default function App() {
   return (
     <Stack style={{ minHeight: '100vh' }}>
       <AppShell
-        padding="md"
-        header={{ height: 80 }}
+        padding={0}
+        header={{ height: 80, offset: false }}
         styles={{ 
           main: { 
             background: 'linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%)',
-            minHeight: '100vh'
+            minHeight: '100vh',
+            paddingTop: '80px'
           } 
         }}
       >
@@ -1298,8 +1304,8 @@ export default function App() {
             }}
           />
           
-          <Container size="xl" h="100%" px="lg" py="lg" style={{ position: 'relative', zIndex: 1 }}>
-            <Flex justify="space-between" align="center" h="100%" wrap="wrap" gap="sm">
+          <Container size="xl" h="100%" px="md" py="md" style={{ position: 'relative', zIndex: 1, maxWidth: '100%' }}>
+            <Flex justify="space-between" align="center" h="100%" wrap="nowrap" gap="md">
               {/* Левая часть - брендинг */}
               <Flex align="center" gap="md" style={{ minWidth: 0, flex: 1 }}>
                 <Box
@@ -1344,11 +1350,11 @@ export default function App() {
               </Flex>
               
               {/* Правая часть - кнопки */}
-              <Flex gap="sm" align="center" wrap="nowrap">
+              <Flex gap="md" align="center" wrap="nowrap" style={{ flexShrink: 0 }}>
                 <Button
                   variant="filled"
-                  size="md"
-                  leftSection={<IconPlus size={18} />}
+                  size="sm"
+                  leftSection={<IconPlus size={16} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
@@ -1356,13 +1362,11 @@ export default function App() {
                     border: '1px solid rgba(0, 212, 170, 0.4)',
                     color: '#00d4aa',
                     fontWeight: '700',
-                    fontSize: '14px',
-                    height: '44px',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                    boxShadow: '0 8px 24px rgba(0, 212, 170, 0.3), 0 0 20px rgba(0, 212, 170, 0.1)',
+                    fontSize: '13px',
+                    height: '40px',
+                    minWidth: '100px',
+                    boxShadow: '0 6px 20px rgba(0, 212, 170, 0.3), 0 0 15px rgba(0, 212, 170, 0.1)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    flexShrink: 0,
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
@@ -1380,8 +1384,8 @@ export default function App() {
                 </Button>
                 <Button
                   variant="filled"
-                  size="md"
-                  leftSection={<IconLogout size={18} />}
+                  size="sm"
+                  leftSection={<IconLogout size={16} />}
                   onClick={handleLogout}
                   radius="xl"
                   style={{
@@ -1389,13 +1393,11 @@ export default function App() {
                     border: '1px solid rgba(255, 107, 107, 0.4)',
                     color: '#ff6b6b',
                     fontWeight: '700',
-                    fontSize: '14px',
-                    height: '44px',
-                    paddingLeft: '20px',
-                    paddingRight: '20px',
-                    boxShadow: '0 8px 24px rgba(255, 107, 107, 0.3), 0 0 20px rgba(255, 107, 107, 0.1)',
+                    fontSize: '13px',
+                    height: '40px',
+                    minWidth: '100px',
+                    boxShadow: '0 6px 20px rgba(255, 107, 107, 0.3), 0 0 15px rgba(255, 107, 107, 0.1)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    flexShrink: 0,
                     backdropFilter: 'blur(10px)'
                   }}
                   onMouseEnter={(e) => {
@@ -1417,7 +1419,7 @@ export default function App() {
         </AppShell.Header>
         <AppShell.Main>
           <Notifications position="top-center" />
-          <Container size="xl" px="lg" py="lg">
+          <Container size="xl" px="md" py="lg" style={{ maxWidth: '100%', overflow: 'hidden' }}>
             {loading && (
               <Center py="xl">
                 <Stack align="center" gap="md">
