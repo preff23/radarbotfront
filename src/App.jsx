@@ -1216,7 +1216,7 @@ export default function App() {
     <Stack style={{ minHeight: '100vh' }}>
       <AppShell
         padding="md"
-        header={{ height: 60 }}
+        header={{ height: 80 }}
         styles={{ 
           main: { 
             background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
@@ -1258,30 +1258,30 @@ export default function App() {
             }}
           />
           
-          <Container size="xl" h="100%" px="md" py="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Container size="xl" h="100%" px="lg" py="lg" style={{ position: 'relative', zIndex: 1 }}>
             <Flex justify="space-between" align="center" h="100%" wrap="wrap" gap="sm">
               {/* Левая часть - брендинг */}
               <Flex align="center" gap="md" style={{ minWidth: 0, flex: 1 }}>
                 <Box
                   style={{
-                    width: '48px',
-                    height: '48px',
+                    width: '56px',
+                    height: '56px',
                     background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
-                    borderRadius: '16px',
+                    borderRadius: '18px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+                    boxShadow: '0 6px 20px rgba(0,0,0,0.3)',
                     flexShrink: 0
                   }}
                 >
-                  <IconDiamond size={24} color="white" />
+                  <IconDiamond size={28} color="white" />
                 </Box>
                 <Stack gap="xs" style={{ minWidth: 0, flex: 1 }}>
                   <Text 
-                    size="lg" 
+                    size="xl" 
                     fw={900} 
                     c="white" 
                     style={{ 
@@ -1293,7 +1293,7 @@ export default function App() {
                     Radar портфель
                   </Text>
                   <Text 
-                    size="xs" 
+                    size="sm" 
                     c="rgba(255,255,255,0.7)" 
                     fw={500}
                     style={{ letterSpacing: '0.01em' }}
@@ -1307,8 +1307,8 @@ export default function App() {
               <Flex gap="sm" align="center" wrap="nowrap">
                 <Button
                   variant="filled"
-                  size="sm"
-                  leftSection={<IconPlus size={16} />}
+                  size="md"
+                  leftSection={<IconPlus size={18} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
@@ -1316,11 +1316,11 @@ export default function App() {
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    fontSize: '13px',
-                    height: '40px',
-                    paddingLeft: '16px',
-                    paddingRight: '16px',
-                    boxShadow: '0 4px 12px rgba(0, 212, 170, 0.4)',
+                    fontSize: '14px',
+                    height: '44px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    boxShadow: '0 6px 16px rgba(0, 212, 170, 0.4)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     flexShrink: 0
                   }}
@@ -1339,8 +1339,8 @@ export default function App() {
                 </Button>
                 <Button
                   variant="filled"
-                  size="sm"
-                  leftSection={<IconLogout size={16} />}
+                  size="md"
+                  leftSection={<IconLogout size={18} />}
                   onClick={handleLogout}
                   radius="xl"
                   style={{
@@ -1348,11 +1348,11 @@ export default function App() {
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    fontSize: '13px',
-                    height: '40px',
-                    paddingLeft: '16px',
-                    paddingRight: '16px',
-                    boxShadow: '0 4px 12px rgba(255, 107, 107, 0.4)',
+                    fontSize: '14px',
+                    height: '44px',
+                    paddingLeft: '20px',
+                    paddingRight: '20px',
+                    boxShadow: '0 6px 16px rgba(255, 107, 107, 0.4)',
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     flexShrink: 0
                   }}
@@ -1375,7 +1375,7 @@ export default function App() {
         </AppShell.Header>
         <AppShell.Main>
           <Notifications position="top-center" />
-          <Container size="xl" px="md" py="md">
+          <Container size="xl" px="lg" py="lg">
             {loading && (
               <Center py="xl">
                 <Stack align="center" gap="md">
@@ -1396,7 +1396,7 @@ export default function App() {
               </Alert>
             )}
             {!loading && !error && data && (
-              <Stack gap="lg">
+              <Stack gap="xl">
                 <AccountTabs
                   accounts={accounts}
                   active={activeAccount}
@@ -1406,7 +1406,7 @@ export default function App() {
                   <Stack gap="md">
                     <Card 
                       shadow="xl" 
-                      padding="lg" 
+                      padding="xl" 
                       radius="2xl"
                       style={{
                         background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%)',
@@ -1441,53 +1441,53 @@ export default function App() {
                         }}
                       />
                       
-                      <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
-                        <Flex align="center" gap="md">
+                      <Stack gap="xl" style={{ position: 'relative', zIndex: 1 }}>
+                        <Flex align="center" gap="lg">
                           <Box
                             style={{
-                              width: '56px',
-                              height: '56px',
+                              width: '64px',
+                              height: '64px',
                               background: 'linear-gradient(135deg, rgba(0,212,170,0.2) 0%, rgba(0,160,133,0.1) 100%)',
-                              borderRadius: '16px',
+                              borderRadius: '18px',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
                               backdropFilter: 'blur(20px)',
                               border: '1px solid rgba(0,212,170,0.3)',
-                              boxShadow: '0 8px 24px rgba(0,212,170,0.2)',
+                              boxShadow: '0 10px 30px rgba(0,212,170,0.2)',
                               flexShrink: 0
                             }}
                           >
-                            <IconWallet size={28} color="white" />
+                            <IconWallet size={32} color="white" />
                           </Box>
-                          <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-                            <Text size="xl" fw={900} c="white" style={{ 
+                          <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
+                            <Text size="2xl" fw={900} c="white" style={{ 
                               letterSpacing: '-0.01em',
                               textShadow: '0 2px 8px rgba(0,0,0,0.5)',
                               lineHeight: 1.1
                             }}>
                               Портфель
                             </Text>
-                            <Text size="sm" c="rgba(255,255,255,0.8)" fw={500} style={{ 
+                            <Text size="md" c="rgba(255,255,255,0.8)" fw={500} style={{ 
                               letterSpacing: '0.01em',
-                              lineHeight: 1.3
+                              lineHeight: 1.4
                             }}>
                               Ваш инвестиционный профиль
                             </Text>
                           </Stack>
                         </Flex>
                         
-                        <Flex gap="sm" wrap="wrap" align="center">
+                        <Flex gap="md" wrap="wrap" align="center">
                           <Box
                             style={{
                               background: 'rgba(0,212,170,0.15)',
                               border: '1px solid rgba(0,212,170,0.3)',
-                              borderRadius: '12px',
-                              padding: '6px 12px',
+                              borderRadius: '14px',
+                              padding: '8px 16px',
                               backdropFilter: 'blur(10px)'
                             }}
                           >
-                            <Text size="xs" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
+                            <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
                               {currentAccount.currency || 'RUB'}
                             </Text>
                           </Box>
@@ -1495,33 +1495,33 @@ export default function App() {
                             style={{
                               background: 'rgba(255,107,107,0.15)',
                               border: '1px solid rgba(255,107,107,0.3)',
-                              borderRadius: '12px',
-                              padding: '6px 12px',
+                              borderRadius: '14px',
+                              padding: '8px 16px',
                               backdropFilter: 'blur(10px)'
                             }}
                           >
-                            <Text size="xs" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
+                            <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
                               {currentAccount.positions.length} бумаг
                             </Text>
                           </Box>
                         </Flex>
                         
                         {currentAccount.portfolio_value && (
-                          <Stack gap="xs" align="center">
-                            <Text size="xs" c="rgba(255,255,255,0.7)" fw={600} style={{ 
+                          <Stack gap="md" align="center">
+                            <Text size="sm" c="rgba(255,255,255,0.7)" fw={600} style={{ 
                               letterSpacing: '0.01em',
                               textTransform: 'uppercase'
                             }}>
                               Общая стоимость
                             </Text>
-                            <Text fw={900} size="2xl" c="white" style={{ 
-                              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+                            <Text fw={900} size="3xl" c="white" style={{ 
+                              textShadow: '0 4px 12px rgba(0,0,0,0.6)',
                               letterSpacing: '-0.01em',
                               lineHeight: 1
                             }}>
                               {currentAccount.portfolio_value.toLocaleString()} ₽
                             </Text>
-                            <Text size="xs" c="rgba(255,255,255,0.6)" fw={500} style={{ 
+                            <Text size="sm" c="rgba(255,255,255,0.6)" fw={500} style={{ 
                               letterSpacing: '0.01em',
                               textTransform: 'uppercase'
                             }}>
