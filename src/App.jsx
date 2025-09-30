@@ -384,7 +384,15 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
                   <div className="details-row">
                     <span className="details-label">Текущая:</span>
                     <span className="details-value">
-                      {details.price.last ? `${details.price.last.toFixed(2)} ${details.price.currency || 'RUB'}` : 'Н/Д'}
+                      {details.price.last ? (() => {
+                        // Для облигаций показываем цену в рублях, для акций - как есть
+                        if (details.security_type === 'bond' && details.bond_info?.face_value) {
+                          const priceInRubles = (details.price.last / 100) * details.bond_info.face_value;
+                          return `${priceInRubles.toFixed(2)} ${details.price.currency || 'RUB'}`;
+                        } else {
+                          return `${details.price.last.toFixed(2)} ${details.price.currency || 'RUB'}`;
+                        }
+                      })() : 'Н/Д'}
                     </span>
                   </div>
                   {details.price.change_day_pct && (
@@ -392,6 +400,15 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
                       <span className="details-label">Изменение:</span>
                       <span className={`details-value ${details.price.change_day_pct >= 0 ? 'positive' : 'negative'}`}>
                         {details.price.change_day_pct >= 0 ? '+' : ''}{details.price.change_day_pct.toFixed(2)}%
+                      </span>
+                    </div>
+                  )}
+                  {/* Для облигаций показываем также цену в процентах от номинала */}
+                  {details.security_type === 'bond' && details.price.last && (
+                    <div className="details-row">
+                      <span className="details-label">% от номинала:</span>
+                      <span className="details-value">
+                        {details.price.last.toFixed(2)}%
                       </span>
                     </div>
                   )}
@@ -418,6 +435,15 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
                     <div className="details-row">
                       <span className="details-label">Номинал:</span>
                       <span className="details-value">{details.bond_info.face_value.toFixed(2)} {details.price?.currency || 'RUB'}</span>
+                    </div>
+                  )}
+                  {/* Показываем цену в процентах от номинала для облигаций */}
+                  {details.price?.last && (
+                    <div className="details-row">
+                      <span className="details-label">Цена:</span>
+                      <span className="details-value">
+                        {details.price.last.toFixed(2)}%
+                      </span>
                     </div>
                   )}
                   {details.bond_info.coupon_rate && (

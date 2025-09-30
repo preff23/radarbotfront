@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 72 — Added detailed security information";
+export const MINIAPP_REV = "Правка 73 — Fixed price display for bonds";
