@@ -540,24 +540,26 @@ function PortfolioTable({ account, onEdit, onDelete }) {
               {(styles) => (
                 <Card
                   shadow="xl"
-                  padding="lg"
-                  radius="xl"
+                  padding="xl"
+                  radius="2xl"
                   style={{
                     ...styles,
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer',
                     background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                    border: '1px solid rgba(0,0,0,0.05)',
+                    border: '1px solid rgba(0,0,0,0.06)',
                     position: 'relative',
                     overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-4px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.1)'
+                    e.currentTarget.style.transform = 'translateY(-6px) scale(1.01)'
+                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(0, 0, 0, 0.12)'
+                    e.currentTarget.style.borderColor = 'rgba(0,212,170,0.2)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)'
                   }}
                 >
                   {/* Декоративная полоса сверху */}
@@ -567,121 +569,180 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '4px',
-                      background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
-                      borderRadius: '12px 12px 0 0'
+                      height: '6px',
+                      background: `linear-gradient(90deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
+                      borderRadius: '16px 16px 0 0'
                     }}
                   />
                   
-                  <Stack gap="md">
+                  <Stack gap="lg">
                     {/* Верхняя строка: иконка + название + количество */}
-                    <Group gap="md" align="flex-start">
-                      <ThemeIcon 
-                        size="lg" 
-                        radius="xl" 
-                        variant="light" 
-                        color={getSecurityColor(position.security_type)}
-                        style={{ 
+                    <Flex gap="lg" align="flex-start">
+                      <Box
+                        style={{
+                          width: '56px',
+                          height: '56px',
                           background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                          color: 'white',
+                          borderRadius: '16px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: `0 8px 24px ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
                           flexShrink: 0
                         }}
                       >
                         {getSecurityIcon(position.security_type)}
-                      </ThemeIcon>
+                      </Box>
                       
-                      <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-                        <Text fw={700} size="lg" c="dark" style={{ 
+                      <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
+                        <Text fw={800} size="xl" c="dark" style={{ 
                           wordBreak: 'break-word',
                           lineHeight: 1.2,
                           maxHeight: '2.4em',
                           overflow: 'hidden',
                           display: '-webkit-box',
                           WebkitLineClamp: 2,
-                          WebkitBoxOrient: 'vertical'
+                          WebkitBoxOrient: 'vertical',
+                          letterSpacing: '-0.01em'
                         }}>
                           {position.name}
                         </Text>
                         
-                        <Group gap="xs" align="center">
-                          <ThemeIcon size="sm" variant="light" color="teal">
-                            <IconCoins size={14} />
-                          </ThemeIcon>
-                          <Text fw={600} size="md" c="teal">
-                            {position.quantity || 0} {position.quantity_unit || 'шт'}
-                          </Text>
-                        </Group>
+                        <Flex gap="md" align="center" wrap="wrap">
+                          <Flex gap="xs" align="center">
+                            <Box
+                              style={{
+                                width: '20px',
+                                height: '20px',
+                                background: 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)',
+                                borderRadius: '6px',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              <IconCoins size={12} color="white" />
+                            </Box>
+                            <Text fw={700} size="lg" c="teal" style={{ letterSpacing: '-0.01em' }}>
+                              {position.quantity || 0} {position.quantity_unit || 'шт'}
+                            </Text>
+                          </Flex>
+                        </Flex>
                       </Stack>
                       
-                      <Group gap="xs">
+                      <Flex gap="xs">
                         <Tooltip label="Редактировать" position="top">
                           <ActionIcon
                             variant="light"
                             color="blue"
-                            size="md"
+                            size="lg"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
                               onEdit(position)
                             }}
                             style={{ 
-                              background: 'rgba(102, 126, 234, 0.1)',
-                              border: '1px solid rgba(102, 126, 234, 0.2)'
+                              background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
+                              border: '1px solid rgba(59, 130, 246, 0.2)',
+                              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.2)'
                             }}
                           >
-                            <IconEdit size={18} />
+                            <IconEdit size={20} />
                           </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Удалить" position="top">
                           <ActionIcon
                             variant="light"
                             color="red"
-                            size="md"
+                            size="lg"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
                               onDelete(position)
                             }}
                             style={{ 
-                              background: 'rgba(255, 99, 99, 0.1)',
-                              border: '1px solid rgba(255, 99, 99, 0.2)'
+                              background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)',
+                              border: '1px solid rgba(239, 68, 68, 0.2)',
+                              boxShadow: '0 4px 12px rgba(239, 68, 68, 0.2)'
                             }}
                           >
-                            <IconTrash size={18} />
+                            <IconTrash size={20} />
                           </ActionIcon>
                         </Tooltip>
-                      </Group>
-                    </Group>
+                      </Flex>
+                    </Flex>
                     
                     {/* Нижняя строка: бейджи и дополнительная информация */}
-                    <Group gap="sm" align="center" wrap="wrap">
+                    <Flex gap="sm" align="center" wrap="wrap">
                       {position.ticker && (
-                        <Badge size="sm" variant="light" color="blue" radius="md">
-                          {position.ticker}
-                        </Badge>
+                        <Box
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
+                            border: '1px solid rgba(59, 130, 246, 0.2)',
+                            borderRadius: '12px',
+                            padding: '6px 12px'
+                          }}
+                        >
+                          <Text size="sm" fw={700} c="blue" style={{ letterSpacing: '0.01em' }}>
+                            {position.ticker}
+                          </Text>
+                        </Box>
                       )}
                       {position.security_type && (
-                        <Badge size="sm" variant="light" color={getSecurityColor(position.security_type)} radius="md">
-                          {position.security_type}
-                        </Badge>
+                        <Box
+                          style={{
+                            background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][1]} 0%, ${theme.colors[getSecurityColor(position.security_type)][2]} 100%)`,
+                            border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][3]}`,
+                            borderRadius: '12px',
+                            padding: '6px 12px'
+                          }}
+                        >
+                          <Text size="sm" fw={700} c={getSecurityColor(position.security_type)} style={{ letterSpacing: '0.01em' }}>
+                            {position.security_type}
+                          </Text>
+                        </Box>
                       )}
                       {position.fallback && (
-                        <Badge size="sm" variant="light" color="orange" radius="md">
-                          <IconStar size={12} style={{ marginRight: 4 }} />
-                          Fallback
-                        </Badge>
+                        <Box
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 101, 101, 0.1) 100%)',
+                            border: '1px solid rgba(251, 146, 60, 0.2)',
+                            borderRadius: '12px',
+                            padding: '6px 12px'
+                          }}
+                        >
+                          <Flex gap="xs" align="center">
+                            <IconStar size={12} color="orange" />
+                            <Text size="sm" fw={700} c="orange" style={{ letterSpacing: '0.01em' }}>
+                              Fallback
+                            </Text>
+                          </Flex>
+                        </Box>
                       )}
                       {position.provider && (
-                        <Badge size="xs" variant="light" color="gray" radius="md">
-                          {position.provider}
-                        </Badge>
+                        <Box
+                          style={{
+                            background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.1) 0%, rgba(75, 85, 99, 0.1) 100%)',
+                            border: '1px solid rgba(107, 114, 128, 0.2)',
+                            borderRadius: '12px',
+                            padding: '6px 12px'
+                          }}
+                        >
+                          <Text size="xs" fw={600} c="gray" style={{ letterSpacing: '0.01em' }}>
+                            {position.provider}
+                          </Text>
+                        </Box>
                       )}
                       {position.isin && (
-                        <Text size="xs" c="dimmed" style={{ fontFamily: 'monospace', opacity: 0.7 }}>
+                        <Text size="xs" c="dimmed" style={{ 
+                          fontFamily: 'monospace', 
+                          opacity: 0.8,
+                          letterSpacing: '0.02em'
+                        }}>
                           {position.isin}
                         </Text>
                       )}
-                    </Group>
+                    </Flex>
                   </Stack>
                 </Card>
               )}
@@ -1158,107 +1219,160 @@ export default function App() {
         header={{ height: 80 }}
         styles={{ 
           main: { 
-            background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+            background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
             minHeight: '100vh'
           } 
         }}
       >
         <AppShell.Header
           style={{
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%)',
             borderBottom: 'none',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.12)',
-            backdropFilter: 'blur(10px)',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
+            backdropFilter: 'blur(20px)',
+            position: 'relative',
+            overflow: 'hidden'
           }}
         >
-          <Container size="xl" h="100%">
-            <Group justify="space-between" align="center" h="100%">
-              <Group gap="md">
-                <ThemeIcon 
-                  size="xl" 
-                  radius="xl" 
-                variant="light"
-                  color="white"
-                  style={{ 
-                    background: 'rgba(255,255,255,0.2)',
-                    backdropFilter: 'blur(10px)'
+          {/* Декоративные элементы */}
+          <Box
+            style={{
+              position: 'absolute',
+              top: '-80px',
+              right: '-80px',
+              width: '160px',
+              height: '160px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%)',
+              borderRadius: '50%'
+            }}
+          />
+          <Box
+            style={{
+              position: 'absolute',
+              bottom: '-40px',
+              left: '-40px',
+              width: '80px',
+              height: '80px',
+              background: 'radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%)',
+              borderRadius: '50%'
+            }}
+          />
+          
+          <Container size="xl" h="100%" px="xl" py="xl" style={{ position: 'relative', zIndex: 1 }}>
+            <Flex justify="space-between" align="center" h="100%">
+              {/* Левая часть - брендинг */}
+              <Flex align="center" gap="lg">
+                <Box
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
+                    borderRadius: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
                   }}
                 >
-                  <IconDiamond size={24} />
-                </ThemeIcon>
-                <Stack gap={2}>
-                  <Text size="xl" fw={800} c="white" style={{ letterSpacing: '0.5px' }}>
+                  <IconDiamond size={32} color="white" />
+                </Box>
+                <Stack gap="xs">
+                  <Text 
+                    size="2xl" 
+                    fw={900} 
+                    c="white" 
+                    style={{ 
+                      letterSpacing: '-0.02em',
+                      textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                      lineHeight: 1.1
+                    }}
+                  >
                     Radar портфель
                   </Text>
-                  <Text size="xs" c="rgba(255,255,255,0.7)" style={{ letterSpacing: '0.3px' }}>
+                  <Text 
+                    size="sm" 
+                    c="rgba(255,255,255,0.7)" 
+                    fw={500}
+                    style={{ letterSpacing: '0.01em' }}
+                  >
                     {data?.user ? `Аккаунт: ${data.user.phone || data.user.telegram_id || 'не определен'}` : 'Загрузка...'}
                   </Text>
                 </Stack>
-              </Group>
-              <Group gap="md">
+              </Flex>
+              
+              {/* Правая часть - кнопки */}
+              <Flex gap="md" align="center">
                 <Button
                   variant="filled"
-                  color="green"
-                  size="md"
-                  leftSection={<IconPlus size={18} />}
+                  size="lg"
+                  leftSection={<IconPlus size={20} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
-                    background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                    background: 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)',
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    boxShadow: '0 4px 12px rgba(16, 185, 129, 0.3)',
-                    transition: 'all 0.3s ease'
+                    fontSize: '15px',
+                    height: '52px',
+                    paddingLeft: '28px',
+                    paddingRight: '28px',
+                    boxShadow: '0 8px 24px rgba(0, 212, 170, 0.4)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #059669 0%, #047857 100%)'
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(16, 185, 129, 0.4)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #00a085 0%, #007a6b 100%)'
+                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 212, 170, 0.5)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(16, 185, 129, 0.3)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)'
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 212, 170, 0.4)'
                   }}
                 >
                   Добавить
                 </Button>
                 <Button
                   variant="filled"
-                  color="red"
-                  size="md"
-                  leftSection={<IconLogout size={18} />}
+                  size="lg"
+                  leftSection={<IconLogout size={20} />}
                   onClick={handleLogout}
                   radius="xl"
                   style={{
-                    background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)',
+                    background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)',
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    boxShadow: '0 4px 12px rgba(239, 68, 68, 0.3)',
-                    transition: 'all 0.3s ease'
+                    fontSize: '15px',
+                    height: '52px',
+                    paddingLeft: '28px',
+                    paddingRight: '28px',
+                    boxShadow: '0 8px 24px rgba(255, 107, 107, 0.4)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #dc2626 0%, #b91c1c 100%)'
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 6px 20px rgba(239, 68, 68, 0.4)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #ee5a52 0%, #e74c3c 100%)'
+                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(255, 107, 107, 0.5)'
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(239, 68, 68, 0.3)'
+                    e.currentTarget.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)'
+                    e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 107, 107, 0.4)'
                   }}
                 >
                   Выйти
                 </Button>
-              </Group>
-          </Group>
+              </Flex>
+            </Flex>
           </Container>
         </AppShell.Header>
         <AppShell.Main>
           <Notifications position="top-center" />
-          <Container size="xl" px="md" py="lg">
+          <Container size="xl" px="xl" py="xl">
             {loading && (
               <Center py="xl">
                 <Stack align="center" gap="md">
@@ -1279,7 +1393,7 @@ export default function App() {
               </Alert>
             )}
             {!loading && !error && data && (
-              <Stack gap="xl">
+              <Stack gap="2xl">
                 <AccountTabs
                   accounts={accounts}
                   active={activeAccount}
@@ -1290,117 +1404,140 @@ export default function App() {
                     <Card 
                       shadow="xl" 
                       padding="xl" 
-                      radius="2xl"
+                      radius="3xl"
                       style={{
-                        background: 'linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%)',
-                        border: '2px solid rgba(255,255,255,0.1)',
+                        background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%)',
+                        border: '1px solid rgba(255,255,255,0.08)',
                         color: 'white',
                         position: 'relative',
-                        overflow: 'hidden'
+                        overflow: 'hidden',
+                        backdropFilter: 'blur(20px)'
                       }}
                     >
                       {/* Декоративные элементы */}
                       <Box
                         style={{
                           position: 'absolute',
-                          top: '-50px',
-                          right: '-50px',
-                          width: '100px',
-                          height: '100px',
-                          background: 'radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%)',
+                          top: '-60px',
+                          right: '-60px',
+                          width: '120px',
+                          height: '120px',
+                          background: 'radial-gradient(circle, rgba(0,212,170,0.15) 0%, transparent 70%)',
                           borderRadius: '50%'
                         }}
                       />
                       <Box
                         style={{
                           position: 'absolute',
-                          bottom: '-30px',
-                          left: '-30px',
-                          width: '60px',
-                          height: '60px',
-                          background: 'radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%)',
+                          bottom: '-40px',
+                          left: '-40px',
+                          width: '80px',
+                          height: '80px',
+                          background: 'radial-gradient(circle, rgba(255,107,107,0.1) 0%, transparent 70%)',
                           borderRadius: '50%'
                         }}
                       />
+                      <Box
+                        style={{
+                          position: 'absolute',
+                          top: '50%',
+                          right: '20px',
+                          width: '4px',
+                          height: '60px',
+                          background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
+                          borderRadius: '2px'
+                        }}
+                      />
                       
-                      <Group justify="space-between" align="flex-start" style={{ position: 'relative', zIndex: 1 }}>
-                        <Group gap="lg">
-                          <ThemeIcon 
-                            size="xl" 
-                            radius="xl" 
-                            variant="light" 
-                            color="white"
-                            style={{ 
-                              background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)',
+                      <Flex justify="space-between" align="flex-start" style={{ position: 'relative', zIndex: 1 }}>
+                        <Flex align="flex-start" gap="xl">
+                          <Box
+                            style={{
+                              width: '80px',
+                              height: '80px',
+                              background: 'linear-gradient(135deg, rgba(0,212,170,0.2) 0%, rgba(0,160,133,0.1) 100%)',
+                              borderRadius: '24px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
                               backdropFilter: 'blur(20px)',
-                              border: '1px solid rgba(255,255,255,0.2)',
-                              boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+                              border: '1px solid rgba(0,212,170,0.3)',
+                              boxShadow: '0 12px 40px rgba(0,212,170,0.2)',
+                              flexShrink: 0
                             }}
                           >
-                            <IconWallet size={28} />
-                          </ThemeIcon>
-                          <Stack gap="md">
+                            <IconWallet size={36} color="white" />
+                          </Box>
+                          <Stack gap="lg">
                             <Stack gap="xs">
-                              <Text size="2xl" fw={900} c="white" style={{ letterSpacing: '0.5px' }}>
+                              <Text size="3xl" fw={900} c="white" style={{ 
+                                letterSpacing: '-0.02em',
+                                textShadow: '0 4px 12px rgba(0,0,0,0.5)',
+                                lineHeight: 1.1
+                              }}>
                                 Портфель
                               </Text>
-                              <Text size="sm" c="rgba(255,255,255,0.7)" style={{ letterSpacing: '0.3px' }}>
+                              <Text size="md" c="rgba(255,255,255,0.8)" fw={500} style={{ 
+                                letterSpacing: '0.01em',
+                                lineHeight: 1.4
+                              }}>
                                 Ваш инвестиционный профиль
                               </Text>
                             </Stack>
-                            <Group gap="sm">
-                              <Badge
-                                variant="light"
-                                color="white"
-                                size="lg"
-                                radius="xl"
-                                style={{ 
-                                  background: 'rgba(255,255,255,0.15)',
-                                  color: 'white',
-                                  fontSize: '13px',
-                                  fontWeight: '600',
-                                  border: '1px solid rgba(255,255,255,0.2)',
+                            <Flex gap="md" wrap="wrap">
+                              <Box
+                                style={{
+                                  background: 'rgba(0,212,170,0.15)',
+                                  border: '1px solid rgba(0,212,170,0.3)',
+                                  borderRadius: '16px',
+                                  padding: '8px 16px',
                                   backdropFilter: 'blur(10px)'
                                 }}
                               >
-                                {currentAccount.currency || 'RUB'}
-                              </Badge>
-                              <Badge
-                                variant="light"
-                                color="white"
-                                size="lg"
-                                radius="xl"
-                                style={{ 
-                                  background: 'rgba(255,255,255,0.15)',
-                                  color: 'white',
-                                  fontSize: '13px',
-                                  fontWeight: '600',
-                                  border: '1px solid rgba(255,255,255,0.2)',
+                                <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.02em' }}>
+                                  {currentAccount.currency || 'RUB'}
+                                </Text>
+                              </Box>
+                              <Box
+                                style={{
+                                  background: 'rgba(255,107,107,0.15)',
+                                  border: '1px solid rgba(255,107,107,0.3)',
+                                  borderRadius: '16px',
+                                  padding: '8px 16px',
                                   backdropFilter: 'blur(10px)'
                                 }}
                               >
-                                {currentAccount.positions.length} бумаг
-                              </Badge>
-                            </Group>
+                                <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.02em' }}>
+                                  {currentAccount.positions.length} бумаг
+                                </Text>
+                              </Box>
+                            </Flex>
                           </Stack>
-                        </Group>
+                        </Flex>
                         {currentAccount.portfolio_value && (
-                          <Stack gap="xs" align="flex-end" style={{ minWidth: '200px' }}>
-                            <Text size="sm" c="rgba(255,255,255,0.8)" fw={500} style={{ letterSpacing: '0.3px' }}>
+                          <Stack gap="md" align="flex-end" style={{ minWidth: '240px' }}>
+                            <Text size="sm" c="rgba(255,255,255,0.7)" fw={600} style={{ 
+                              letterSpacing: '0.02em',
+                              textTransform: 'uppercase'
+                            }}>
                               Общая стоимость
                             </Text>
-                            <Text fw={900} size="2xl" c="white" style={{ 
-                              textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                              letterSpacing: '0.5px'
+                            <Text fw={900} size="3xl" c="white" style={{ 
+                              textShadow: '0 4px 16px rgba(0,0,0,0.6)',
+                              letterSpacing: '-0.01em',
+                              lineHeight: 1
                             }}>
                               {currentAccount.portfolio_value.toLocaleString()} ₽
                             </Text>
-                            <Text size="xs" c="rgba(255,255,255,0.6)" style={{ letterSpacing: '0.2px' }}>
+                            <Text size="xs" c="rgba(255,255,255,0.6)" fw={500} style={{ 
+                              letterSpacing: '0.01em',
+                              textTransform: 'uppercase'
+                            }}>
                               Текущая оценка
                             </Text>
                           </Stack>
                         )}
-                      </Group>
+                      </Flex>
                     </Card>
                     <PortfolioTable
                       account={currentAccount}

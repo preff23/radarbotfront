@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 52 — Улучшенный дизайн";
+export const MINIAPP_REV = "Правка 53 — Премиум дизайн 10/10";
