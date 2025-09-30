@@ -589,7 +589,15 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           {getSecurityIcon(position.security_type)}
                         </ThemeIcon>
                         <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
-                          <Text fw={700} size="lg" c="dark" truncate>
+                          <Text fw={700} size="md" c="dark" style={{ 
+                            wordBreak: 'break-word',
+                            lineHeight: 1.3,
+                            maxHeight: '2.6em',
+                            overflow: 'hidden',
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2,
+                            WebkitBoxOrient: 'vertical'
+                          }}>
                             {position.name}
                           </Text>
                           <Group gap="xs" align="center">
@@ -1319,6 +1327,50 @@ export default function App() {
                         )}
                       </Group>
                     </Card>
+                    
+                    {/* Кнопка добавить бумагу */}
+                    <Card 
+                      shadow="sm" 
+                      padding="md" 
+                      radius="xl"
+                      style={{
+                        background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)',
+                        border: '2px dashed #cbd5e1',
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onClick={() => setAddOpened(true)}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#667eea'
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)'
+                        e.currentTarget.style.transform = 'translateY(-2px)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = '#cbd5e1'
+                        e.currentTarget.style.background = 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)'
+                        e.currentTarget.style.transform = 'translateY(0)'
+                      }}
+                    >
+                      <Group justify="center" gap="md">
+                        <ThemeIcon 
+                          size="lg" 
+                          radius="xl" 
+                          variant="light" 
+                          color="blue"
+                          style={{ 
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            color: 'white'
+                          }}
+                        >
+                          <IconPlus size={20} />
+                        </ThemeIcon>
+                        <Stack gap="xs" align="center">
+                          <Text fw={600} size="lg" c="dark">Добавить бумагу</Text>
+                          <Text size="sm" c="dimmed">Нажмите, чтобы добавить новую ценную бумагу в портфель</Text>
+                        </Stack>
+                      </Group>
+                    </Card>
+                    
                     <PortfolioTable
                       account={currentAccount}
                       onEdit={(pos) => setEditTarget(pos)}
