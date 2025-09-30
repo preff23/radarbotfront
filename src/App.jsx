@@ -37,10 +37,10 @@ import { notifications } from '@mantine/notifications'
 import { MINIAPP_REV } from './version' 
 
 // API functions
-async function fetchPortfolio() {
+async function fetchPortfolio(phone) {
   try {
-    console.log('Fetching portfolio from /api/portfolio')
-    const response = await fetch('/api/portfolio')
+    console.log('Fetching portfolio from /api/portfolio with phone:', phone)
+    const response = await fetch(`/api/portfolio?phone=${encodeURIComponent(phone)}`)
     console.log('Response status:', response.status)
     
     if (!response.ok) {
@@ -58,9 +58,9 @@ async function fetchPortfolio() {
   }
 }
 
-async function addPosition(position) {
+async function addPosition(position, phone) {
   try {
-    const response = await fetch('/api/portfolio/positions', {
+    const response = await fetch(`/api/portfolio/position?phone=${encodeURIComponent(phone)}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(position)
@@ -73,10 +73,10 @@ async function addPosition(position) {
   }
 }
 
-async function updatePosition(id, position) {
+async function updatePosition(id, position, phone) {
   try {
-    const response = await fetch(`/api/portfolio/positions/${id}`, {
-      method: 'PUT',
+    const response = await fetch(`/api/portfolio/position/${id}?phone=${encodeURIComponent(phone)}`, {
+      method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(position)
     })
@@ -88,9 +88,9 @@ async function updatePosition(id, position) {
   }
 }
 
-async function deletePosition(id) {
+async function deletePosition(id, phone) {
   try {
-    const response = await fetch(`/api/portfolio/positions/${id}`, {
+    const response = await fetch(`/api/portfolio/position/${id}?phone=${encodeURIComponent(phone)}`, {
       method: 'DELETE'
     })
     if (!response.ok) throw new Error('Failed to delete position')
@@ -677,7 +677,7 @@ export default function App() {
     setLoading(true)
     try {
       console.log('Loading portfolio for phone:', userPhone)
-      const portfolioData = await fetchPortfolio()
+      const portfolioData = await fetchPortfolio(userPhone)
       console.log('Portfolio data received:', portfolioData)
       setData(portfolioData)
     } catch (error) {
@@ -703,7 +703,7 @@ export default function App() {
 
   const handleAdd = async (position) => {
     try {
-      await addPosition(position)
+      await addPosition(position, userPhone)
       await loadPortfolio()
       notifications.show({
         title: 'Успешно',
@@ -717,7 +717,7 @@ export default function App() {
 
   const handleUpdate = async (position, payload) => {
     try {
-      await updatePosition(position.id, payload)
+      await updatePosition(position.id, payload, userPhone)
       await loadPortfolio()
       notifications.show({
         title: 'Успешно',
@@ -733,7 +733,7 @@ export default function App() {
     if (!confirm('Удалить эту позицию?')) return
     
     try {
-      await deletePosition(position.id)
+      await deletePosition(position.id, userPhone)
       await loadPortfolio()
       notifications.show({
         title: 'Успешно',
