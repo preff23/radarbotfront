@@ -1207,38 +1207,6 @@ export default function App() {
   if (currentPage === 'calendar') {
     return (
       <div className="app">
-        <header className="tg-header">
-          <div className="hdr-left">
-            <div className="hdr-account">
-              <div className="hdr-caption">Аккаунт:</div>
-              <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
-            </div>
-          </div>
-          <div className="hdr-actions">
-            <button
-              className="btn btn--primary"
-              onClick={() => setAddOpened(true)}
-            >
-              <IconPlus size={16} />
-              Добавить
-            </button>
-            <button
-              className={`btn btn--ghost ${currentPage === 'calendar' ? 'is-active' : ''}`}
-              onClick={() => setCurrentPage('calendar')}
-            >
-              <IconCalendar size={16} />
-              Календарь
-            </button>
-            <button
-              className="btn btn--danger"
-              onClick={handleLogout}
-            >
-              <IconLogout size={16} />
-              Выйти
-            </button>
-          </div>
-        </header>
-
         <CalendarPage onBack={() => setCurrentPage('portfolio')} userPhone={userPhone} />
       </div>
     )

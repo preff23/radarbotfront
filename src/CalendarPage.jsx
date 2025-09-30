@@ -90,7 +90,13 @@ export default function CalendarPage({ onBack, userPhone }) {
   return (
     <div className="cal">
       <header className="cal-header">
-        <h1>Календарь выплат</h1>
+        <div className="cal-header-top">
+          <h1>Календарь выплат</h1>
+          <button className="btn btn--ghost" onClick={onBack}>
+            <IconArrowLeft size={16} />
+            К портфелю
+          </button>
+        </div>
         <div className="cal-filters">
           <button 
             className={`chip ${currentPeriod === '30' ? 'is-on' : ''}`}
@@ -162,13 +168,6 @@ export default function CalendarPage({ onBack, userPhone }) {
             ))
         )}
       </section>
-
-      <footer className="cal-footer">
-        <button className="btn btn--primary" onClick={onBack}>
-          <IconArrowLeft size={16} />
-          К портфелю
-        </button>
-      </footer>
     </div>
   )
 }

@@ -626,7 +626,7 @@ html, body, #root, .app {
 
 .cal-header {
   position: sticky; 
-  top: var(--hdr-h, 64px);
+  top: 0;
   z-index: 30; 
   padding: 12px 16px 8px;
   background: linear-gradient(180deg, rgba(11,15,26,1) 0%, rgba(11,15,26,.9) 100%);
@@ -634,8 +634,14 @@ html, body, #root, .app {
   border-bottom: 1px solid rgba(255,255,255,.06);
 }
 
+.cal-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
 .cal-header h1 { 
-  margin: 4px 0 10px; 
+  margin: 0; 
   font-size: 20px; 
   color: #e8eefc; 
   font-weight: 600;
@@ -736,14 +742,6 @@ html, body, #root, .app {
   font-size: 11px; 
 }
 
-.cal-footer {
-  position: sticky; 
-  bottom: env(safe-area-inset-bottom);
-  padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
-  background: linear-gradient(0deg, rgba(11,15,26,.95), rgba(11,15,26,0));
-  display: flex; 
-  justify-content: center;
-}
 
 /* ===== RESPONSIVE CALENDAR ===== */
 @media (max-width: 480px) {
