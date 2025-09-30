@@ -539,12 +539,12 @@ function PortfolioTable({ account, onEdit, onDelete }) {
             >
               {(styles) => (
                 <Card
-                  shadow="xl"
-                  padding="xl"
-                  radius="2xl"
+                  shadow="lg"
+                  padding="md"
+                  radius="xl"
                   style={{
                     ...styles,
-                    transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     cursor: 'pointer',
                     background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
                     border: '1px solid rgba(0,0,0,0.06)',
@@ -552,13 +552,13 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                     overflow: 'hidden'
                   }}
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-6px) scale(1.01)'
-                    e.currentTarget.style.boxShadow = '0 24px 48px rgba(0, 0, 0, 0.12)'
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.005)'
+                    e.currentTarget.style.boxShadow = '0 12px 24px rgba(0, 0, 0, 0.1)'
                     e.currentTarget.style.borderColor = 'rgba(0,212,170,0.2)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.08)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.08)'
                     e.currentTarget.style.borderColor = 'rgba(0,0,0,0.06)'
                   }}
                 >
@@ -569,33 +569,33 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                       top: 0,
                       left: 0,
                       right: 0,
-                      height: '6px',
+                      height: '4px',
                       background: `linear-gradient(90deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                      borderRadius: '16px 16px 0 0'
+                      borderRadius: '12px 12px 0 0'
                     }}
                   />
                   
-                  <Stack gap="lg">
+                  <Stack gap="md">
                     {/* Верхняя строка: иконка + название + количество */}
-                    <Flex gap="lg" align="flex-start">
+                    <Flex gap="md" align="flex-start">
                       <Box
                         style={{
-                          width: '56px',
-                          height: '56px',
+                          width: '40px',
+                          height: '40px',
                           background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][6]} 0%, ${theme.colors[getSecurityColor(position.security_type)][4]} 100%)`,
-                          borderRadius: '16px',
+                          borderRadius: '12px',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: `0 8px 24px ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
+                          boxShadow: `0 4px 12px ${theme.colors[getSecurityColor(position.security_type)][4]}40`,
                           flexShrink: 0
                         }}
                       >
                         {getSecurityIcon(position.security_type)}
                       </Box>
                       
-                      <Stack gap="sm" style={{ flex: 1, minWidth: 0 }}>
-                        <Text fw={800} size="xl" c="dark" style={{ 
+                      <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
+                        <Text fw={700} size="md" c="dark" style={{ 
                           wordBreak: 'break-word',
                           lineHeight: 1.2,
                           maxHeight: '2.4em',
@@ -608,22 +608,22 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           {position.name}
                         </Text>
                         
-                        <Flex gap="md" align="center" wrap="wrap">
+                        <Flex gap="sm" align="center" wrap="wrap">
                           <Flex gap="xs" align="center">
                             <Box
                               style={{
-                                width: '20px',
-                                height: '20px',
+                                width: '16px',
+                                height: '16px',
                                 background: 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)',
-                                borderRadius: '6px',
+                                borderRadius: '4px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center'
                               }}
                             >
-                              <IconCoins size={12} color="white" />
+                              <IconCoins size={10} color="white" />
                             </Box>
-                            <Text fw={700} size="lg" c="teal" style={{ letterSpacing: '-0.01em' }}>
+                            <Text fw={600} size="sm" c="teal" style={{ letterSpacing: '-0.01em' }}>
                               {position.quantity || 0} {position.quantity_unit || 'шт'}
                             </Text>
                           </Flex>
@@ -635,7 +635,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           <ActionIcon
                             variant="light"
                             color="blue"
-                            size="lg"
+                            size="md"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -644,17 +644,17 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                             style={{ 
                               background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
                               border: '1px solid rgba(59, 130, 246, 0.2)',
-                              boxShadow: '0 4px 12px rgba(59, 130, 246, 0.2)'
+                              boxShadow: '0 2px 8px rgba(59, 130, 246, 0.2)'
                             }}
                           >
-                            <IconEdit size={20} />
+                            <IconEdit size={16} />
                           </ActionIcon>
                         </Tooltip>
                         <Tooltip label="Удалить" position="top">
                           <ActionIcon
                             variant="light"
                             color="red"
-                            size="lg"
+                            size="md"
                             radius="xl"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -663,27 +663,27 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                             style={{ 
                               background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%)',
                               border: '1px solid rgba(239, 68, 68, 0.2)',
-                              boxShadow: '0 4px 12px rgba(239, 68, 68, 0.2)'
+                              boxShadow: '0 2px 8px rgba(239, 68, 68, 0.2)'
                             }}
                           >
-                            <IconTrash size={20} />
+                            <IconTrash size={16} />
                           </ActionIcon>
                         </Tooltip>
                       </Flex>
                     </Flex>
                     
                     {/* Нижняя строка: бейджи и дополнительная информация */}
-                    <Flex gap="sm" align="center" wrap="wrap">
+                    <Flex gap="xs" align="center" wrap="wrap">
                       {position.ticker && (
                         <Box
                           style={{
                             background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(37, 99, 235, 0.1) 100%)',
                             border: '1px solid rgba(59, 130, 246, 0.2)',
-                            borderRadius: '12px',
-                            padding: '6px 12px'
+                            borderRadius: '8px',
+                            padding: '4px 8px'
                           }}
                         >
-                          <Text size="sm" fw={700} c="blue" style={{ letterSpacing: '0.01em' }}>
+                          <Text size="xs" fw={700} c="blue" style={{ letterSpacing: '0.01em' }}>
                             {position.ticker}
                           </Text>
                         </Box>
@@ -693,11 +693,11 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           style={{
                             background: `linear-gradient(135deg, ${theme.colors[getSecurityColor(position.security_type)][1]} 0%, ${theme.colors[getSecurityColor(position.security_type)][2]} 100%)`,
                             border: `1px solid ${theme.colors[getSecurityColor(position.security_type)][3]}`,
-                            borderRadius: '12px',
-                            padding: '6px 12px'
+                            borderRadius: '8px',
+                            padding: '4px 8px'
                           }}
                         >
-                          <Text size="sm" fw={700} c={getSecurityColor(position.security_type)} style={{ letterSpacing: '0.01em' }}>
+                          <Text size="xs" fw={700} c={getSecurityColor(position.security_type)} style={{ letterSpacing: '0.01em' }}>
                             {position.security_type}
                           </Text>
                         </Box>
@@ -707,13 +707,13 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           style={{
                             background: 'linear-gradient(135deg, rgba(251, 146, 60, 0.1) 0%, rgba(245, 101, 101, 0.1) 100%)',
                             border: '1px solid rgba(251, 146, 60, 0.2)',
-                            borderRadius: '12px',
-                            padding: '6px 12px'
+                            borderRadius: '8px',
+                            padding: '4px 8px'
                           }}
                         >
                           <Flex gap="xs" align="center">
-                            <IconStar size={12} color="orange" />
-                            <Text size="sm" fw={700} c="orange" style={{ letterSpacing: '0.01em' }}>
+                            <IconStar size={10} color="orange" />
+                            <Text size="xs" fw={700} c="orange" style={{ letterSpacing: '0.01em' }}>
                               Fallback
                             </Text>
                           </Flex>
@@ -724,8 +724,8 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                           style={{
                             background: 'linear-gradient(135deg, rgba(107, 114, 128, 0.1) 0%, rgba(75, 85, 99, 0.1) 100%)',
                             border: '1px solid rgba(107, 114, 128, 0.2)',
-                            borderRadius: '12px',
-                            padding: '6px 12px'
+                            borderRadius: '8px',
+                            padding: '4px 8px'
                           }}
                         >
                           <Text size="xs" fw={600} c="gray" style={{ letterSpacing: '0.01em' }}>
@@ -737,7 +737,7 @@ function PortfolioTable({ account, onEdit, onDelete }) {
                         <Text size="xs" c="dimmed" style={{ 
                           fontFamily: 'monospace', 
                           opacity: 0.8,
-                          letterSpacing: '0.02em'
+                          letterSpacing: '0.01em'
                         }}>
                           {position.isin}
                         </Text>
@@ -1216,7 +1216,7 @@ export default function App() {
     <Stack style={{ minHeight: '100vh' }}>
       <AppShell
         padding="md"
-        header={{ height: 80 }}
+        header={{ height: 60 }}
         styles={{ 
           main: { 
             background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%)',
@@ -1258,33 +1258,34 @@ export default function App() {
             }}
           />
           
-          <Container size="xl" h="100%" px="xl" py="xl" style={{ position: 'relative', zIndex: 1 }}>
-            <Flex justify="space-between" align="center" h="100%">
+          <Container size="xl" h="100%" px="md" py="md" style={{ position: 'relative', zIndex: 1 }}>
+            <Flex justify="space-between" align="center" h="100%" wrap="wrap" gap="sm">
               {/* Левая часть - брендинг */}
-              <Flex align="center" gap="lg">
+              <Flex align="center" gap="md" style={{ minWidth: 0, flex: 1 }}>
                 <Box
                   style={{
-                    width: '64px',
-                    height: '64px',
+                    width: '48px',
+                    height: '48px',
                     background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
-                    borderRadius: '20px',
+                    borderRadius: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     backdropFilter: 'blur(20px)',
                     border: '1px solid rgba(255,255,255,0.1)',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.3)'
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.3)',
+                    flexShrink: 0
                   }}
                 >
-                  <IconDiamond size={32} color="white" />
+                  <IconDiamond size={24} color="white" />
                 </Box>
-                <Stack gap="xs">
+                <Stack gap="xs" style={{ minWidth: 0, flex: 1 }}>
                   <Text 
-                    size="2xl" 
+                    size="lg" 
                     fw={900} 
                     c="white" 
                     style={{ 
-                      letterSpacing: '-0.02em',
+                      letterSpacing: '-0.01em',
                       textShadow: '0 2px 8px rgba(0,0,0,0.5)',
                       lineHeight: 1.1
                     }}
@@ -1292,7 +1293,7 @@ export default function App() {
                     Radar портфель
                   </Text>
                   <Text 
-                    size="sm" 
+                    size="xs" 
                     c="rgba(255,255,255,0.7)" 
                     fw={500}
                     style={{ letterSpacing: '0.01em' }}
@@ -1303,11 +1304,11 @@ export default function App() {
               </Flex>
               
               {/* Правая часть - кнопки */}
-              <Flex gap="md" align="center">
+              <Flex gap="sm" align="center" wrap="nowrap">
                 <Button
                   variant="filled"
-                  size="lg"
-                  leftSection={<IconPlus size={20} />}
+                  size="sm"
+                  leftSection={<IconPlus size={16} />}
                   onClick={() => setAddOpened(true)}
                   radius="xl"
                   style={{
@@ -1315,30 +1316,31 @@ export default function App() {
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    fontSize: '15px',
-                    height: '52px',
-                    paddingLeft: '28px',
-                    paddingRight: '28px',
-                    boxShadow: '0 8px 24px rgba(0, 212, 170, 0.4)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                    fontSize: '13px',
+                    height: '40px',
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    boxShadow: '0 4px 12px rgba(0, 212, 170, 0.4)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    flexShrink: 0
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #00a085 0%, #007a6b 100%)'
-                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 212, 170, 0.5)'
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(0, 212, 170, 0.5)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #00d4aa 0%, #00a085 100%)'
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 212, 170, 0.4)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 212, 170, 0.4)'
                   }}
                 >
                   Добавить
                 </Button>
                 <Button
                   variant="filled"
-                  size="lg"
-                  leftSection={<IconLogout size={20} />}
+                  size="sm"
+                  leftSection={<IconLogout size={16} />}
                   onClick={handleLogout}
                   radius="xl"
                   style={{
@@ -1346,22 +1348,23 @@ export default function App() {
                     border: 'none',
                     color: 'white',
                     fontWeight: '700',
-                    fontSize: '15px',
-                    height: '52px',
-                    paddingLeft: '28px',
-                    paddingRight: '28px',
-                    boxShadow: '0 8px 24px rgba(255, 107, 107, 0.4)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+                    fontSize: '13px',
+                    height: '40px',
+                    paddingLeft: '16px',
+                    paddingRight: '16px',
+                    boxShadow: '0 4px 12px rgba(255, 107, 107, 0.4)',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                    flexShrink: 0
                   }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #ee5a52 0%, #e74c3c 100%)'
-                    e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(255, 107, 107, 0.5)'
+                    e.currentTarget.style.transform = 'translateY(-2px) scale(1.02)'
+                    e.currentTarget.style.boxShadow = '0 8px 20px rgba(255, 107, 107, 0.5)'
                   }}
                   onMouseLeave={(e) => {
                     e.currentTarget.style.background = 'linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%)'
                     e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(255, 107, 107, 0.4)'
+                    e.currentTarget.style.boxShadow = '0 4px 12px rgba(255, 107, 107, 0.4)'
                   }}
                 >
                   Выйти
@@ -1372,7 +1375,7 @@ export default function App() {
         </AppShell.Header>
         <AppShell.Main>
           <Notifications position="top-center" />
-          <Container size="xl" px="xl" py="xl">
+          <Container size="xl" px="md" py="md">
             {loading && (
               <Center py="xl">
                 <Stack align="center" gap="md">
@@ -1393,7 +1396,7 @@ export default function App() {
               </Alert>
             )}
             {!loading && !error && data && (
-              <Stack gap="2xl">
+              <Stack gap="lg">
                 <AccountTabs
                   accounts={accounts}
                   active={activeAccount}
@@ -1403,8 +1406,8 @@ export default function App() {
                   <Stack gap="md">
                     <Card 
                       shadow="xl" 
-                      padding="xl" 
-                      radius="3xl"
+                      padding="lg" 
+                      radius="2xl"
                       style={{
                         background: 'linear-gradient(135deg, #0f0f23 0%, #1a1a2e 30%, #16213e 70%, #0f3460 100%)',
                         border: '1px solid rgba(255,255,255,0.08)',
@@ -1418,10 +1421,10 @@ export default function App() {
                       <Box
                         style={{
                           position: 'absolute',
-                          top: '-60px',
-                          right: '-60px',
-                          width: '120px',
-                          height: '120px',
+                          top: '-40px',
+                          right: '-40px',
+                          width: '80px',
+                          height: '80px',
                           background: 'radial-gradient(circle, rgba(0,212,170,0.15) 0%, transparent 70%)',
                           borderRadius: '50%'
                         }}
@@ -1429,101 +1432,90 @@ export default function App() {
                       <Box
                         style={{
                           position: 'absolute',
-                          bottom: '-40px',
-                          left: '-40px',
-                          width: '80px',
-                          height: '80px',
+                          bottom: '-30px',
+                          left: '-30px',
+                          width: '60px',
+                          height: '60px',
                           background: 'radial-gradient(circle, rgba(255,107,107,0.1) 0%, transparent 70%)',
                           borderRadius: '50%'
                         }}
                       />
-                      <Box
-                        style={{
-                          position: 'absolute',
-                          top: '50%',
-                          right: '20px',
-                          width: '4px',
-                          height: '60px',
-                          background: 'linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%)',
-                          borderRadius: '2px'
-                        }}
-                      />
                       
-                      <Flex justify="space-between" align="flex-start" style={{ position: 'relative', zIndex: 1 }}>
-                        <Flex align="flex-start" gap="xl">
+                      <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+                        <Flex align="center" gap="md">
                           <Box
                             style={{
-                              width: '80px',
-                              height: '80px',
+                              width: '56px',
+                              height: '56px',
                               background: 'linear-gradient(135deg, rgba(0,212,170,0.2) 0%, rgba(0,160,133,0.1) 100%)',
-                              borderRadius: '24px',
+                              borderRadius: '16px',
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
                               backdropFilter: 'blur(20px)',
                               border: '1px solid rgba(0,212,170,0.3)',
-                              boxShadow: '0 12px 40px rgba(0,212,170,0.2)',
+                              boxShadow: '0 8px 24px rgba(0,212,170,0.2)',
                               flexShrink: 0
                             }}
                           >
-                            <IconWallet size={36} color="white" />
+                            <IconWallet size={28} color="white" />
                           </Box>
-                          <Stack gap="lg">
-                            <Stack gap="xs">
-                              <Text size="3xl" fw={900} c="white" style={{ 
-                                letterSpacing: '-0.02em',
-                                textShadow: '0 4px 12px rgba(0,0,0,0.5)',
-                                lineHeight: 1.1
-                              }}>
-                                Портфель
-                              </Text>
-                              <Text size="md" c="rgba(255,255,255,0.8)" fw={500} style={{ 
-                                letterSpacing: '0.01em',
-                                lineHeight: 1.4
-                              }}>
-                                Ваш инвестиционный профиль
-                              </Text>
-                            </Stack>
-                            <Flex gap="md" wrap="wrap">
-                              <Box
-                                style={{
-                                  background: 'rgba(0,212,170,0.15)',
-                                  border: '1px solid rgba(0,212,170,0.3)',
-                                  borderRadius: '16px',
-                                  padding: '8px 16px',
-                                  backdropFilter: 'blur(10px)'
-                                }}
-                              >
-                                <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.02em' }}>
-                                  {currentAccount.currency || 'RUB'}
-                                </Text>
-                              </Box>
-                              <Box
-                                style={{
-                                  background: 'rgba(255,107,107,0.15)',
-                                  border: '1px solid rgba(255,107,107,0.3)',
-                                  borderRadius: '16px',
-                                  padding: '8px 16px',
-                                  backdropFilter: 'blur(10px)'
-                                }}
-                              >
-                                <Text size="sm" fw={700} c="white" style={{ letterSpacing: '0.02em' }}>
-                                  {currentAccount.positions.length} бумаг
-                                </Text>
-                              </Box>
-                            </Flex>
+                          <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
+                            <Text size="xl" fw={900} c="white" style={{ 
+                              letterSpacing: '-0.01em',
+                              textShadow: '0 2px 8px rgba(0,0,0,0.5)',
+                              lineHeight: 1.1
+                            }}>
+                              Портфель
+                            </Text>
+                            <Text size="sm" c="rgba(255,255,255,0.8)" fw={500} style={{ 
+                              letterSpacing: '0.01em',
+                              lineHeight: 1.3
+                            }}>
+                              Ваш инвестиционный профиль
+                            </Text>
                           </Stack>
                         </Flex>
+                        
+                        <Flex gap="sm" wrap="wrap" align="center">
+                          <Box
+                            style={{
+                              background: 'rgba(0,212,170,0.15)',
+                              border: '1px solid rgba(0,212,170,0.3)',
+                              borderRadius: '12px',
+                              padding: '6px 12px',
+                              backdropFilter: 'blur(10px)'
+                            }}
+                          >
+                            <Text size="xs" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
+                              {currentAccount.currency || 'RUB'}
+                            </Text>
+                          </Box>
+                          <Box
+                            style={{
+                              background: 'rgba(255,107,107,0.15)',
+                              border: '1px solid rgba(255,107,107,0.3)',
+                              borderRadius: '12px',
+                              padding: '6px 12px',
+                              backdropFilter: 'blur(10px)'
+                            }}
+                          >
+                            <Text size="xs" fw={700} c="white" style={{ letterSpacing: '0.01em' }}>
+                              {currentAccount.positions.length} бумаг
+                            </Text>
+                          </Box>
+                        </Flex>
+                        
                         {currentAccount.portfolio_value && (
-                          <Stack gap="md" align="flex-end" style={{ minWidth: '240px' }}>
-                            <Text size="sm" c="rgba(255,255,255,0.7)" fw={600} style={{ 
-                              letterSpacing: '0.02em',
+                          <Stack gap="xs" align="center">
+                            <Text size="xs" c="rgba(255,255,255,0.7)" fw={600} style={{ 
+                              letterSpacing: '0.01em',
                               textTransform: 'uppercase'
                             }}>
                               Общая стоимость
                             </Text>
-                            <Text fw={900} size="3xl" c="white" style={{ 
-                              textShadow: '0 4px 16px rgba(0,0,0,0.6)',
+                            <Text fw={900} size="2xl" c="white" style={{ 
+                              textShadow: '0 2px 8px rgba(0,0,0,0.6)',
                               letterSpacing: '-0.01em',
                               lineHeight: 1
                             }}>
@@ -1537,7 +1529,7 @@ export default function App() {
                             </Text>
                           </Stack>
                         )}
-                      </Flex>
+                      </Stack>
                     </Card>
                     <PortfolioTable
                       account={currentAccount}
