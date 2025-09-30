@@ -347,27 +347,90 @@ function AssetList({ account, onEdit, onDelete }) {
 // Add Position Modal
 function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
   const [formData, setFormData] = useState({
-    name: '',
-    ticker: '',
-    quantity: 1,
-    security_type: 'bond',
-    isin: '',
-    provider: 'manual'
+    search: '',
+    quantity: 1
   })
+  const [searchResults, setSearchResults] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
+  const [selectedSecurity, setSelectedSecurity] = useState(null)
+
+  // Search for securities
+  const handleSearch = async (query) => {
+    if (!query.trim() || query.length < 2) {
+      setSearchResults([])
+      setSelectedSecurity(null)
+      return
+    }
+
+    setIsSearching(true)
+    try {
+      const response = await fetch(`/api/portfolio/search?query=${encodeURIComponent(query.trim())}&phone=${encodeURIComponent(userPhone)}`)
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+      }
+      
+      const data = await response.json()
+      console.log('Search results:', data)
+      
+      // Transform API results to our format
+      const results = data.results?.map(item => ({
+        name: item.name || item.shortname || 'Неизвестно',
+        ticker: item.ticker || item.secid || '',
+        isin: item.isin || '',
+        type: item.type === 'share' ? 'share' : 'bond',
+        provider: item.description?.includes('Справочник') ? 'BondReference' : 'MOEX',
+        description: item.description || ''
+      })) || []
+      
+      setSearchResults(results)
+    } catch (error) {
+      console.error('Search error:', error)
+      notifications.show({
+        title: 'Ошибка поиска',
+        message: 'Не удалось найти ценные бумаги',
+        color: 'red'
+      })
+    } finally {
+      setIsSearching(false)
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    try {
-      await onSubmit(formData)
-      setFormData({
-        name: '',
-        ticker: '',
-        quantity: 1,
-        security_type: 'bond',
-        isin: '',
-        provider: 'manual'
+    
+    if (!selectedSecurity) {
+      notifications.show({
+        title: 'Ошибка',
+        message: 'Выберите ценную бумагу из результатов поиска',
+        color: 'red'
       })
-    onClose()
+      return
+    }
+
+    if (!formData.quantity || formData.quantity < 1) {
+      notifications.show({
+        title: 'Ошибка',
+        message: 'Введите корректное количество',
+        color: 'red'
+      })
+      return
+    }
+
+    try {
+      await onSubmit({
+        name: selectedSecurity.name,
+        ticker: selectedSecurity.ticker,
+        security_type: selectedSecurity.type,
+        quantity: formData.quantity,
+        isin: selectedSecurity.isin,
+        provider: selectedSecurity.provider
+      })
+      
+      setFormData({ search: '', quantity: 1 })
+      setSearchResults([])
+      setSelectedSecurity(null)
+      onClose()
     } catch (error) {
       notifications.show({
         title: 'Ошибка',
@@ -399,12 +462,17 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
     >
       <form onSubmit={handleSubmit}>
         <Stack gap="md">
-        <TextInput
-          label="Название"
-            placeholder="ОФЗ 26207"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          <TextInput
+            label="Поиск по названию или ISIN"
+            placeholder="Введите название или ISIN ценной бумаги..."
+            value={formData.search}
+            onChange={(e) => {
+              const query = e.target.value
+              setFormData({ ...formData, search: query })
+              handleSearch(query)
+            }}
             required
+            rightSection={isSearching ? <Loader size={16} /> : null}
             styles={{
               input: {
                 background: 'var(--chip)',
@@ -414,61 +482,64 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
               label: { color: 'var(--text)' }
             }}
           />
+
+          {/* Search Results */}
+          {searchResults.length > 0 && (
+            <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
+              {searchResults.map((security, index) => (
+                <div
+                  key={index}
+                  className="search-result-item"
+                  onClick={() => setSelectedSecurity(security)}
+                  style={{
+                    padding: '12px',
+                    border: selectedSecurity?.isin === security.isin ? '2px solid var(--brand)' : '1px solid var(--stroke)',
+                    borderRadius: '8px',
+                    marginBottom: '8px',
+                    cursor: 'pointer',
+                    background: selectedSecurity?.isin === security.isin ? 'rgba(45, 227, 195, 0.1)' : 'var(--chip)',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  <div style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '4px' }}>
+                    {security.name}
+                  </div>
+                  <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
+                    {security.ticker && `${security.ticker} • `}
+                    {security.isin && `${security.isin} • `}
+                    {security.type === 'bond' ? 'Облигация' : 'Акция'}
+                    {security.provider && ` • ${security.provider}`}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {selectedSecurity && (
+            <div style={{ 
+              padding: '12px', 
+              background: 'rgba(45, 227, 195, 0.1)', 
+              border: '1px solid var(--brand)', 
+              borderRadius: '8px',
+              marginBottom: '8px'
+            }}>
+              <div style={{ fontWeight: '600', color: 'var(--text)', marginBottom: '4px' }}>
+                Выбрано: {selectedSecurity.name}
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)' }}>
+                {selectedSecurity.ticker && `${selectedSecurity.ticker} • `}
+                {selectedSecurity.isin && `${selectedSecurity.isin} • `}
+                {selectedSecurity.type === 'bond' ? 'Облигация' : 'Акция'}
+                {selectedSecurity.provider && ` • ${selectedSecurity.provider}`}
+              </div>
+            </div>
+          )}
           
-        <TextInput
-          label="Тикер"
-            placeholder="SU26207RMFS6"
-            value={formData.ticker}
-            onChange={(e) => setFormData({ ...formData, ticker: e.target.value })}
-            styles={{
-              input: {
-                background: 'var(--chip)',
-                border: '1px solid var(--stroke)',
-                color: 'var(--text)'
-              },
-              label: { color: 'var(--text)' }
-            }}
-          />
-          
-          <Select
-            label="Тип"
-            value={formData.security_type}
-            onChange={(value) => setFormData({ ...formData, security_type: value })}
-            data={[
-              { value: 'bond', label: 'Облигация' },
-              { value: 'share', label: 'Акция' },
-              { value: 'etf', label: 'ETF' }
-            ]}
-            styles={{
-              input: {
-                background: 'var(--chip)',
-                border: '1px solid var(--stroke)',
-                color: 'var(--text)'
-              },
-              label: { color: 'var(--text)' }
-            }}
-          />
-          
-        <NumberInput
-          label="Количество"
+          <NumberInput
+            label="Количество"
             value={formData.quantity}
             onChange={(value) => setFormData({ ...formData, quantity: value || 1 })}
             min={1}
-            styles={{
-              input: {
-                background: 'var(--chip)',
-                border: '1px solid var(--stroke)',
-                color: 'var(--text)'
-              },
-              label: { color: 'var(--text)' }
-            }}
-          />
-          
-        <TextInput
-            label="ISIN"
-            placeholder="RU000A0JX0J2"
-            value={formData.isin}
-            onChange={(e) => setFormData({ ...formData, isin: e.target.value })}
             styles={{
               input: {
                 background: 'var(--chip)',
@@ -490,6 +561,7 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
             <Button
               type="submit"
               className="btn btn--primary"
+              disabled={!selectedSecurity}
             >
               Добавить
             </Button>
