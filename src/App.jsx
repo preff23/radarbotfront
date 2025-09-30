@@ -290,9 +290,6 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
     setLoadingDetails(true)
     try {
       const data = await fetchSecurityDetails(position.isin, userPhone)
-      console.log('Security details received:', data)
-      console.log('Duration:', data.bond_info?.duration)
-      console.log('Face value:', data.bond_info?.face_value)
       setDetails(data)
     } catch (error) {
       console.error('Failed to load security details:', error)
@@ -431,7 +428,7 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
                   {details.bond_info.duration && (
                     <div className="details-row">
                       <span className="details-label">Дюрация:</span>
-                      <span className="details-value">{details.bond_info.duration.toFixed(2)} лет</span>
+                      <span className="details-value">{details.bond_info.duration.toFixed(0)} дней</span>
                     </div>
                   )}
                   {details.bond_info.face_value && (

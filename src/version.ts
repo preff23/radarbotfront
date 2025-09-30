@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 74 — Added debugging for duration/face_value";
+export const MINIAPP_REV = "Правка 75 — Fixed duration unit from years to days";
