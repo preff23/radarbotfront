@@ -373,15 +373,73 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
       const data = await response.json()
       console.log('Search results:', data)
       
-      // Transform API results to our format
-      const results = data.results?.map(item => ({
-        name: item.name || item.shortname || 'Неизвестно',
-        ticker: item.ticker || item.secid || '',
-        isin: item.isin || '',
-        type: item.type === 'share' ? 'share' : 'bond',
-        provider: item.description?.includes('Справочник') ? 'BondReference' : 'MOEX',
-        description: item.description || ''
-      })) || []
+      // Transform API results to our format and filter for Russian securities only
+      const results = data.results
+        ?.map(item => ({
+          name: item.name || item.shortname || 'Неизвестно',
+          ticker: item.ticker || item.secid || '',
+          isin: item.isin || '',
+          type: item.type === 'share' ? 'share' : 'bond',
+          provider: item.description?.includes('Справочник') ? 'BondReference' : 'MOEX',
+          description: item.description || ''
+        }))
+        .filter(item => {
+          // Filter for Russian securities only
+          const isin = item.isin?.toUpperCase() || ''
+          const ticker = item.ticker?.toUpperCase() || ''
+          const name = item.name?.toUpperCase() || ''
+          
+          // Russian ISIN starts with RU
+          if (isin.startsWith('RU')) {
+            return true
+          }
+          
+          // Exclude foreign ISINs (US, DE, GB, etc.)
+          if (isin && (isin.startsWith('US') || isin.startsWith('DE') || isin.startsWith('GB') || 
+                      isin.startsWith('FR') || isin.startsWith('IT') || isin.startsWith('ES') ||
+                      isin.startsWith('NL') || isin.startsWith('CH') || isin.startsWith('CA') ||
+                      isin.startsWith('JP') || isin.startsWith('CN') || isin.startsWith('KR'))) {
+            return false
+          }
+          
+          // Russian tickers on MOEX (common patterns)
+          if (ticker && (
+            ticker.startsWith('RU') || // Russian bonds
+            ['GAZP', 'SBER', 'LKOH', 'NVTK', 'ROSN', 'TATN', 'MAGN', 'NLMK', 'CHMF', 'PLZL', 'RUAL', 'YNDX', 'OZON', 'QIWI', 'POLY', 'AFLT', 'AERO', 'FIVE', 'DSKY', 'MAIL', 'VKCO', 'TCSG', 'LENT', 'MGNT', 'MVID', 'PHOR', 'RENI', 'RTKM', 'SELG', 'SMLT', 'TATNP', 'TRNFP', 'UPRO', 'VSMO', 'WTCM', 'YAKG'].includes(ticker)
+          )) {
+            return true
+          }
+          
+          // Exclude foreign company names
+          if (name && (
+            name.includes('INC.') || name.includes('CORP.') || name.includes('LTD.') ||
+            name.includes('LLC') || name.includes('COMPANY') || name.includes('ENTERPRISE') ||
+            name.includes('GROUP') || name.includes('HOLDINGS') || name.includes('INTERNATIONAL')
+          )) {
+            return false
+          }
+          
+          // If no ISIN or ticker, check if it's from BondReference (usually Russian)
+          if (item.provider === 'BondReference') {
+            return true
+          }
+          
+          // If it's from MOEX and has Russian-sounding name, include it
+          if (item.provider === 'MOEX' && name && (
+            name.includes('ОФЗ') || name.includes('ОБЛИГАЦИЯ') || name.includes('АКЦИЯ') ||
+            name.includes('ГАЗПРОМ') || name.includes('СБЕРБАНК') || name.includes('ЛУКОЙЛ') ||
+            name.includes('РОСНЕФТЬ') || name.includes('ТАТНЕФТЬ') || name.includes('МАГНИТ') ||
+            name.includes('НОВАТЭК') || name.includes('НЛМК') || name.includes('ЧЕРКИЗОВО') ||
+            name.includes('ПОЛЮС') || name.includes('РУСАЛ') || name.includes('ЯНДЕКС') ||
+            name.includes('ОЗОН') || name.includes('КИВИ') || name.includes('АЭРОФЛОТ') ||
+            name.includes('МАГНИТ') || name.includes('ЛЕНТА') || name.includes('МЕГАФОН') ||
+            name.includes('МТС') || name.includes('БИЛАЙН') || name.includes('РОСТЕЛЕКОМ')
+          )) {
+            return true
+          }
+          
+          return false
+        }) || []
       
       setSearchResults(results)
     } catch (error) {
