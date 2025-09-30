@@ -615,3 +615,6 @@ html, body, #root, .app {
 .details-value.negative {
   color: var(--warn);
 }
+
+/* ===== CALENDAR STYLES ===== */
+@import './calendar.css';

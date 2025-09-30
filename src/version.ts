@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 75 — Fixed duration unit from years to days";
+export const MINIAPP_REV = "Правка 76 — Added Calendar page with mock data";

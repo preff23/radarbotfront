@@ -8,7 +8,8 @@ import {
   IconEdit, 
   IconTrash, 
   IconStar,
-  IconMinus
+  IconMinus,
+  IconCalendar
 } from '@tabler/icons-react'
 import { 
   Loader, 
@@ -34,7 +35,8 @@ import {
 } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
-import { MINIAPP_REV } from './version' 
+import { MINIAPP_REV } from './version'
+import CalendarPage from './CalendarPage' 
 
 // API functions
 async function fetchSecurityDetails(isin, phone) {
@@ -1061,6 +1063,7 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [addOpened, setAddOpened] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
+  const [currentPage, setCurrentPage] = useState('portfolio')
 
   // Load portfolio data
   useEffect(() => {
@@ -1200,6 +1203,47 @@ export default function App() {
   const account = data?.accounts?.[0]
   const userPhoneMasked = userPhone ? userPhone.replace(/(\+\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5') : ''
 
+  // Show calendar page if currentPage is 'calendar'
+  if (currentPage === 'calendar') {
+    return (
+      <div className="app">
+        <header className="tg-header">
+          <div className="hdr-left">
+            <div className="hdr-account">
+              <div className="hdr-caption">Аккаунт:</div>
+              <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
+            </div>
+          </div>
+          <div className="hdr-actions">
+            <button
+              className="btn btn--primary"
+              onClick={() => setAddOpened(true)}
+            >
+              <IconPlus size={16} />
+              Добавить
+            </button>
+            <button
+              className={`btn btn--ghost ${currentPage === 'calendar' ? 'is-active' : ''}`}
+              onClick={() => setCurrentPage('calendar')}
+            >
+              <IconCalendar size={16} />
+              Календарь
+            </button>
+            <button
+              className="btn btn--danger"
+              onClick={handleLogout}
+            >
+              <IconLogout size={16} />
+              Выйти
+            </button>
+          </div>
+        </header>
+
+        <CalendarPage onBack={() => setCurrentPage('portfolio')} />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <header className="tg-header">
@@ -1216,6 +1260,13 @@ export default function App() {
           >
             <IconPlus size={16} />
             Добавить
+          </button>
+          <button
+            className={`btn btn--ghost ${currentPage === 'calendar' ? 'is-active' : ''}`}
+            onClick={() => setCurrentPage('calendar')}
+          >
+            <IconCalendar size={16} />
+            Календарь
           </button>
           <button
             className="btn btn--danger"
