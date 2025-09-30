@@ -743,6 +743,46 @@ html, body, #root, .app {
 }
 
 
+/* ===== LOADING SPINNER ===== */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.08);
+  border-top: 3px solid #1fd9bd;
+  border-right: 3px solid rgba(31, 217, 189, 0.3);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+  position: relative;
+  box-shadow: 0 0 20px rgba(31, 217, 189, 0.2);
+}
+
+.loading-spinner::before {
+  content: '';
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border: 2px solid transparent;
+  border-top: 2px solid rgba(31, 217, 189, 0.1);
+  border-radius: 50%;
+  animation: spin 2s linear infinite reverse;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: #9bb1d1;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
 /* ===== RESPONSIVE CALENDAR ===== */
 @media (max-width: 480px) {
   .cal-header {

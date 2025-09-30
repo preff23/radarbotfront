@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 84 — Fixed MOEX calendar API days_ahead parameter";
+export const MINIAPP_REV = "Правка 85 — Added animated loading spinner in dark-neon style";

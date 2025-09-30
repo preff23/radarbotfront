@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { IconArrowLeft, IconLoader } from '@tabler/icons-react'
+import { IconArrowLeft } from '@tabler/icons-react'
 
 export default function CalendarPage({ onBack, userPhone }) {
   const [events, setEvents] = useState([])
@@ -122,10 +122,10 @@ export default function CalendarPage({ onBack, userPhone }) {
       <section className="cal-list">
         {loading ? (
           <div className="text-center" style={{ padding: '40px 20px' }}>
-            <IconLoader size={40} className="animate-spin" />
-            <p className="card__meta" style={{ marginTop: '16px' }}>
+            <div className="loading-spinner"></div>
+            <div className="loading-text">
               Загрузка календаря выплат...
-            </p>
+            </div>
           </div>
         ) : Object.keys(groupedEvents).length === 0 ? (
           <div className="text-center" style={{ padding: '40px 20px' }}>
