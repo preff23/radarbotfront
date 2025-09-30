@@ -990,8 +990,10 @@ export default function App() {
     <div className="app">
       <header className="tg-header">
         <div className="hdr-left">
-          <div className="hdr-caption">Аккаунт:</div>
-          <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
+          <div className="hdr-account">
+            <div className="hdr-caption">Аккаунт:</div>
+            <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
+          </div>
         </div>
         <div className="hdr-actions">
           <button

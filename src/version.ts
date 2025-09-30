@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 69 — Fixed API data format";
+export const MINIAPP_REV = "Правка 70 — Fixed phone layout in header";
