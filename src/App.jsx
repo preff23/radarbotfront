@@ -1068,6 +1068,9 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('portfolio')
   const [portfolioDetailsOpened, setPortfolioDetailsOpened] = useState(false)
 
+  // Получаем account из data
+  const account = data?.accounts?.[0]
+
   // Безопасный расчет суммы портфеля
   const portfolioAmount = useMemo(() => {
     if (!account?.holdings) return '—'
@@ -1214,8 +1217,6 @@ export default function App() {
     )
   }
 
-  // Get the first account (manual portfolio)
-  const account = data?.accounts?.[0]
   const userPhoneMasked = userPhone ? userPhone.replace(/(\+\d{1})(\d{3})(\d{3})(\d{2})(\d{2})/, '$1 $2 $3 $4 $5') : ''
 
   // Show calendar page if currentPage is 'calendar'
