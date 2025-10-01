@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import {
   IconDiamond, 
   IconPlus, 
@@ -12,6 +12,7 @@ import {
   IconCalendar
 } from '@tabler/icons-react'
 import PortfolioDetailsModal from './PortfolioDetailsModal'
+import { formatCurrency } from './utils/format'
 import { 
   Loader, 
   Center, 
@@ -1067,6 +1068,18 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState('portfolio')
   const [portfolioDetailsOpened, setPortfolioDetailsOpened] = useState(false)
 
+  // Безопасный расчет суммы портфеля
+  const portfolioAmount = useMemo(() => {
+    if (!account?.holdings) return '—'
+    
+    const sum = account.holdings.reduce((acc, holding) => {
+      const marketValue = holding.market_value || (holding.quantity || 0) * (holding.price || 0)
+      return acc + marketValue
+    }, 0)
+    
+    return formatCurrency(sum, 'RUB')
+  }, [account?.holdings])
+
   // Load portfolio data
   useEffect(() => {
     if (userPhone) {
@@ -1258,7 +1271,7 @@ export default function App() {
             </div>
           </div>
         ) : account ? (
-          <section className="portfolio-card is-sticky">
+          <section className="portfolio-card is-sticky no-x-scroll">
             <div className="pc-left">
               <div className="pc-icon">
                 <IconWallet size={20} />
@@ -1273,12 +1286,7 @@ export default function App() {
                 </div>
                 <div className="pc-bottom">
                   <span className="pc-caption">Общая стоимость</span>
-                  <strong className="pc-amount">
-                    {account.total_value?.toLocaleString('ru-RU', { 
-                      minimumFractionDigits: 2, 
-                      maximumFractionDigits: 2 
-                    })} ₽
-                  </strong>
+                  <strong className="pc-amount">{portfolioAmount}</strong>
                 </div>
               </div>
             </div>
