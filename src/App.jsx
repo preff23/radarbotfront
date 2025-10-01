@@ -1064,7 +1064,6 @@ export default function App() {
   const [addOpened, setAddOpened] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [currentPage, setCurrentPage] = useState('portfolio')
-  const [selectedPeriod, setSelectedPeriod] = useState('30')
 
   // Load portfolio data
   useEffect(() => {
@@ -1210,8 +1209,7 @@ export default function App() {
       <div className="app">
         <CalendarPage 
           onBack={() => setCurrentPage('portfolio')} 
-          userPhone={userPhone} 
-          initialPeriod={selectedPeriod}
+          userPhone={userPhone}
         />
       </div>
     )
@@ -1233,13 +1231,6 @@ export default function App() {
           >
             <IconPlus size={16} />
             Добавить
-          </button>
-          <button
-            className={`btn btn--ghost ${currentPage === 'calendar' ? 'is-active' : ''}`}
-            onClick={() => setCurrentPage('calendar')}
-          >
-            <IconCalendar size={16} />
-            Календарь
           </button>
           <button
             className="btn btn--danger"
@@ -1290,31 +1281,11 @@ export default function App() {
 
       <section className="main-nav-chips">
         <button
-          className={`chip ${selectedPeriod === '30' ? 'is-on' : ''}`}
-          onClick={() => {
-            setSelectedPeriod('30')
-            setCurrentPage('calendar')
-          }}
+          className="btn btn--primary"
+          onClick={() => setCurrentPage('calendar')}
         >
-          30 дней
-        </button>
-        <button
-          className={`chip ${selectedPeriod === '90' ? 'is-on' : ''}`}
-          onClick={() => {
-            setSelectedPeriod('90')
-            setCurrentPage('calendar')
-          }}
-        >
-          90 дней
-        </button>
-        <button
-          className={`chip ${selectedPeriod === 'all' ? 'is-on' : ''}`}
-          onClick={() => {
-            setSelectedPeriod('all')
-            setCurrentPage('calendar')
-          }}
-        >
-          Все выплаты
+          <IconCalendar size={16} />
+          Календарь
         </button>
       </section>
 

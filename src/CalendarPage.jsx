@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { IconArrowLeft } from '@tabler/icons-react'
 
-export default function CalendarPage({ onBack, userPhone, initialPeriod = '30' }) {
+export default function CalendarPage({ onBack, userPhone }) {
   const [events, setEvents] = useState([])
   const [loading, setLoading] = useState(true)
-  const [currentPeriod, setCurrentPeriod] = useState(initialPeriod)
+  const [currentPeriod, setCurrentPeriod] = useState('30')
 
   // Load calendar data
   useEffect(() => {
