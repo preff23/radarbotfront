@@ -1258,36 +1258,38 @@ export default function App() {
             </div>
           </div>
         ) : account ? (
-          <section className="portfolio-card is-compact">
+          <section className="portfolio-card is-sticky">
             <div className="pc-left">
               <div className="pc-icon">
                 <IconWallet size={20} />
               </div>
-            </div>
-            <div className="pc-main">
-              <div className="pc-row pc-row-top">
-                <h2 className="pc-title">Портфель</h2>
-                <div className="pc-chips">
-                  <span className="chip">RUB</span>
-                  <span className="chip">{account.holdings?.length || 0} бумаг</span>
+              <div className="pc-info">
+                <div className="pc-top">
+                  <h2 className="pc-title">Портфель</h2>
+                  <div className="pc-chips">
+                    <span className="chip">RUB</span>
+                    <span className="chip">{account.holdings?.length || 0} бумаг</span>
+                  </div>
+                </div>
+                <div className="pc-bottom">
+                  <span className="pc-caption">Общая стоимость</span>
+                  <strong className="pc-amount">
+                    {account.total_value?.toLocaleString('ru-RU', { 
+                      minimumFractionDigits: 2, 
+                      maximumFractionDigits: 2 
+                    })} ₽
+                  </strong>
                 </div>
               </div>
-              <div className="pc-row pc-row-amount">
-                <span className="pc-caption">Общая стоимость</span>
-                <strong className="pc-amount">
-                  {account.total_value?.toLocaleString('ru-RU', { 
-                    minimumFractionDigits: 2, 
-                    maximumFractionDigits: 2 
-                  })} ₽
-                </strong>
-                <button 
-                  className="pc-info" 
-                  aria-label="Подробнее" 
-                  onClick={() => setPortfolioDetailsOpened(true)}
-                >
-                  ⓘ
-                </button>
-              </div>
+            </div>
+            <div className="pc-cta">
+              <button 
+                className="btn-calendar" 
+                onClick={() => setCurrentPage('calendar')}
+              >
+                <IconCalendar size={16} />
+                Календарь
+              </button>
             </div>
           </section>
         ) : (
@@ -1310,16 +1312,6 @@ export default function App() {
             </div>
           </div>
         )}
-
-        <section className="main-nav-chips">
-          <button
-            className="btn btn--calendar"
-            onClick={() => setCurrentPage('calendar')}
-          >
-            <IconCalendar size={16} />
-            Календарь
-          </button>
-        </section>
 
         <div className="list-scroll">
           {data && account && (

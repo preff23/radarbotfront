@@ -114,23 +114,7 @@ html, body, #root, .app {
 
 /* ===== STATIC HERO (DEPRECATED) ===== */
 
-/* ===== NAVIGATION CHIPS ===== */
-.main-nav-chips {
-  position: sticky;
-  top: calc(var(--safe-top, 64px) + var(--card-h, 132px));
-  z-index: 35;
-  background: linear-gradient(180deg, rgba(11,15,26,.9) 0%, rgba(11,15,26,.8) 100%);
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: flex-start;
-}
-
-.main-nav-chips .btn {
-  max-width: 680px;
-  margin: 0;
-}
+/* ===== NAVIGATION CHIPS (DEPRECATED) ===== */
 
 /* ===== SCROLLABLE LIST ===== */
 .scroll-area {
@@ -161,30 +145,39 @@ html, body, #root, .app {
   padding: 20px;
 }
 
-/* ===== COMPACT PORTFOLIO CARD ===== */
-.portfolio-card.is-compact {
-  --card-pad: 12px;
-  --card-radius: 18px;
-  --card-h: 132px;
+/* ===== UNIFIED PORTFOLIO CARD ===== */
+.portfolio-card.is-sticky {
   position: sticky;
   top: var(--safe-top, 64px);
-  z-index: 5;
-  padding: var(--card-pad) calc(var(--card-pad) * 1.25);
-  border-radius: var(--card-radius);
-  background: rgba(20, 28, 38, 0.75);
-  backdrop-filter: blur(10px);
+  z-index: 10;
+  --pad-y: 14px;
+  --pad-x: 16px;
+  --radius: 18px;
+  margin: 10px 12px 8px;
+  padding: var(--pad-y) var(--pad-x);
+  border-radius: var(--radius);
+  background: rgba(18, 24, 32, 0.78);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.05);
   display: grid;
-  grid-template-columns: 44px 1fr;
-  column-gap: 12px;
+  grid-template-columns: 1fr auto;
   align-items: center;
-  box-shadow: 0 6px 24px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);
+  gap: 12px;
   max-width: 680px;
-  margin: 0 auto 12px;
+  margin: 10px auto 8px;
+}
+
+/* левая часть (иконка + текст) */
+.pc-left { 
+  display: grid; 
+  grid-template-columns: 44px 1fr; 
+  gap: 12px; 
+  align-items: center; 
 }
 
 .pc-icon {
-  width: 40px; 
-  height: 40px;
+  width: 44px; 
+  height: 44px;
   border-radius: 12px;
   background: radial-gradient(120% 120% at 0% 0%, #19c6a3 0%, #0e876f 80%);
   display: flex;
@@ -192,6 +185,17 @@ html, body, #root, .app {
   justify-content: center;
   color: white;
   font-size: 20px;
+}
+
+.pc-info { 
+  min-width: 0; 
+}
+
+.pc-top { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  justify-content: space-between; 
 }
 
 .pc-title { 
@@ -203,24 +207,29 @@ html, body, #root, .app {
   color: var(--text);
 }
 
-.pc-row { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-}
-
-.pc-row-top { 
-  justify-content: space-between; 
-}
-
 .pc-chips { 
   display: flex; 
   gap: 8px; 
+  flex-wrap: nowrap; 
 }
 
-.pc-row-amount { 
+.chip {
+  padding: 6px 12px; 
+  border-radius: 999px; 
+  white-space: nowrap;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  color: #d7efe7; 
+  font-size: 12px; 
+  line-height: 1;
+}
+
+/* стоимость — в одну строку с подписью */
+.pc-bottom { 
   margin-top: 6px; 
-  gap: 8px; 
+  display: flex; 
+  align-items: baseline; 
+  gap: 10px; 
 }
 
 .pc-caption { 
@@ -236,30 +245,43 @@ html, body, #root, .app {
   color: var(--text);
 }
 
-.pc-info {
-  margin-left: auto; 
-  font-size: 14px;
-  color: rgba(255,255,255,.6);
-  background: transparent; 
-  border: 0; 
+/* CTA справа */
+.pc-cta { 
+  display: flex; 
+  align-items: center; 
+}
+
+.btn-calendar {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 8px;
+  padding: 10px 14px; 
+  border-radius: 12px; 
+  border: 1px solid rgba(24,255,204,.25);
+  background: linear-gradient(180deg, rgba(24,255,204,.16), rgba(24,255,204,.06));
+  color: #b8fff1; 
+  font-weight: 600;
   cursor: pointer;
-  padding: 4px;
-  border-radius: 50%;
   transition: var(--transition);
 }
 
-.pc-info:hover {
-  color: var(--brand);
-  background: rgba(255,255,255,.1);
+.btn-calendar:active { 
+  transform: translateY(1px); 
+}
+
+.btn-calendar:hover {
+  background: linear-gradient(180deg, rgba(24,255,204,.25), rgba(24,255,204,.12));
+  border-color: rgba(24,255,204,.4);
 }
 
 /* ===== LIST SCROLL ===== */
 .list-scroll {
   overflow-y: auto;
-  height: calc(100vh - var(--safe-top, 64px) - var(--card-h, 132px) - var(--nav-chips-h, 48px));
+  height: calc(100vh - var(--safe-top, 64px) - 96px);
   padding: 12px 16px 20px;
   max-width: 680px;
   margin: 0 auto;
+  padding-bottom: max(16px, env(safe-area-inset-bottom));
 }
 
 /* ===== MODAL STYLES ===== */
@@ -451,10 +473,6 @@ html, body, #root, .app {
 
 /* ===== RESPONSIVE ===== */
 @media (max-height: 720px) {
-  .portfolio-card.is-compact {
-    --card-h: 120px;
-  }
-  
   .pc-amount {
     font-size: 26px;
   }

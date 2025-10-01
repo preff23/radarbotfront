@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 89 — Compact sticky portfolio card with details modal";
+export const MINIAPP_REV = "Правка 90 — Unified portfolio card with integrated calendar button";
