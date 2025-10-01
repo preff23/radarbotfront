@@ -1097,51 +1097,40 @@ export default function App() {
 
   // Безопасный расчет суммы портфеля
   const portfolioAmount = useMemo(() => {
-    // Сначала пробуем использовать готовое значение из account
+    // Используем готовое значение из account (как было раньше)
+    if (account?.portfolio_value) {
+      console.log('Using account.portfolio_value:', account.portfolio_value)
+      return formatCurrency(account.portfolio_value, 'RUB')
+    }
+    
+    // Fallback: пробуем total_value
     if (account?.total_value) {
       console.log('Using account.total_value:', account.total_value)
       return formatCurrency(account.total_value, 'RUB')
     }
     
-    if (!account?.holdings) {
-      console.log('No holdings found')
-      return '—'
-    }
-    
-    const sum = account.holdings.reduce((acc, holding) => {
-      // Пробуем разные поля для количества
-      const quantity = holding.raw_quantity || holding.quantity || holding.amount || 0
-      const price = holding.price || holding.current_price || 0
-      const marketValue = holding.market_value || holding.total_value || (quantity * price)
-      
-      console.log('Calculating holding:', {
-        name: holding.name || holding.ticker || holding.isin,
-        quantity,
-        price,
-        marketValue,
-        raw_quantity: holding.raw_quantity,
-        quantity_field: holding.quantity,
-        amount_field: holding.amount
-      })
-      
-      return acc + marketValue
-    }, 0)
-    
-    console.log('Total portfolio sum:', sum)
-    return formatCurrency(sum, 'RUB')
-  }, [account?.holdings, account?.total_value])
+    console.log('No portfolio value found, account:', account)
+    return '—'
+  }, [account?.portfolio_value, account?.total_value])
 
   // Подсчет количества бумаг
   const papersCount = useMemo(() => {
     if (!account?.holdings) return 0
     
-    const count = account.holdings.reduce((acc, holding) => {
+    // Сначала пробуем просто количество позиций (как было раньше)
+    const positionsCount = account.holdings.length
+    console.log('Positions count:', positionsCount)
+    
+    // Если нужно общее количество бумаг, суммируем количества
+    const totalQuantity = account.holdings.reduce((acc, holding) => {
       const quantity = holding.raw_quantity || holding.quantity || holding.amount || 0
       return acc + quantity
     }, 0)
     
-    console.log('Papers count:', count)
-    return count
+    console.log('Total quantity:', totalQuantity)
+    
+    // Возвращаем общее количество бумаг, а не позиций
+    return totalQuantity
   }, [account?.holdings])
 
   // Load portfolio data
