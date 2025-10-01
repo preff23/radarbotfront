@@ -1075,12 +1075,41 @@ export default function App() {
   const portfolioAmount = useMemo(() => {
     if (!account?.holdings) return '—'
     
+    console.log('Portfolio holdings:', account.holdings)
+    
     const sum = account.holdings.reduce((acc, holding) => {
-      const marketValue = holding.market_value || (holding.quantity || 0) * (holding.price || 0)
+      // Используем правильные поля из API
+      const quantity = holding.raw_quantity || holding.quantity || 0
+      const price = holding.price || 0
+      const marketValue = holding.market_value || (quantity * price)
+      
+      console.log('Holding:', {
+        name: holding.name || holding.ticker || holding.isin,
+        raw_quantity: holding.raw_quantity,
+        quantity: holding.quantity,
+        price: holding.price,
+        market_value: holding.market_value,
+        calculated: quantity * price
+      })
+      
       return acc + marketValue
     }, 0)
     
+    console.log('Total portfolio sum:', sum)
     return formatCurrency(sum, 'RUB')
+  }, [account?.holdings])
+
+  // Подсчет количества бумаг
+  const papersCount = useMemo(() => {
+    if (!account?.holdings) return 0
+    
+    const count = account.holdings.reduce((acc, holding) => {
+      const quantity = holding.raw_quantity || holding.quantity || 0
+      return acc + quantity
+    }, 0)
+    
+    console.log('Papers count:', count)
+    return count
   }, [account?.holdings])
 
   // Load portfolio data
@@ -1282,7 +1311,7 @@ export default function App() {
                   <h2 className="pc-title">Портфель</h2>
                   <div className="pc-chips">
                     <span className="chip">RUB</span>
-                    <span className="chip">{account.holdings?.length || 0} бумаг</span>
+                    <span className="chip">{papersCount} бумаг</span>
                   </div>
                 </div>
                 <div className="pc-bottom">

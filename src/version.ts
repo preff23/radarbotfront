@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 92 — Fixed ReferenceError with account variable";
+export const MINIAPP_REV = "Правка 93 — Fixed portfolio count and value calculation with debug logs";
