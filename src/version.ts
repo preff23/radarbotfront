@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 88 — Aligned calendar button and changed color";
+export const MINIAPP_REV = "Правка 89 — Compact sticky portfolio card with details modal";

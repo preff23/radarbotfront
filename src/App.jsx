@@ -11,6 +11,7 @@ import {
   IconMinus,
   IconCalendar
 } from '@tabler/icons-react'
+import PortfolioDetailsModal from './PortfolioDetailsModal'
 import { 
   Loader, 
   Center, 
@@ -1064,6 +1065,7 @@ export default function App() {
   const [addOpened, setAddOpened] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [currentPage, setCurrentPage] = useState('portfolio')
+  const [portfolioDetailsOpened, setPortfolioDetailsOpened] = useState(false)
 
   // Load portfolio data
   useEffect(() => {
@@ -1217,32 +1219,32 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="tg-header">
-        <div className="hdr-left">
-          <div className="hdr-account">
-            <div className="hdr-caption">Аккаунт:</div>
-            <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
+      <div className="page">
+        <header className="tg-header">
+          <div className="hdr-left">
+            <div className="hdr-account">
+              <div className="hdr-caption">Аккаунт:</div>
+              <div className="hdr-phone">{userPhoneMasked || 'Загрузка...'}</div>
+            </div>
           </div>
-        </div>
-        <div className="hdr-actions">
-          <button
-            className="btn btn--primary"
-            onClick={() => setAddOpened(true)}
-          >
-            <IconPlus size={16} />
-            Добавить
-          </button>
-          <button
-            className="btn btn--danger"
-            onClick={handleLogout}
-          >
-            <IconLogout size={16} />
-            Выйти
-          </button>
-        </div>
-      </header>
+          <div className="hdr-actions">
+            <button
+              className="btn btn--primary"
+              onClick={() => setAddOpened(true)}
+            >
+              <IconPlus size={16} />
+              Добавить
+            </button>
+            <button
+              className="btn btn--danger"
+              onClick={handleLogout}
+            >
+              <IconLogout size={16} />
+              Выйти
+            </button>
+          </div>
+        </header>
 
-      <section className="hero-wrap">
         {!data ? (
           <div className="card">
             <div className="empty-state">
@@ -1256,7 +1258,38 @@ export default function App() {
             </div>
           </div>
         ) : account ? (
-          <PortfolioHero account={account} />
+          <section className="portfolio-card is-compact">
+            <div className="pc-left">
+              <div className="pc-icon">
+                <IconWallet size={20} />
+              </div>
+            </div>
+            <div className="pc-main">
+              <div className="pc-row pc-row-top">
+                <h2 className="pc-title">Портфель</h2>
+                <div className="pc-chips">
+                  <span className="chip">RUB</span>
+                  <span className="chip">{account.holdings?.length || 0} бумаг</span>
+                </div>
+              </div>
+              <div className="pc-row pc-row-amount">
+                <span className="pc-caption">Общая стоимость</span>
+                <strong className="pc-amount">
+                  {account.total_value?.toLocaleString('ru-RU', { 
+                    minimumFractionDigits: 2, 
+                    maximumFractionDigits: 2 
+                  })} ₽
+                </strong>
+                <button 
+                  className="pc-info" 
+                  aria-label="Подробнее" 
+                  onClick={() => setPortfolioDetailsOpened(true)}
+                >
+                  ⓘ
+                </button>
+              </div>
+            </div>
+          </section>
         ) : (
           <div className="card">
             <div className="empty-state">
@@ -1277,28 +1310,28 @@ export default function App() {
             </div>
           </div>
         )}
-      </section>
 
-      <section className="main-nav-chips">
-        <button
-          className="btn btn--calendar"
-          onClick={() => setCurrentPage('calendar')}
-        >
-          <IconCalendar size={16} />
-          Календарь
-        </button>
-      </section>
+        <section className="main-nav-chips">
+          <button
+            className="btn btn--calendar"
+            onClick={() => setCurrentPage('calendar')}
+          >
+            <IconCalendar size={16} />
+            Календарь
+          </button>
+        </section>
 
-      <main className="scroll-area">
-        {data && account && (
-          <AssetList
-            account={account}
-            onEdit={(pos) => setEditTarget(pos)}
-            onDelete={handleDelete}
-            userPhone={userPhone}
-          />
-        )}
-      </main>
+        <div className="list-scroll">
+          {data && account && (
+            <AssetList
+              account={account}
+              onEdit={(pos) => setEditTarget(pos)}
+              onDelete={handleDelete}
+              userPhone={userPhone}
+            />
+          )}
+        </div>
+      </div>
 
       <AddPositionModal
         opened={addOpened}
@@ -1312,6 +1345,12 @@ export default function App() {
         onClose={() => setEditTarget(null)}
         position={editTarget}
         onSubmit={(payload) => editTarget && handleUpdate(editTarget, payload)}
+      />
+
+      <PortfolioDetailsModal
+        opened={portfolioDetailsOpened}
+        onClose={() => setPortfolioDetailsOpened(false)}
+        account={account}
       />
     </div>
   )
