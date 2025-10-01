@@ -1115,19 +1115,41 @@ export default function App() {
 
   // Подсчет количества бумаг
   const papersCount = useMemo(() => {
-    if (!account?.holdings) return 0
+    if (!account?.holdings) {
+      console.log('No holdings found for papers count')
+      return 0
+    }
+    
+    console.log('=== PAPERS COUNT DEBUG ===')
+    console.log('Holdings array:', account.holdings)
     
     // Сначала пробуем просто количество позиций (как было раньше)
     const positionsCount = account.holdings.length
     console.log('Positions count:', positionsCount)
     
     // Если нужно общее количество бумаг, суммируем количества
-    const totalQuantity = account.holdings.reduce((acc, holding) => {
-      const quantity = holding.raw_quantity || holding.quantity || holding.amount || 0
+    const totalQuantity = account.holdings.reduce((acc, holding, index) => {
+      console.log(`Holding ${index}:`, {
+        name: holding.name || holding.ticker || holding.isin,
+        raw_quantity: holding.raw_quantity,
+        quantity: holding.quantity,
+        amount: holding.amount,
+        all_keys: Object.keys(holding)
+      })
+      
+      const quantity = holding.quantity || holding.raw_quantity || holding.amount || 0
+      console.log(`  -> Using quantity: ${quantity}`)
       return acc + quantity
     }, 0)
     
-    console.log('Total quantity:', totalQuantity)
+    console.log('Total quantity calculated:', totalQuantity)
+    console.log('=== END PAPERS COUNT DEBUG ===')
+    
+    // Если сумма количеств равна 0, используем количество позиций (как было раньше)
+    if (totalQuantity === 0) {
+      console.log('Total quantity is 0, using positions count instead')
+      return positionsCount
+    }
     
     // Возвращаем общее количество бумаг, а не позиций
     return totalQuantity
