@@ -125,7 +125,12 @@ html, body, #root, .app {
   border-bottom: 1px solid rgba(255,255,255,.06);
   backdrop-filter: blur(8px);
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
+}
+
+.main-nav-chips .btn {
+  max-width: 680px;
+  margin: 0;
 }
 
 /* ===== SCROLLABLE LIST ===== */
@@ -228,6 +233,19 @@ html, body, #root, .app {
 .btn--ghost { 
   background: transparent; 
   border: 1px solid var(--stroke);
+}
+
+.btn--calendar {
+  background: linear-gradient(180deg, rgba(77, 201, 240, 0.15), rgba(77, 201, 240, 0.08));
+  color: #4cc9f0;
+  border: 1px solid rgba(77, 201, 240, 0.3);
+  box-shadow: 0 0 12px rgba(77, 201, 240, 0.2);
+}
+
+.btn--calendar:hover {
+  background: linear-gradient(180deg, rgba(77, 201, 240, 0.25), rgba(77, 201, 240, 0.15));
+  box-shadow: 0 0 18px rgba(77, 201, 240, 0.3);
+  transform: translateY(-2px);
 }
 
 .btn--icon {

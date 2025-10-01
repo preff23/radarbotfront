@@ -1281,7 +1281,7 @@ export default function App() {
 
       <section className="main-nav-chips">
         <button
-          className="btn btn--primary"
+          className="btn btn--calendar"
           onClick={() => setCurrentPage('calendar')}
         >
           <IconCalendar size={16} />

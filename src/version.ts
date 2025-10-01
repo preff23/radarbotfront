@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 87 — Replaced filter chips with single Calendar button";
+export const MINIAPP_REV = "Правка 88 — Aligned calendar button and changed color";
