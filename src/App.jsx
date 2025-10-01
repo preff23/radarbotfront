@@ -1064,6 +1064,7 @@ export default function App() {
   const [addOpened, setAddOpened] = useState(false)
   const [editTarget, setEditTarget] = useState(null)
   const [currentPage, setCurrentPage] = useState('portfolio')
+  const [selectedPeriod, setSelectedPeriod] = useState('30')
 
   // Load portfolio data
   useEffect(() => {
@@ -1207,7 +1208,11 @@ export default function App() {
   if (currentPage === 'calendar') {
     return (
       <div className="app">
-        <CalendarPage onBack={() => setCurrentPage('portfolio')} userPhone={userPhone} />
+        <CalendarPage 
+          onBack={() => setCurrentPage('portfolio')} 
+          userPhone={userPhone} 
+          initialPeriod={selectedPeriod}
+        />
       </div>
     )
   }
@@ -1281,6 +1286,36 @@ export default function App() {
             </div>
           </div>
         )}
+      </section>
+
+      <section className="main-nav-chips">
+        <button
+          className={`chip ${selectedPeriod === '30' ? 'is-on' : ''}`}
+          onClick={() => {
+            setSelectedPeriod('30')
+            setCurrentPage('calendar')
+          }}
+        >
+          30 дней
+        </button>
+        <button
+          className={`chip ${selectedPeriod === '90' ? 'is-on' : ''}`}
+          onClick={() => {
+            setSelectedPeriod('90')
+            setCurrentPage('calendar')
+          }}
+        >
+          90 дней
+        </button>
+        <button
+          className={`chip ${selectedPeriod === 'all' ? 'is-on' : ''}`}
+          onClick={() => {
+            setSelectedPeriod('all')
+            setCurrentPage('calendar')
+          }}
+        >
+          Все выплаты
+        </button>
       </section>
 
       <main className="scroll-area">

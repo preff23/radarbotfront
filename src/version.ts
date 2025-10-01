@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 85 — Added animated loading spinner in dark-neon style";
+export const MINIAPP_REV = "Правка 86 — Added navigation chips to main page for calendar access";
