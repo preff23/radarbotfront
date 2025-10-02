@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 108 — Fixed price display for all stocks (including GAZP)";
+export const MINIAPP_REV = "Правка 109 — Fixed security type classification for all stocks";
