@@ -291,11 +291,15 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
   const [showDetails, setShowDetails] = useState(false)
 
   const loadDetails = async () => {
-    if (!position.isin || details || loadingDetails) return
+    if (details || loadingDetails) return
+    
+    // Try to load details by ISIN first, then by ticker if ISIN is empty
+    const identifier = position.isin || position.ticker
+    if (!identifier) return
     
     setLoadingDetails(true)
     try {
-      const data = await fetchSecurityDetails(position.isin, userPhone)
+      const data = await fetchSecurityDetails(identifier, userPhone)
       setDetails(data)
     } catch (error) {
       console.error('Failed to load security details:', error)
@@ -396,6 +400,7 @@ function AssetCard({ position, onEdit, onDelete, userPhone }) {
                           const priceInRubles = (details.price.last / 100) * details.bond_info.face_value;
                           return `${priceInRubles.toFixed(2)} ${details.price.currency || 'RUB'}`;
                         } else {
+                          // Для акций показываем цену как есть
                           return `${details.price.last.toFixed(2)} ${details.price.currency || 'RUB'}`;
                         }
                       })() : 'Н/Д'}
