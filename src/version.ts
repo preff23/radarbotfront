@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 103 — Fixed type detection using source data (97.7% accuracy)";
+export const MINIAPP_REV = "Правка 104 — Fixed search API to show correct security types";
