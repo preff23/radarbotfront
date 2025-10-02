@@ -12,6 +12,8 @@ import {
   IconCalendar
 } from '@tabler/icons-react'
 import PortfolioDetailsModal from './PortfolioDetailsModal'
+import PortfolioCard from './components/PortfolioCard'
+import ActionButtons from './components/ActionButtons'
 import { formatCurrency } from './utils/format'
 import { 
   Loader, 
@@ -1344,35 +1346,17 @@ export default function App() {
             </div>
           </div>
         ) : account ? (
-          <section className="portfolio-card is-sticky no-x-scroll">
-            <div className="pc-left">
-              <div className="pc-icon">
-                <IconWallet size={20} />
-              </div>
-              <div className="pc-info">
-                <div className="pc-top">
-                  <h2 className="pc-title">Портфель</h2>
-                  <div className="pc-chips">
-                    <span className="chip">RUB</span>
-                    <span className="chip">{papersCount} бумаг</span>
-                  </div>
-                </div>
-                <div className="pc-bottom">
-                  <span className="pc-caption">Общая стоимость</span>
-                  <strong className="pc-amount">{portfolioAmount}</strong>
-                </div>
-              </div>
-            </div>
-            <div className="pc-cta">
-              <button 
-                className="btn-calendar" 
-                onClick={() => setCurrentPage('calendar')}
-              >
-                <IconCalendar size={16} />
-                Календарь
-              </button>
-            </div>
-          </section>
+          <>
+            <PortfolioCard
+              currency="RUB"
+              itemsCount={papersCount}
+              totalFormatted={portfolioAmount}
+              onInfoClick={() => setPortfolioDetailsOpened(true)}
+            />
+            <ActionButtons
+              onCalendarClick={() => setCurrentPage('calendar')}
+            />
+          </>
         ) : (
           <div className="card">
             <div className="empty-state">

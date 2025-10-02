@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 96 — Fixed papers count using correct quantity field";
+export const MINIAPP_REV = "Правка 97 — Aligned portfolio sum and moved calendar to action panel";

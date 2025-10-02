@@ -1,0 +1,158 @@
+/* Контейнер карточки */
+.card {
+  border-radius: 20px;
+  background: radial-gradient(120% 120% at 0% 0%, #0f1a24 0%, #0b1218 60%, #0a0f14 100%);
+  padding: 16px 16px 14px;
+  box-shadow:
+    0 2px 0 rgba(255,255,255,0.04) inset,
+    0 20px 40px rgba(0,0,0,0.35);
+  position: sticky;
+  top: var(--safe-top, 64px);
+  z-index: 10;
+  margin: 10px 12px 8px;
+  max-width: 680px;
+  margin: 10px auto 8px;
+}
+
+/* Шапка карты */
+.header {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.icon {
+  width: 44px; 
+  height: 44px; 
+  border-radius: 12px;
+  background: linear-gradient(180deg,#11c9a5 0%,#0f7868 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+}
+
+.title {
+  font-size: 20px; 
+  font-weight: 700; 
+  color: #e8f3ff; 
+  letter-spacing: 0.2px;
+  margin: 0;
+}
+
+.chips { 
+  display: flex; 
+  gap: 8px; 
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 8px 12px; 
+  border-radius: 999px; 
+  background: rgba(255,255,255,0.06);
+  color: #cfe7ff; 
+  font-size: 13px; 
+  line-height: 16px; 
+  white-space: nowrap;
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Ряд со стоимостью — строгая базовая линия */
+.costRow {
+  display: flex;
+  align-items: baseline;        /* КЛЮЧ: выравниваем по базовой линии */
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.costLabel {
+  color: #93a7be; 
+  font-size: 14px; 
+  line-height: 20px; 
+  letter-spacing: 0.2px;
+}
+
+.costValue {
+  font-size: 24px; 
+  line-height: 28px; 
+  font-weight: 800; 
+  color: #eaf6ff;
+  /* стабильная сетка цифр */
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+.infoBtn {
+  margin-left: auto;
+  font-size: 14px;
+  color: rgba(255,255,255,.6);
+  background: transparent; 
+  border: 0; 
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.infoBtn:hover {
+  color: #11c9a5;
+  background: rgba(255,255,255,.1);
+}
+
+/* Панель действий под портфелем */
+.actions {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, max-content));
+  gap: 10px;
+  max-width: 680px;
+  margin: 12px auto 0;
+  padding: 0 12px;
+}
+
+.actionBtn {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 10px;
+  padding: 10px 14px; 
+  border-radius: 12px;
+  background: rgba(17, 201, 165, 0.10);
+  color: #bff6ee; 
+  font-weight: 600; 
+  font-size: 14px;
+  border: 1px solid rgba(17, 201, 165, 0.25);
+  transition: transform .08s ease, background .2s ease, border-color .2s ease;
+  touch-action: manipulation;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.actionBtn:active { 
+  transform: translateY(1px); 
+}
+
+.actionBtn:hover {
+  background: rgba(17, 201, 165, 0.15);
+  border-color: rgba(17, 201, 165, 0.35);
+}
+
+.actionIcon {
+  width: 18px; 
+  height: 18px;
+  display: inline-block;
+}
+
+/* Адаптивность */
+@media (max-width: 380px) {
+  .actions {
+    grid-template-columns: 1fr;
+  }
+  
+  .actionBtn {
+    justify-content: center;
+  }
+}
