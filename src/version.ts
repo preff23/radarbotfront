@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 104 — Fixed search API to show correct security types";
+export const MINIAPP_REV = "Правка 108 — Fixed price display for all stocks (including GAZP)";
