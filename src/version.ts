@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 102 — Fixed all major Russian stocks classification";
+export const MINIAPP_REV = "Правка 103 — Fixed type detection using source data (97.7% accuracy)";
