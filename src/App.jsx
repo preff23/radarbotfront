@@ -622,8 +622,8 @@ function AddPositionModal({ opened, onClose, onSubmit, userPhone }) {
           name: item.name || item.shortname || 'Неизвестно',
           ticker: item.ticker || item.secid || '',
           isin: item.isin || '',
-          type: item.type === 'share' ? 'share' : 'bond',
-          provider: item.description?.includes('Справочник') ? 'BondReference' : 'MOEX',
+          type: item.security_type || (item.type === 'share' ? 'share' : 'bond'),
+          provider: item.provider || (item.description?.includes('Справочник') ? 'BondReference' : 'MOEX'),
           description: item.description || ''
         }))
         .filter(item => {
