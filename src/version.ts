@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 97 — Aligned portfolio sum and moved calendar to action panel";
+export const MINIAPP_REV = "Правка 98 — Removed RUB and papers count chips from portfolio card";

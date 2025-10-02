@@ -3,8 +3,6 @@ import { IconWallet } from '@tabler/icons-react'
 import styles from '../styles/portfolio.module.css'
 
 export default function PortfolioCard({ 
-  currency, 
-  itemsCount, 
   totalFormatted, 
   onInfoClick 
 }) {
@@ -15,11 +13,6 @@ export default function PortfolioCard({
           <IconWallet size={20} />
         </div>
         <h2 className={styles.title}>Портфель</h2>
-
-        <div className={styles.chips}>
-          <span className={styles.chip}>{currency}</span>
-          <span className={styles.chip}>{itemsCount} бумаг</span>
-        </div>
       </header>
 
       <div className={styles.costRow}>

@@ -1348,8 +1348,6 @@ export default function App() {
         ) : account ? (
           <>
             <PortfolioCard
-              currency="RUB"
-              itemsCount={papersCount}
               totalFormatted={portfolioAmount}
               onInfoClick={() => setPortfolioDetailsOpened(true)}
             />
