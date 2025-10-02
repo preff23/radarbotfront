@@ -1,1 +1,1 @@
-export const MINIAPP_REV = "Правка 98 — Removed RUB and papers count chips from portfolio card";
+export const MINIAPP_REV = "Правка 99 — Fixed GAZP classification as share and price loading";
